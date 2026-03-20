@@ -1,4 +1,4 @@
-function avp = inspure(imu, avp0, href, isfig)
+function [avp, ins] = inspure(imu, avp0, href, isfig)
 % Process SINS pure inertial navigation with SIMU log data and
 % using initial condition avp0 = [att0,vn0,pos0].
 %

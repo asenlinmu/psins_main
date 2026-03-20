@@ -17,5 +17,5 @@ function hline(t, y)
     t = [t(1);t(end)];
     hold on;
     for k=1:length(y)
-        plot(t, [y(k); y(k)], '-.');
+        plot(t, [y(k); y(k)], '-.', 'linewidth',1);
     end

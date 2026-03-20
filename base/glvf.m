@@ -41,6 +41,9 @@ global glv
     glv.ugpg = glv.ug/glv.g0;       % ug/g
     glv.ugpg2 = glv.ug/glv.g0^2;    % ug/g^2
     glv.ugpg3 = glv.ug/glv.g0^3;    % ug/g^3
+    glv.gs = glv.g0*1;              % g*1 sec ~= 9.78m/s
+    glv.mgs = glv.gs/1000;          % milli gs ~= 1cm/s
+    glv.ugs = glv.mgs/1000;         % micro gs ~= 10um/s
     glv.ws = 1/sqrt(glv.Re/glv.g0); % Schuler frequency
     glv.ppm = 1.0e-6;               % parts per million
     glv.deg = pi/180;               % arcdeg
@@ -62,6 +65,7 @@ global glv
     glv.secpdps2 = glv.sec/(glv.deg/1^2);    % arcsec / (deg/s^2)
     glv.secprps2 = glv.sec/(1/1^2);    % arcsec / (rad/s^2)
     glv.Hz = 1/1;                   % Hertz
+    glv.secpsHz = glv.sec/glv.Hz;   % arcsec / sqrt(Hz)
     glv.dphpsHz = glv.dph/glv.Hz;   % (arcdeg/hour) / sqrt(Hz)
     glv.dphpg = glv.dph/glv.g0;     % (arcdeg/hour) / g
     glv.dphpg2 = glv.dphpg/glv.g0;  % (arcdeg/hour) / g^2
@@ -75,6 +79,8 @@ global glv
     glv.mpspsh = 1/1/sqrt(glv.hur); % (m/s) / sqrt(hour), 1*mpspsh~=1700*ugpsHz
     glv.ppmpsh = glv.ppm/sqrt(glv.hur); % ppm / sqrt(hour)
     glv.mil = 2*pi/6000;            % mil
+    glv.mm = 1.0e-3;                % milli meter
+    glv.um = 1.0e-6;                % micro meter
     glv.nm = 1853;                  % nautical mile
     glv.kn = glv.nm/glv.hur;        % knot
     glv.kmph = 1000/glv.hur;        % km/hour

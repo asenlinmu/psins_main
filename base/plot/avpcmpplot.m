@@ -104,6 +104,11 @@ global glv
             avp = avp0; t = avp(:,end);
             subplot(211), plot(t, avp(:,end-6:end-4)/glv.dph);
             subplot(212), plot(t, avp(:,end-3:end-1)/glv.ug);
+        case 'hv',  % heave
+            avp = avp0; t = avp(:,end);
+            subplot(321), plot(t, avp(:,1:2)/glv.deg), xygo('att');  legend('Pitch Ref.', 'Roll Ref.');
+            subplot(323), plot(t, avp(:,6)); xygo('V');
+            subplot(325), plot(t, avp(:,9)-mean(avp(:,9))); xygo('DP');
     end
     kk = length(varargin);
     str = '-.--: ';
@@ -142,7 +147,7 @@ global glv
                 err = avpcmp(avp(:,[1:6,end]), avp0(:,[1:6,end]), phi_mu); t = err(:,end);
                 subplot(322), hold on, plot(t, err(:,1:2)/glv.min, strk, 'LineWidth',2); xygo(phi_mu);  if phi_mu(1)=='p', mylegend('phiE','phiN'); else, mylegend('mux','muy'); end
                 subplot(324), hold on, plot(t, err(:,3)/glv.min, strk, 'LineWidth',2); xygo(phi_mu);  if phi_mu(1)=='p', mylegend('phiU'); else, mylegend('muz'); end
-                subplot(326), hold on, plot(t, err(:,4:6), strk, 'LineWidth',2); xygo('dv'); mylegend('dVE','dVN','dVU');
+                subplot(326), hold on, plot(t, err(:,4:6), strk, 'LineWidth',2); xygo('dv'); mylegend('dvE','dvN','dvU');
             end
         case 'avp',
             for k=1:kk
@@ -154,7 +159,7 @@ global glv
                 subplot(325), hold on, plot(t, [[avp(:,7)-avp0(1,7),(avp(:,8)-avp0(1,8))*cos(avp0(1,7))]*glv.Re,avp(:,9)-avp0(1,9)], strk, 'LineWidth',2); xygo('DP');
                 [err,i1,i0] = avpcmp(avp(:,[1:9,end]), avp0(:,[1:9,end]), phi_mu); t = err(:,end);  lat = avp0(i0,7);
                 subplot(322), hold on, plot(t, err(:,1:3)/glv.min, strk, 'LineWidth',2); xygo(phi_mu);  if phi_mu(1)=='p', mylegend('phiE','phiN','phiU'); else, mylegend('mux','muy','muz'); end
-                subplot(324), hold on, plot(t, err(:,4:6), strk, 'LineWidth',2); xygo('dV'); mylegend('dVE','dVN','dVU');
+                subplot(324), hold on, plot(t, err(:,4:6), strk, 'LineWidth',2); xygo('dv'); mylegend('dvE','dvN','dvU');
                 subplot(326), hold on, plot(t, [[err(:,7),err(:,8).*cos(lat)]*glv.Re,err(:,9)], strk, 'LineWidth',2); xygo('dP'); mylegend('dlat','dlon','dH');
             end
         case 'avpi',  % for LCI launch vehicle, 20250502
@@ -167,7 +172,7 @@ global glv
             err = [avp1(i1,1:9)-avp0(i0,1:9),t];
             % err(:,1:3) = aa2phi(avp1(i1,1:3), avp0(i1,1:3));
             subplot(322), hold on, plot(t, err(:,1:3)/glv.min, strk, 'LineWidth',2); xygo('datt'); mylegend('dpch','drll','dyaw');
-            subplot(324), hold on, plot(t, err(:,4:6), strk, 'LineWidth',2); xygo('dV'); mylegend('dVE','dVN','dVU');
+            subplot(324), hold on, plot(t, err(:,4:6), strk, 'LineWidth',2); xygo('dv'); mylegend('dvE','dvN','dvU');
             subplot(326), hold on, plot(t, err(:,7:9), strk, 'LineWidth',2); xygo('dP'); mylegend('dX','dY','dZ');
         case 'avpdist',  % subplot(326), pos_err vs. distance
             avp = varargin{1};
@@ -193,7 +198,7 @@ global glv
                 subplot(221), hold on, plot(t, avp(:,4:6), strk, 'LineWidth',2); xygo('V');
                 subplot(223), hold on, plot(t, [[avp(:,7)-avp0(1,7),(avp(:,8)-avp0(1,8))*cos(avp0(1,7))]*glv.Re,avp(:,9)-avp0(1,9)], strk, 'LineWidth',2); xygo('DP');
                 [err,i1,i0] = avpcmp(avp, avp0, 'noatt'); t = err(:,end);  lat = avp0(i0,7);
-                subplot(222), hold on, plot(t, err(:,4:6), strk, 'LineWidth',2); xygo('dV'); mylegend('dVE','dVN','dVU');
+                subplot(222), hold on, plot(t, err(:,4:6), strk, 'LineWidth',2); xygo('dv'); mylegend('dvE','dvN','dvU');
                 subplot(224), hold on, plot(t, [[err(:,7),err(:,8).*cos(lat)]*glv.Re,err(:,9)], strk, 'LineWidth',2); xygo('dP'); mylegend('dlat','dlon','dH');
             end
         case 'v',
@@ -204,7 +209,7 @@ global glv
 %                 subplot(121), hold on, plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)], strk, 'LineWidth',2); xygo('V');
                 subplot(121), hold on, plot(t, avp(:,4:6), strk, 'LineWidth',2); xygo('V');
                 err = avpcmp(avp, avp0, 'noatt'); t = err(:,end);
-                subplot(122), hold on, plot(t, err(:,4:6), strk, 'LineWidth',2); xygo('dV'); mylegend('dVE','dVN','dVU');
+                subplot(122), hold on, plot(t, err(:,4:6), strk, 'LineWidth',2); xygo('dv'); mylegend('dvE','dvN','dvU');
             end
         case 've',
             for k=1:kk
@@ -213,7 +218,7 @@ global glv
                 if size(avp,2)<10, avp = [zeros(length(avp),3), avp]; end
                 subplot(121), hold on, plot(t, avp(:,4), strk, 'LineWidth',2); xygo('V');
                 err = avpcmp(avp, avp0, 'noatt'); t = err(:,end);
-                subplot(122), hold on, plot(t, err(:,4), strk, 'LineWidth',2); xygo('dV'); mylegend('dVE');
+                subplot(122), hold on, plot(t, err(:,4), strk, 'LineWidth',2); xygo('dv'); mylegend('dVE');
             end
         case 'vn',
             for k=1:kk
@@ -222,7 +227,7 @@ global glv
                 if size(avp,2)<10, avp = [zeros(length(avp),3), avp]; end
                 subplot(121), hold on, plot(t, avp(:,5), strk, 'LineWidth',2); xygo('V');
                 err = avpcmp(avp, avp0, 'noatt'); t = err(:,end);
-                subplot(122), hold on, plot(t, err(:,5), strk, 'LineWidth',2); xygo('dV'); mylegend('dVN');
+                subplot(122), hold on, plot(t, err(:,5), strk, 'LineWidth',2); xygo('dv'); mylegend('dVN');
             end
         case 'vu',
             for k=1:kk
@@ -231,7 +236,7 @@ global glv
                 if size(avp,2)<10, avp = [zeros(length(avp),3), avp]; end
                 subplot(121), hold on, plot(t, avp(:,6), strk, 'LineWidth',2); xygo('V');
                 err = avpcmp(avp, avp0, 'noatt'); t = err(:,end);
-                subplot(122), hold on, plot(t, err(:,6), strk, 'LineWidth',2); xygo('dV'); mylegend('dVU');
+                subplot(122), hold on, plot(t, err(:,6), strk, 'LineWidth',2); xygo('dv'); mylegend('dVU');
             end
         case 'vb',
             for k=1:kk
@@ -258,6 +263,18 @@ global glv
                 avp = varargin{k}; t = avp(:,end);
                 subplot(211), hold on, plot(t, avp(:,end-6:end-4)/glv.dph, strk, 'LineWidth',2); xygo('eb');
                 subplot(212), hold on, plot(t, avp(:,end-3:end-1)/glv.ug, strk, 'LineWidth',2); xygo('db');
+            end
+        case 'hv',
+            for k=1:kk
+                strk = str(k*2-1:k*2);
+                avp = varargin{k}; t = avp(:,end);
+                subplot(321), hold on, plot(t, avp(:,1:2)/glv.deg, strk, 'LineWidth',2), xygo('att');
+                subplot(323), hold on, plot(t, avp(:,6), strk, 'LineWidth',2); xygo('V');
+                subplot(325), hold on, plot(t, avp(:,9)-mean(avp(:,9)), strk, 'LineWidth',2); xygo('DP');
+                [err,i1,i0] = avpcmp(avp(:,[1:9,end]), avp0(:,[1:9,end]), 'datt'); t = err(:,end);  lat = avp0(i0,7);
+                subplot(322), hold on, plot(t, err(:,1:2)/glv.min, strk, 'LineWidth',2); xygo('dAtt');
+                subplot(324), hold on, plot(t, err(:,6), strk, 'LineWidth',2); xygo('dv');
+                subplot(326), hold on, plot(t, err(:,9)-mean(err(:,9)), strk, 'LineWidth',2); xygo('dP');
             end
     end
     

@@ -1,10 +1,13 @@
 function [wvm, avp] = scullsimu(Ae, Ap, f, ts, T)
 % Sculling motion (drift about z-axis) simulation.
-% Inputs: Ae - angular amplitude
-%        Ap - linear amplitude
+%   wb = [-Ae*omega*sin(omega*t);  0;                       0]
+%   fb = [ 0;                     -Ap*omega^2*cos(omega*t); *]
+%
+% Inputs: Ae - angular amplitude, Ae*cos(omega*t) (in rad)
+%        Ap - linear amplitude, Ap*cos(omega*t) (in meter)
 %        f - sculling frequency (in Hz)
-%        ts - sampling interval
-%        T - total simulation time
+%        ts - sampling interval (in sec)
+%        T - total simulation time (in sec)
 % Outputs: [      wvm1, wvm2, ..., wvmN]; angular & velocity increment
 %          [avp0, avp1, avp2, ..., avpN ]; attitude, velocity & position reference
 %

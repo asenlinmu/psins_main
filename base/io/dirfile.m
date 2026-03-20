@@ -21,7 +21,7 @@ function [fname, m] = dirfile(spc, k)
     if isempty(d)
         fname = []; m = 0;
     end
-    if nargin>1; 
+    if nargin>1
         if ischar(k)  % dirfile(spc, outputfile)
             outputfile = k;
             fid = fopen(outputfile, 'wt');

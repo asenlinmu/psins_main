@@ -40,8 +40,9 @@ global glv
             plot(t, avp(:,1:2)/glv.deg), xygo('pr');
         case 'a',
             myfig;
-            subplot(211), plot(t, avp(:,1:2)/glv.deg), xygo('pr');
-            subplot(212), plot(t, avp(:,3)/glv.deg), xygo('y');
+            subplot(311), plot(t, avp(:,1)/glv.deg), xygo('p');
+            subplot(312), plot(t, avp(:,2)/glv.deg), xygo('r');
+            subplot(313), plot(t, avp(:,3)/glv.deg), xygo('y');
         case 'q',
             quat = q32q4(avp(:,1:3));
             avp(:,1:3) = q2attBatch(quat);
@@ -50,9 +51,9 @@ global glv
             quat = q32q4(avp(:,1:3));
             avp(:,1:3) = q2att1Batch(quat);
             insplot(avp, 'a');
-        case 'v',
+        case {'v','vn'}
             myfig;
-            plot(t, avp(:,1:3)), xygo('vn');
+            plot(t, avp(:,1:3)), xygo('V');
         case 'p',
             myfig;
             dxyz = pos2dxyz(avp(:,1:3));
@@ -88,7 +89,7 @@ global glv
                 hold on, plot(dxyz(:,1), dxyz(:,2)); xygo('est', 'nth');
 %                 hold on, plot((avp(:,8)-avp(1,8))*glv.Re*cos(avp(1,7)), (avp(:,7)-avp(1,7))*glv.Re); xygo('est', 'nth');
             legend(sprintf('LON0:%.2f, LAT0:%.2f (DMS), H0:%.1f (m)', r2dms(avp(1,8)),r2dms(avp(1,7)),avp(1,9)));
-        case 'avp-h',  % no vU&hgt
+        case {'-h', 'avp-h'},  % no vU&hgt
             if size(avp,2)==9, t=1:length(t); end
             myfig;
             subplot(221), plot(t, avp(:,1:2)/glv.deg); xygo('pr'); legend('Pitch','Roll');
@@ -96,6 +97,19 @@ global glv
             subplot(222), plot(t, [avp(:,4:5)]); xygo('V'); legend('V_E','V_N');
             dxyz = pos2dxyz(avp(:,7:9));
             subplot(224), plot(t, dxyz(:,[2,1])); xygo('DP'); legend('\DeltaLat','\DeltaLon');
+        case 'avp1',  % 1-by-1
+            if size(avp,2)==9, t=1:length(t); end
+            myfig;
+            subplot(331), plot(t, avp(:,1)/glv.deg); xygo('p');
+            subplot(332), plot(t, avp(:,2)/glv.deg); xygo('r');
+            subplot(333), plot(t, avp(:,3)/glv.deg); xygo('y');
+            subplot(334), plot(t, [avp(:,4)]); xygo('VE');
+            subplot(335), plot(t, [avp(:,5)]); xygo('VN');
+            subplot(336), plot(t, [avp(:,6)]); xygo('VU');
+            dxyz = pos2dxyz(avp(:,7:9));
+            subplot(337), plot(t, dxyz(:,1)); xygo('X');
+            subplot(338), plot(t, dxyz(:,2)); xygo('Y');
+            subplot(339), plot(t, dxyz(:,3)); xygo('Z');
         case 'Avp',
             if size(avp,2)==9, t=1:length(t); end
             myfig;
@@ -122,6 +136,13 @@ global glv
             subplot(222), plot(avp(:,end), avp(:,2:3)/glv.deg), xygo('ry');
             subplot(223), plot(avp(:,end), avp(:,4:6)), xygo('V');  title('LCI  F/U/R')
             subplot(224), plot(avp(:,end), avp(:,7:9)), xygo('DP');
+        case 'xyz', % for launch vehicle
+            myfig,
+            subplot(321), plot(avp(:,end), avp(:,1)/glv.deg), xygo('p');
+            subplot(323), plot(avp(:,end), avp(:,2)/glv.deg), xygo('r');
+            subplot(325), plot(avp(:,end), avp(:,3)/glv.deg), xygo('y');
+            subplot(222), plot(avp(:,end), avp(:,4:6)), xygo('V');  legend('Vx','Vy','Vz');
+            subplot(224), plot(avp(:,end), avp(:,7:9)), xygo('DP');  legend('X','Y','Z');
         case 'qvpi', % for launch vehicle
             quat = q32q4(avp(:,1:3));  avp(:,1:3) = q2attBatch(quat);
             insplot(avp,'avpi');

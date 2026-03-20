@@ -62,8 +62,8 @@ global glv
     if ~exist('davp', 'var'), davp = avperrset([10;300], 1, [10;30]); end
     if ~exist('ins', 'var'), ins=100; end
     if ~isstruct(ins)  % sinsgps(imu, gps, T);  T=ins align time
-        [~, res0] = aligni0(imu(1:fix(ins/ts),:), pos0);  imu(1:fix(ins/ts),:)=[];
-        ins = insinit([res0.attk(1,1:3)'; 0;0;0; pos0], ts); ins.nts=nts;
+        [att, att0] = aligni0(imu(1:fix(ins/ts),:), pos0);  imu(1:fix(ins/ts),:)=[];
+        ins = insinit([att0; 0;0;0; pos0], ts); ins.nts=nts;
     end
     ins.lever = lever(1:3)*(1-lever(4));  ins.tDelay = dT(1)*(1-dT(2));
     ins = inslever(ins, -ins.lever);  ins.vn = ins.vnL; ins.pos = ins.posL;

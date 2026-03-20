@@ -16,7 +16,7 @@ function yi = quantiz(x, q, q2)
 %     subplot(312), plot(t, err/glv.sec); xygo('Q / \prime\prime');
 %     subplot(325), hist(err/glv.sec, 20); subplot(326), hist(DThetaQ/glv.sec, 20); 
 %
-% See also  imuresample.
+% See also  imuqz, qztest, imuresample, avarsimu.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -29,5 +29,7 @@ function yi = quantiz(x, q, q2)
         return;
     end
 %     x = floor(cumsum(x,1)/q);
-    x = round(cumsum(x,1)/q);
-    yi = diff([zeros(1,size(x,2)); x])*q;
+    if q<=eps, yi=x; return; end
+    x1 = cumsum(x,1)/q;
+    x1 = fix(x1);
+    yi = diff([zeros(1,size(x1,2)); x1])*q;

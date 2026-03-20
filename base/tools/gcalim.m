@@ -5,7 +5,7 @@ function [x, y] = gcalim(isfix)
 % Input: isfix - fix flag
 % Outputs: x,y - X/Y limits
 %
-% See also  xlim, ylim.
+% See also  gcaxy, xlim, ylim.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

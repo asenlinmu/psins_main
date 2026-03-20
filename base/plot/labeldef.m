@@ -40,7 +40,7 @@ function stext = labeldef(stext)
         'dvE',   '\delta\it v\rm_E / ( m/s )';
         'dvN',   '\delta\it v\rm_N / ( m/s )';
         'dvU',   '\delta\it v\rm_U / ( m/s )';
-        'dv',    '\delta\it v\rm / ( m/s )';
+        'dv',    '\delta\it v ^n\rm / ( m/s )';
         'pr',    '\it\theta , \gamma\rm / ( \circ )';
         'ry',    '\it\gamma , \psi\rm / ( \circ )';
         'p',     '\it\theta\rm / ( \circ )';
@@ -62,8 +62,8 @@ function stext = labeldef(stext)
         'dlat',  '\delta\it L\rm / m';
         'dlon',  '\delta\it \lambda\rm / m';
         'dll',   '\delta\it L,\rm\delta\it \lambda\rm / ( \prime )';
-        'dH',    '\delta\it H\rm / m';
-        'dP',    '\delta\it P\rm / m';
+        'dH',    '\delta\it h\rm / m';
+        'dP',    '\delta\it p^n\rm / m';
         'dR',    '\delta\it R\rm / m';
         'lat',   '\itL\rm / ( \circ )';
         'lon',   '\it\lambda\rm / ( \circ )';
@@ -72,7 +72,7 @@ function stext = labeldef(stext)
         'dxyz',  'dXYZ / ( m )';
         'est',   'East\rm / m';
         'nth',   'North\rm / m';
-        'H',     '\itH\rm / m';
+        'H',     '\ith\rm / m';
         'DP',    '\Delta\it P\rm / m';
         'ebxy',  '\it\epsilon _{x,y}\rm / ( (\circ)/h )';
         'ebyz',  '\it\epsilon _{y,z}\rm / ( (\circ)/h )';

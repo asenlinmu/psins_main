@@ -1,0 +1,116 @@
+% Angular&Velocity Quantization effect to initial alignment accuracy simulation
+% Copyright(c) 2009-2025, by Gongmin Yan, All rights reserved.
+% Northwestern Polytechnical University, Xi An, P.R.China
+% 01/11/2025
+glvs
+[ts,pos0] = initp(1, 34);  T = 200;  N = 10;
+AQ = 0.25; VQ = 1;  % in arcsec, mm/s
+AQorVQ=1;
+if AQorVQ==0
+%% AQ to phiU
+    myfig; [wnie, g, gn, wN]=wnieg(pos0); a1=[]; a2=[];
+    for n=1:N
+        att0 = [.5*randn;.5*randn;0*360*randn]*glv.deg;
+        imu = imuqz(imustatic([att0;pos0],ts,T),AQ,0);  % imuplot(imu,glv.dph); imucsplot(imu,2);
+        % imu(0.5*T,1)=imu(0.5*T,1)+AQ*glv.sec;
+        avp = inspure(imu, [att0;pos0], 'O', 0); % insplot(avp,'avp1');
+        t = 25/ts:length(avp); kk=1;
+        for k=t
+            pp = polyfit(avp(1:k,end), avp(1:k,5), 2);
+            a2(kk,:) = pp(1);  a1(kk,:) = pp(2);  kk=kk+1;
+        end
+        subplot(121); plot(avp(t,end), a1/g/glv.sec); hold on
+        subplot(122); plot(avp(t,end), -2*a2/(g*wN)/glv.min); hold on;
+    end
+    subplot(121); s = plotstd(3); grid on; xygo('T / s', 'phiE');
+    subplot(122); s = plotstd(3); grid on; xygo('T / s', 'phiU');
+    plot(avp(t,end), 1.84*AQ*glv.sec./avp(t,end)/wN/glv.min,'--','linewidth',2);
+else
+%% VQ to phiU
+    myfig; [wnie, g, gn, wN]=wnieg(pos0); a1=[]; a2=[];
+    for n=1:N
+        att0 = [.00005*randn;.5*randn;0*360*randn]*glv.deg;
+        imu = imuqz(imustatic([att0;pos0],ts,T),0,VQ);  % imuplot(imu,glv.dph);  imucsplot(imu,2);
+        % imu(0.21*T,5)=imu(0.21*T,5)+VQ*1e-3;
+        avp = inspure(imu, [att0;pos0], 'O', 0); % insplot(avp,'avp1');
+        t = 25:length(avp); kk=1;
+        for k=t
+            pp = polyfit(avp(1:k,end), avp(1:k,5), 2);
+            a2(kk,:) = pp(1);  a1(kk,:) = pp(2);  kk=kk+1;
+        end
+        %subplot(121); plot(avp(t,end), a1/g/glv.sec); hold on
+        subplot(121); plot(imu(:,end), cumsum(imu(:,5)-imu(1,5))); hold on
+        subplot(122); plot(avp(t,end), -2*a2/(g*wN)/glv.min); hold on
+    end
+    %subplot(121); s = plotstd(3); grid on; xygo('T / s', 'phiE');
+    subplot(122); s = plotstd(3,2); grid on; xygo('T / s', 'phiU');
+    plot(avp(t,end), 5.7*VQ*1e-3./avp(t,end).^2/(g*wN)/glv.min,'--','linewidth',2);
+end
+return;
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% test %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% AQ
+AQ = 1*glv.sec;  ts=1; T=100;  myfig;
+for AQ=1*glv.sec*[2,1,0.5]
+%for ts=[2,1,0.5]
+%for T=[60,120,240]
+    t=(0:ts:T)';  len=length(t);  da0=0*AQ*ts*ones(size(t));  dy=zeros(size(t));
+    for k=1:len
+        da = da0;  da(k) = da(k)+AQ;  a = cumsum(da);  v = cumsum(g*a)*ts;  % myfig, plot(da/AQ);
+        pp = polyfit(t,v,2);  v1 = polyval(pp,t);
+        dy(k) = -2*pp(1)/(g*wN);
+    end
+    subplot(211); xygo('dvN');
+    dy=dy/AQ*t(end)*wN/1.84; [mdy,k]=max(abs(dy));
+    da = da0;  da(k) = da(k)+AQ;  a = cumsum(da);  v = cumsum(g*a)*ts;
+    pp = polyfit(t,v,2);  v1 = polyval(pp,t);
+    plot(t,[v,polyval(pp,t)]);
+    subplot(212); plot(t/t(end), dy); xygo('phiU'); plot(t(k)/t(end),dy(k),'o');
+    ptitle('t',t(k)/t(end),'max',dy(k)); 
+end
+
+%% VQ
+VQ=glv.gs/10000;  ts=1; T=60;  myfig;
+for VQ=glv.gs/10000*[2,1,0.5]
+%for ts=[2,1,0.5]
+%for T=[60,120,240]
+    t=(0:ts:T)';  len=length(t);  dv0=0*VQ*ts*ones(size(t));  dy=zeros(size(t));
+    for k=1:len
+        dv = dv0;  dv(k) = dv(k)+VQ;  v = cumsum(dv);  % myfig, plot(dv/VQ);
+        pp = polyfit(t,v,2);  v1 = polyval(pp,t);
+        dy(k) = -2*pp(1)/(g*wN);
+    end
+    subplot(211); xygo('dvN');
+    dy=dy/VQ*t(end)^2*g*wN/5.7; [mdy,k]=max(abs(dy));
+    dv = dv0;  dv(k) = dv(k)+VQ;  v = cumsum(dv);
+    pp = polyfit(t,v,2);  v1 = polyval(pp,t);
+    plot(t,[v,polyval(pp,t)]);
+    subplot(212); plot(t/t(end), dy); xygo('phiU'); plot(t(k)/t(end),dy(k),'o');
+    ptitle('t%',t(k)/t(end),'max',dy(k)); 
+end
+
+%%
+VQ=glv.gs/10000;  ts=1; T=60; a1=[]; a2=[]; myfig;
+nvq = [1;2;3]*2*VQ*0.6;
+nvq = [1;2;3]*200.31*VQ;
+for n=1:length(nvq)
+    att0 = [nvq(n)/T/g;0;0];
+    imu = imuqz(imustatic([att0;pos0],ts,T),0,VQ);  % imuplot(imu,glv.dph);  imucsplot(imu,1);
+    avp = inspure(imu, [att0;pos0], 'O', 0); % insplot(avp,'avp1');
+    t = 5:length(avp); kk=1;
+    for k=t
+        pp = polyfit(avp(1:k,end), avp(1:k,5), 2);
+        a2(kk,:) = pp(1);  a1(kk,:) = pp(2);  kk=kk+1;
+    end
+    %subplot(121); plot(imu(:,end), cumsum(imu(:,5)-mean(imu(:,5)))); hold on; grid on;
+    subplot(121); plot(imu(:,end), cumsum(imu(:,5)-imu(1,5))); hold on; grid on;
+    subplot(122); plot(avp(t,end), -2*a2/(g*wN)/glv.min); xlim([0,T]); xygo('phiU');
+end
+m = 5.7*VQ./avp(t,end).^2/(g*wN)/glv.min;
+plot(avp(t,end), [-m,m],'--','linewidth',2);
+
+
+T = (30:180)';
+NARW=0.0001*glv.dpsh; NVRW=0.1*glv.ugpsHz; AQ=0.1*glv.sec; VQ=glv.gs/10000;
+myfig, semilogy(T, [NARW./T.^0.5/wN, NVRW./T.^1.5/(g*wN), 1.84*AQ./T/wN, 5.7*VQ./T.^2/(g*wN)]/glv.min, 'linewidth',2);
+xygo('phiU'); legend('NARW=0.0001\circ/vh', 'NVRW=gs/10000', '')
+

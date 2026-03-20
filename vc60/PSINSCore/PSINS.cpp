@@ -4,7 +4,7 @@
 Copyright(c) 2015-2024, by YanGongmin, All rights reserved.
 Northwestern Polytechnical University, Xi'an, P.R.China.
 Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 22/11/2021, 17/10/2022, 23/08/2023
-      16/09/2024
+      16/09/2024, 21/11/2025
 */
 
 #include "PSINS.h"
@@ -1188,16 +1188,21 @@ CQuat a2qua(const CVect3 &att)
 	return a2qua(att.i, att.j, att.k);
 }
 
-CMat3 a2mat(const CVect3 &att)
+CMat3 a2mat(double pitch, double roll, double yaw)
 {
-	double	si = sin(att.i), ci = cos(att.i),
-			sj = sin(att.j), cj = cos(att.j),
-			sk = sin(att.k), ck = cos(att.k);
+	double	si = sin(pitch), ci = cos(pitch),
+			sj = sin(roll),  cj = cos(roll),
+			sk = sin(yaw),   ck = cos(yaw);
 	CMat3 Cnb;
 	Cnb.e00 =  cj*ck - si*sj*sk;	Cnb.e01 =  -ci*sk;	Cnb.e02 = sj*ck + si*cj*sk;
 	Cnb.e10 =  cj*sk + si*sj*ck;	Cnb.e11 =  ci*ck;	Cnb.e12 = sj*sk - si*cj*ck;
 	Cnb.e20 = -ci*sj;				Cnb.e21 =  si;		Cnb.e22 = ci*cj;
 	return Cnb;
+}
+
+CMat3 a2mat(const CVect3 &att)
+{
+	return a2mat(att.i, att.j, att.k);
 }
 
 CMat3 ar2mat(const CVect3 &attr)  // reversed Euler angles to DCM
@@ -1226,6 +1231,20 @@ CVect3 m2att(const CMat3 &Cnb)
 	if(Cnb.e21>0.999999)       { att.j=0.0; att.k= atan2Ex(Cnb.e02,Cnb.e00); }
 	else if(Cnb.e21<-0.999999) { att.j=0.0; att.k=-atan2Ex(Cnb.e02,Cnb.e00); }
 	return att;
+}
+
+CVect3 m2att1(const CMat3 &Cnb)
+{
+	CVect3 att;
+	att.i = atan2Ex(Cnb.e10, Cnb.e00);
+	att.j = atan2Ex(Cnb.e21, Cnb.e22);
+	att.k = -asinEx(Cnb.e20);
+	return att;
+}
+
+CVect3 q2att1(const CQuat &qnb)
+{
+	return m2att1(q2mat(qnb));
 }
 
 CVect3 m2attr(const CMat3 &Cnb)
@@ -5360,6 +5379,46 @@ CMat lsclbt(CMat &wfb, CMat &wfn)
 	return Kga_edb;
 }
 
+CVect3 rfu2fur(const CVect3 &v)
+{
+	return CVect3(v.j, v.k, v.i);
+}
+
+CVect3 fur2rfu(const CVect3 &v)
+{
+	return CVect3(v.k, v.i, v.j);
+}
+
+CQuat rfu2fur(const CQuat &q)
+{
+	return CQuat(q.q0, q.q2, q.q3, q.q1);
+}
+
+CQuat   fur2rfu(const CQuat &q)
+{
+	return CQuat(q.q0, q.q3, q.q1, q.q2);
+}
+
+inline void RFU2FUR(CVect3 &v)
+{
+	double tmp=v.i;  v.i=v.j, v.j=v.k, v.k=tmp;
+}
+
+inline void FUR2RFU(CVect3 &v)
+{
+	double tmp=v.i;  v.i=v.k, v.k=v.j, v.j=tmp;
+}
+
+inline void RFU2FUR(CQuat &q)
+{
+	double tmp=q.q1;  q.q1=q.q2, q.q2=q.q3, q.q3=tmp;
+}
+
+inline void FUR2RFU(CQuat &q)
+{
+	double tmp=q.q1;  q.q1=q.q3, q.q3=q.q2, q.q2=tmp;
+}
+
 //**************************  class CIMUInc  ********************************/
 CIMUInc::CIMUInc(double gScale, double aScale)
 {
@@ -5870,6 +5929,40 @@ CMat3 CCNS::GetCns(const CQuat &qis, const CVect3 &pos, double t, const CMat3 &C
 	Cns = ~(q2mat(~qis) * Cie1 * pos2Cen(pos));
 	if(&Cbs!=&I33) Cns = Cns*(~Cbs);
 	return Cns;
+}
+
+//***************************  class CToLCEF  *********************************/
+CToLCEF::CToLCEF(void)
+{
+}
+
+CToLCEF::CToLCEF(const CVect3 &pos0, double A0)
+{
+	Init(pos0, A0);
+}
+
+void CToLCEF::Init(const CVect3 &pos0, double A0)
+{
+	r0 = blh2xyz(pos0);
+	CMat3 Cen0=pos2Cen(pos0), Cn0a=a2mat(0,0,A0), Cae=~(Cen0*Cn0a);
+	qae = m2qua(Cae);
+}
+
+CVect3 CToLCEF::ToLCEF(const CQuat &qnb, const CVect3 &vn, const CVect3 &pos)
+{
+	CQuat qan = qae*m2qua(pos2Cen(pos));
+	qab = qan*qnb;
+	va = qan*vn;
+	xyz = qae*(blh2xyz(pos)-r0);
+	RFU2FUR(qab), RFU2FUR(va), RFU2FUR(xyz); // RFU -> FUR
+//	qab = CQuat(qab.q0,qab.q2,qab.q3,qab.q1);
+//	va = CVect3(va.j,va.k,va.i);  xyz = CVect3(xyz.j,xyz.k,xyz.i);
+	return xyz;
+}
+
+CVect3 CToLCEF::ToLCEF(const CSINS &sins)
+{
+	return ToLCEF(sins.qnb, sins.vn, sins.pos);
 }
 
 //***************************  class CAVPInterp  *********************************/
@@ -6439,6 +6532,11 @@ CFileRdWt& CFileRdWt::operator<<(const CSINS &sins)
 		return *this<<sins.att<<sins.vnL<<sins.posL<<sins.eb<<sins.db<<sins.tk;
 	else
 		return *this<<sins.att<<sins.vn<<sins.pos<<sins.eb<<sins.db<<sins.tk;
+}
+
+CFileRdWt& CFileRdWt::operator<<(const CToLCEF &lcef)
+{
+	return *this<<q2att1(lcef.qab)<<lcef.va<<lcef.xyz;
 }
 
 CFileRdWt& CFileRdWt::operator<<(const CDR &dr)

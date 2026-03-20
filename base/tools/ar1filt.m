@@ -11,6 +11,7 @@ function x = ar1filt(x, N)
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 26/01/2021
+    if nargin<2, N=100; end
     if size(x,2)>1
         for k=1:size(x,2),  x(:,k) = ar1filt(x(:,k), N); end
         return;

@@ -29,6 +29,7 @@
 		case  5: Demo_CRAvar(); break;\
 		case  6: Demo_CSINS_static(); break;\
 		case  7: Demo_CSINS_Error(); break;\
+		case  701: Demo_CSINS_toLCEF(); break;\
 		case  8: Demo_CAlignsv(); break;\
 		case  801: Demo_CAlignNoLat(); break;\
 		case  9: Demo_CAligntf(); break;\
@@ -65,6 +66,7 @@ void Demo_CVARn(void);
 void Demo_CRAvar(void);
 void Demo_CSINS_static(void);
 void Demo_CSINS_Error(void);
+void Demo_CSINS_toLCEF(void);
 void Demo_CAlignsv(void);
 void Demo_CAlignNoLat(void);
 void Demo_CAligntf(void);

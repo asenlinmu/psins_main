@@ -17,7 +17,7 @@ function [wvm, Dir] = imurfu(wvm0, dirstr)
 %         [wvm1, Dir] = imurfu([], 'flu')
 %         wvm2 = [1 2 3 1 2 3]*blkdiag(Dir',Dir')
 %
-% See also  imuaxis, imuidx, wierfu, imurot, imuresample, insupdate, trjsimu, attrfu.
+% See also  imuaxis, imuidx, wierfu, imurot, imuori, imuresample, insupdate, trjsimu, attrfu.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -26,7 +26,7 @@ function [wvm, Dir] = imurfu(wvm0, dirstr)
     wvm = wvm0;    Dir = zeros(3);
     clm = size(wvm, 2);
     for k=1:3
-        if upper(dirstr(k))=='X', return; end  % do nothing
+        if upper(dirstr(k))=='X', Dir=eye(3); return; end  % do nothing
         switch(upper(dirstr(k)))
             case {'R','E'}
                 wvm(:,1) = wvm0(:,k);  if clm>=6, wvm(:,4) = wvm0(:,k+3); end

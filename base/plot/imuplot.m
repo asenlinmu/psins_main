@@ -41,11 +41,18 @@ global glv
         return;
     end
     if length(type)>=7  % err = imuplot(imu1, imu2);
-        if nargin==3, % err = imuplot(imu1, imu2, nn);
-            nn = t0;
-            if length(nn)==1, nn=[nn;nn]; end
-            imu = imumeanplot(imu, nn(1)); close(gcf);
-            type = imumeanplot(type, nn(2)); close(gcf);
+        if nargin==3,
+            if t0==1  % ierr = imuplot(imu1, imu2, 1);
+                [~,idx] = intersect(imu(:,end), type(:,end));
+                lost = [type(idx,1:end-1)-imu(idx,1:end-1),imu(idx,end)];  % imu2-imu1
+                imuplot(lost, glv.dph);
+                return;
+            else   % err = imuplot(imu1, imu2, meann);
+                nn = t0;
+                if length(nn)==1, nn=[nn;nn]; end
+                imu = imumeanplot(imu, nn(1)); close(gcf);
+                type = imumeanplot(type, nn(2)); close(gcf);
+            end
         end
         imuplot(imu);
         imu2 = type;   t = imu2(:,end);  ts = diff(imu2(1:2,end));
@@ -143,6 +150,10 @@ global glv
             hold off;
             plotyy(t, imu(:,6)/g0, t, imu(:,7)*ts);  xygo('fz');
         end
+    elseif type==-2 || type==-21 % HRG standing wave angle
+        if type==-21, imu(:,1:3)=cumsum(imu(:,1:3)); end
+        subplot(211), plot(t, [imu(:,1:3)]*ts/glv.deg,'linewidth',2); xygo('\theta / \circ');  legend('\theta_x','\theta_y','\theta_z'); title('( a )')
+        subplot(212), plot(t, [imu(:,4:6)]/g0,'linewidth',2);  xygo('f');  legend('f_x','f_y','f_z'); title('( b )')
     else % type==0
         dt = diff(t);
         lost = abs(dt)>mean(dt)*1.5; tlost = t(lost)+dt(1);

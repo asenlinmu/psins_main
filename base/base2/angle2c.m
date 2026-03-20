@@ -1,5 +1,5 @@
 function ang = angle2c(ang)
-% See also att2c.
+% See also angle2pi, att2c.
     df = diff(ang);    % find discontinuous points
     g = find(df>pi);   % greater than pi
     s = find(df<-pi);  % smaller than -pi

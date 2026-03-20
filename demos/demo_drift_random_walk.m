@@ -6,7 +6,7 @@ glvs
 ts = 0.1;
 t = 1*3600;
 len = fix(t/ts);
-imuerr = imuerrset(0, 0, 0.001, 1);  % inertial-grade IMU
+imuerr = imuerrset(0, 0, 0.0001, 1);  % inertial-grade IMU
 imu = imuadderr([zeros(len,6),(1:len)'*ts], imuerr);
 imu = cumsum(imu, 1);  % accumulate
 myfigure;

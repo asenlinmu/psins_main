@@ -5,6 +5,9 @@ function lstyle(varargin)
 % Inputs: color/linestyle/marker/linewidth strings
 % Output: N/A
 % 
+% Example
+%   lstyle('1 -', '2 --', '3 -.', '4 :', 1.5);
+%
 % See also lneg, lmul, laddy, lmc.
 
 % Copyright(c) 2009-2023, by Gongmin Yan, All rights reserved.

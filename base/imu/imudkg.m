@@ -6,7 +6,7 @@ function imu = imudkg(imu, dkg)
 %         dkg - scale factors
 % Output: imu - IMU output after calibration 
 %
-% See also  imudka, imuclbt, imuadderr, imuscale.
+% See also  imudka, imuaddkg, imuclbt, imuadderr, imuscale.
 
 % Copyright(c) 2009-2022, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi'an, P.R.China

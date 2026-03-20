@@ -2,9 +2,9 @@
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 27/11/2015
 glvs
-T = 24*3600;  % total simulation time length
-[nn, ts, nts] = nnts(2, 1);
-phi0 = 1*[1;2;3]*glv.min; dv0 = [0.1;0.2]; dp0 = 0*[1000;500]/glv.Re; en = 0*[0.01;0.02;0.03]*glv.dph; dn = 0*[10;20]*glv.ug;
+T = 48*3600;  % total simulation time length
+[nn, ts, nts] = nnts(2, 10);
+phi0 = [0.1;0.1;0.5]*glv.min; dv0 = [0.0;0.0]; dp0 = 0*[1000;500]/glv.Re; en = 0.02*[0.01;0.02;0.03]*glv.dph; dn = 0*[10;20]*glv.ug;
 %% πﬂµºΩ‚À„µƒŒÛ≤Ó
 phiE0 = phi0(1); phiN0 = phi0(2); phiU0 = phi0(3); dvE0 = dv0(1); dvN0 = dv0(2); dL0 = dp0(1); dlon0 = dp0(2);
 eE = en(1); eN = en(2); eU = en(3); DE = dn(1); DN = dn(2);

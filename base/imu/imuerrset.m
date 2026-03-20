@@ -78,13 +78,16 @@ global glv
     end
     %% installation angle error
     if exist('dKGij', 'var')
+        if length(dKGij)==3, dKGij=[dKGij; 0;0;0]; end  % 2025-10-26
         dKGij = ones(6,1).*dKGij*glv.sec;
         imuerr.dKg(2,1) = dKGij(1); imuerr.dKg(3,1) = dKGij(2); imuerr.dKg(3,2) = dKGij(3); 
         imuerr.dKg(1,2) = dKGij(4); imuerr.dKg(1,3) = dKGij(5); imuerr.dKg(2,3) = dKGij(6);
     end
     if exist('dKAij', 'var')
-        dKAij = ones(3,1).*dKAij*glv.sec;
+        if length(dKAij)==3, dKAij=[dKAij; 0;0;0]; end  % 2025-10-26
+        dKAij = ones(6,1).*dKAij*glv.sec;
         imuerr.dKa(2,1) = dKAij(1); imuerr.dKa(3,1) = dKAij(2); imuerr.dKa(3,2) = dKAij(3); 
+        imuerr.dKa(1,2) = dKAij(4); imuerr.dKa(1,3) = dKAij(5); imuerr.dKa(2,3) = dKAij(6);
     end
     imuerr.dKga = [imuerr.dKg(:,1); imuerr.dKg(:,2);   imuerr.dKg(:,3);
                    imuerr.dKa(:,1); imuerr.dKa(2:3,2); imuerr.dKa(3,3)];
@@ -94,10 +97,10 @@ global glv
     end
     %% acc inner-lever-arm error
     if exist('rxyz', 'var')
-        if length(rxyz)==1, rxyz(1:6)=rxyz; end
+        if length(rxyz)==1, rxyz(1:6,1)=rxyz; end
         if length(rxyz)==2, rxyz=diag([rxyz;0]); rxyz=rxyz(:); end
         if length(rxyz)==3, rxyz=diag(rxyz); rxyz=rxyz(:); end
-        if length(rxyz)==6, rxyz(7:9)=[0;0;0]; end 
+        if length(rxyz)==6, rxyz(7:9,1)=[0;0;0]; end 
         imuerr.rx = rxyz(1:3)/100; imuerr.ry = rxyz(4:6)/100; imuerr.rz = rxyz(7:9)/100;
     end
     %% time-asynchrony between gyro & acc

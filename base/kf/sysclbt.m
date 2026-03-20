@@ -1,4 +1,4 @@
-function [clbt, av, obsd] = sysclbt(imu, pos0, g0, Cba, itertion, pk0)
+function [clbt, av, obsd] = sysclbt(imu, pos0, g0, Cba, itertion, pk0, pkf)
 % SIMU systemtic calibration processing under specific rotating operation.
 %
 % Prototype: [clbt, av, obsd] = sysclbt(imu, pos0, g0, Cba, itertion, pk0)
@@ -7,7 +7,9 @@ function [clbt, av, obsd] = sysclbt(imu, pos0, g0, Cba, itertion, pk0)
 %         g0  - local gravity magnitude
 %         Cba - accelerometer installation direction matrix, always I3x3.
 %         itertion - calibration processing itertion times.
-%         pk0 - set initial P0(k,k)=0 for no estimation for the k^th-state 
+%         pk0 - set initial P0(k,k)=0 for no estimation for the k^th-state
+%         pkf - set initial P0(k,k)=Pk(k,k)*pkf(k)^2,  if pkf(k) is integer
+%                           P0(k,k)=pkf(k)^2,          if pkf(k) is decimal
 % Output: clbt - SIMU fine calibration result array after this porcessing,
 %               inculde fields:
 %                 'Kg, Ka, eb, db, Ka2, rx, ry, rz, tGA', such that
@@ -24,6 +26,8 @@ function [clbt, av, obsd] = sysclbt(imu, pos0, g0, Cba, itertion, pk0)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 17/08/2016
 global glv
+    if nargin<7, pkf=[[1;1;10]*glv.min; [1;1;1]*1.1; 5;5;5; [10;10;10]*glv.ug; ...
+            ones(9,1)*2; ones(9,1)*2; [2;2;2]*glv.ugpg2; ones(9,1)*0.01; 0.01]; end
     if nargin<6, pk0=[]; end
     if nargin<5, itertion=5; end
     if nargin<4, Cba=[]; end
@@ -50,10 +54,20 @@ global glv
 %         if iter==1, qnb0 = qnb;  else, qnb0 = qdelphi(qnb0, kf.xk(1:3)); end
 %         att = q2att(qnb); att0 = q2att(qnb0); qnb = a2qua([att(1:2);att0(3)]);
         dotwf = imudot(imu1, 5.0);
-        if iter~=itertion,  kf = clbtkfinit(nts);  else, kf.Pxk = kf.Pxk*100; kf.Pxk(:,3)=0; kf.Pxk(3,:)=0; kf.xk = kf.xk*0; end
-        kf.Pxk(pk0,pk0) = 0;  P0 = kf.Pxk;  % 2025-6-13 
-%         if iter~=itertion,  kf = clbtkfinit(nts);  else, kf.Pxk = diag(diag(kf.Pxk))*100; kf.xk = kf.xk*0; end
-% kf = clbtkfinit(nts);
+        if iter<itertion-1
+            kf = clbtkfinit(nts);
+            if length(pkf)==1, pkf=repmat(pkf,length(kf.Pxk),1); end
+        else
+            for k=1:length(pkf)  % 2026-01-11
+                if kf.Pxk(k,k)>eps 
+                    if mod(pkf(k),1)<eps, kf.Pxk(k,k)=kf.Pxk(k,k)*pkf(k)^2;  % integer
+                    %else, kf.Pxk(k,k)=max(kf.Pxk(k,k),pkf(k)^2); end  % decimal
+                    else, kf.Pxk(:,k)=0; kf.Pxk(k,:)=0; kf.Pxk(k,k)=pkf(k)^2; end  % decimal
+                end
+            end
+            kf.Pxk(:,3)=0; kf.Pxk(3,:)=0; kf.xk = kf.xk*0;
+        end
+        kf.Pxk(:,pk0) = 0; kf.Pxk(pk0,:) = 0; P0 = kf.Pxk;  % 2025-6-13 
         t1s = 0; vn1s = zeros(fix(len*ts), 4);  kkv = 1;
         av = zeros(fix(len*ts),7); xkpk = zeros(fix(len*ts), kf.n*2+1);  kk = 1;
         timebar(nn, len-2*frq2, sprintf('System Calibration of SIMU( iter=%d ).',iter));
@@ -75,7 +89,7 @@ global glv
                 t1s = 0;
                 ww = mean(imu(k-frq2:k+frq2,1:3),1); ww = norm(ww)/ts;
                 if ww<20*glv.dph   % if IMU is static
-                    kf = kfupdate(kf, vn);
+                    kf = kfupdate(kf, vn, 'M');  % 2016-1-30
                     vn1s(kkv,:) = [vn; t]';  kkv = kkv+1;
                 end
                 av(kk,:) = [q2att(qnb); vn; t]';

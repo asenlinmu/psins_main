@@ -16,7 +16,7 @@ imuplot(imu);
 imuerr = imuerrset(0.01, 100, 0.0001, 1.0);
 imu1 = imuadderr(imu,imuerr);
 phi = [.1;.1;.5]*glv.deg;  att0 = q2att(qaddphi(a2qua(att0),phi));
-wvn = [0.01;0.01;0.01];
+wvn = [0.01;0.01;0.01]/10;
 [att00, attk, xkpk] = alignvn(imu1, att0, pos0, phi, imuerr, wvn);
 % [att00, attk, xkpk] = alignvn_kfs(imu1, att0, pos0, phi, imuerr, wvn);
 % error compare

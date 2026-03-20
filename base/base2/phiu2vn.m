@@ -9,7 +9,7 @@ function phiu2vn(phiu, T, lti)
 %
 % Example:
 %   phiu2vn(3*glv.min, 300);
-%   phiu2vn(1*glv.min, 60, 34*glv.deg);
+%   phiu2vn(1*glv.min, 180, 34*glv.deg);
 %
 % See also  vn2phiu.
 

@@ -128,6 +128,24 @@ void Demo_CSINS_Error(void)
 	}
 }
 
+void Demo_CSINS_toLCEF(void)
+{
+	CFileRdWt::Dir("..\\Data\\", ".\\Data\\");;	CFileRdWt fins("ins.bin");
+	double ts=0.01;
+	CVect3 att0=PRY(0,10,31), vn0=O31, pos0=LLH(34,110,100);
+	CVect3 wm[2], vm[2];
+	IMUStatic(wm[0], vm[0], att0, pos0, ts); wm[1]=wm[0]; vm[1]=vm[0]; // static IMU simuation
+	CSINS sins(a2qua(att0)+CVect3(0,0,0)*glv.min, O31, pos0);
+	CToLCEF lcef(sins.pos, -30*DEG);
+	for(int i=0; i<100*360; i+=2)
+	{
+		sins.Update(wm, vm, 2, ts);  sins.vn.k=0; sins.pos.k = pos0.k;
+		lcef.ToLCEF(sins);
+		fins<<lcef<<sins.tk;
+		disp(i,100,100);
+	}
+}
+
 void Demo_Extern_C_example(void)  // in main.c file
 {
 #ifdef PSINS_EXTERN_C_EXAMPLE

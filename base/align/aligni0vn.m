@@ -1,11 +1,12 @@
-function [att1, ins] = aligni0vn(imu, pos, t1)
+function [att1, att0, ins] = aligni0vn(imu, pos, t1)
 % SINS initial align based on inertial-frame & vn-meas method.
 %
-% Prototype: att0 = aligni0(imu, pos, t1)
+% Prototype: [att1, att0, ins] = aligni0vn(imu, pos, t1)
 % Inputs: imu - IMU data
 %         pos - position
 %         t1 - inertial-frame align time
-% Output: att1 - attitude align result
+% Outputs: att1 - attitude align result
+%         att0 - attitude at begining
 %         ins - SINS struct
 %
 % Example:
@@ -23,8 +24,8 @@ global glv
     if nargin<3, t1 = 30; end
     if(length(pos)>4) pos=pos(4:6); end
     imu1 = imu(1:fix(min(imu(end,end)-imu(1,end),t1)/ts),:);
-    [att0, res0] = aligni0(imu1, pos, ts);  % coarse align
-    [att0, iatt] = attrvs(imu1, att0, pos);  % reverse attitude update
+    [att1, att0, res0] = aligni0(imu1, pos, 1);  % coarse align
+    [att0, iatt] = attrvs(imu1, att1, pos);  % reverse attitude update
 	phi = [1.1; 1.1; 10]*glv.deg;
 	imuerr = imuerrset(0.002, 20, 0.001, 10);
 	wvn = [0.01; 0.01; 0.01]*10;
@@ -41,5 +42,5 @@ global glv
         subplot(211), plot(attk(:,end), attk(:,1:2)/glv.deg, 'linewidth',k+1);
         subplot(212), plot(attk(:,end), attk(:,3)/glv.deg, 'linewidth',k+1);
     end
-    if nargout==2, ins=insinit([att1;pos], ts); end
+    if nargout==3, ins=insinit([att1;pos], ts); end
 

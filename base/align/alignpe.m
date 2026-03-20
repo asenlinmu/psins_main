@@ -31,7 +31,8 @@ global glv
     nextlinestyle(-1);
     for iter=1:4
         av = inspure(imu, [att0;pos], 'O', tmpfig);
-        [phi, eNi, dUi] = vn2phi(av(:,[4:6,end]), pos, [], tmpfig);
+        N=1; if length(av)>10000, N=fix(length(av)/5000); end  % 2026-1-26
+        [phi, eNi, dUi] = vn2phi(av(1:N:end,[4:6,end]), pos, [], tmpfig);
         att0 = adelphi(att0,phi(1,1:3)');
         if isfig==1 && iter>1
             eb = a2mat(att0)'*[0;eNi;eU];  eN=eN+eNi;  eU=0;  % cumulate eN, but use eU only once

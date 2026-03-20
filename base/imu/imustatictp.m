@@ -1,5 +1,6 @@
 function [imu, att, T1T2] = imustatictp(avp0, ts, T, wz, az, imuerr)
-% SIMU sensor incremental outputs on static base, for two-position alignment simulation.
+% SIMU sensor incremental outputs on static base, for two-position
+% alignment simulation, or can be for single-axis rotation simulation.
 %
 % Prototype: imu = imustatictp(avp0, ts, T, wz, az, imuerr)
 % Inputs: avp0 - initial avp0=[att0,vn0,pos0]
@@ -27,7 +28,7 @@ global glv;
     if length(avp0)<6, avp0 = [avp0(1:3); glv.pos0]; end
     if length(avp0)<9, avp0 = [avp0(1:3); zeros(3,1); avp0(4:6)]; end
     Tturn = abs(az/wz);
-    if Tturn>T/3, Tturn=T/3; end
+    if Tturn>0.9*T, Tturn=0.9*T; end
     T1T2 = [T/2-Tturn/2-2; T/2+Tturn/2+2];
     
     paras = [  1    0,0,1,   az/glv.deg, Tturn, T/2-Tturn/2, T/2-Tturn/2];

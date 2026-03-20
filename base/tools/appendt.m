@@ -7,7 +7,7 @@ function data = appendt(data, ts, t0)
 %         t0  - start time
 % Output: data - data out
 %
-% See also  lent, datacut, addclmt.
+% See also  lent, datacut, addclmt, resett.
 
 % Copyright(c) 2009-2022, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

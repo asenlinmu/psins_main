@@ -4,7 +4,7 @@
 Copyright(c) 2015-2024, by YanGongmin, All rights reserved.
 Northwestern Polytechnical University, Xi'an, P.R.China.
 Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 22/11/2021, 17/10/2022, 23/09/2023
-      16/09/2024
+      16/09/2024, 21/11/2025
 */
 
 #ifndef _PSINS_H
@@ -237,7 +237,7 @@ typedef unsigned int uint;
 #define CC180C360(yaw)  ( (yaw)>0.0 ? (_2PI-(yaw)) : -(yaw) )   // counter-clockwise +-180deg -> clockwise 0~360deg for yaw
 #define C360CC180(yaw)  ( (yaw)>=PI ? (_2PI-(yaw)) : -(yaw) )   // clockwise 0~360deg -> counter-clockwise +-180deg for yaw
 #define LLH(latitude,longitude,height)	CVect3((latitude)*DEG,(longitude)*DEG,height)
-#define PRY(pitch,roll,yaw)		CVect3((pitch)*DEG,(roll)*DEG,C360CC180((yaw)*DEG))
+#define PRY(pitch,roll,yaw)	CVect3((pitch)*DEG,(roll)*DEG,C360CC180((yaw)*DEG))   // NOTE: in clockwise yaw
 #define V3PPP(p1,p2,p3)		CVect3(p1*PPM,p2*PPM,p3*PPM)
 #define V3PSS(p1,s2,s3)		CVect3(p1*PPM,s2*SEC,s3*SEC)
 #define V3SPS(s1,p2,s3)		CVect3(s1*SEC,p2*PPM,s3*SEC)
@@ -445,9 +445,12 @@ CVect3 pow(const CVect3 &v, int k=2);				// power for each element
 double dot(const CVect3 &v1, const CVect3 &v2);	// vector dot multiplication
 CVect3 dotmul(const CVect3 &v1, const CVect3 &v2);	// vector dot multiplication '.*'
 CVect3 dotdiv(const CVect3 &v1, const CVect3 &v2);	// vector dot divide './'
+CMat3 a2mat(double pitch, double roll, double yaw);	// Euler angles to DCM 
 CMat3 a2mat(const CVect3 &att);					// Euler angles to DCM 
 CVect3 m2att(const CMat3 &Cnb);					// DCM to Euler angles 
+CVect3 m2att1(const CMat3 &Cnb);					// DCM to Euler angles for launch vehicle
 CVect3 m2attr(const CMat3 &Cnb);					// DCM to reversed Euler angles (in 3-2-1 rotation sequence)
+CVect3 q2att1(const CQuat &qnb);					// Qnb to Euler angles for launch vehicle, q in F/x-U/y-R/z order!
 CVect3 q2attr(const CQuat &qnb);					// Qnb to reversed Euler angles (in 3-2-1 rotation sequence)
 CQuat a2qua(double pitch, double roll, double yaw);	// Euler angles to quaternion
 CQuat a2qua(const CVect3 &att);					// Euler angles to quaternion
@@ -909,6 +912,14 @@ void IMURFU(CVect3 *pwm, int nSamples, const char *str="X");
 void IMURFU(CVect3 *pwm, CVect3 *pvm, int nSamples, const char *str="X");
 void IMUStatic(CVect3 &wm, CVect3 &vm, CVect3 &att0, CVect3 &pos0, double ts=1.0);
 CMat lsclbt(CMat &wfb, CMat &wfn);
+CVect3  rfu2fur(const CVect3 &v);
+CVect3  fur2rfu(const CVect3 &v);
+CQuat   rfu2fur(const CQuat &q);
+CQuat   fur2rfu(const CQuat &q);
+inline void RFU2FUR(CVect3 &v);
+inline void FUR2RFU(CVect3 &v);
+inline void RFU2FUR(CQuat &q);
+inline void FUR2RFU(CQuat &q);
 
 class CIMUInc
 {
@@ -1005,6 +1016,18 @@ public:
 	double GAST(double jd, double s);						// Greenwich Apparent Sidereal Time
 	CMat3 GetCie(double jd, double s);
 	CMat3 GetCns(const CQuat &qis, const CVect3 &pos, double t, const CMat3 &Cbs=I33);
+};
+
+class CToLCEF  // trans CSINS AVP to launch centered Earth-fixed AVP
+{
+public:
+	CVect3 r0, va, xyz;
+	CQuat qae, qab;
+	CToLCEF(void);
+	CToLCEF(const CVect3 &pos0, double A0=0.0);
+	void Init(const CVect3 &pos0, double A0=0.0);
+	CVect3 ToLCEF(const CQuat &qnb, const CVect3 &vn, const CVect3 &pos);
+	CVect3 ToLCEF(const CSINS &sins);
 };
 
 class CAVPInterp
@@ -1568,6 +1591,7 @@ public:
 	CFileRdWt& operator<<(const CAligni0 &aln);
 	CFileRdWt& operator<<(const CIMU &imu);
 	CFileRdWt& operator<<(const CSINS &sins);
+	CFileRdWt& operator<<(const CToLCEF &lcef);
 	CFileRdWt& operator<<(const CDR &dr);
 #ifdef PSINS_RMEMORY
 	CFileRdWt& operator<<(const CRMemory &m);

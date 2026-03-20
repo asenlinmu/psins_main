@@ -11,7 +11,7 @@ function [da, p1, p2] = kaafit(data, t1, t2, isfig)
 %    t1=1:10; t2=21:30; t=[t1,t2]'; 
 %    [da, p1, p2] = kaafit([[t1, t2+10]'+randn(20,1), t], 10, 20, 1);
 %    
-% See also  smoothol, polyfit.
+% See also  smoothol, sinfit, polyfit.
 
 % Copyright(c) 2009-2023, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

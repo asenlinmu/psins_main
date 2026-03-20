@@ -1,7 +1,7 @@
 % Figure for C++ processing results
 % Make sure Matlab/PSINS Toolbox have been initialized!
 glvs
-PSINSDemo = 801;
+PSINSDemo = 701;
 switch PSINSDemo
     case -1, %% Demo_SINS/GNSS
         ins = binfile('ins.bin', 16+3);
@@ -45,6 +45,9 @@ switch PSINSDemo
         subplot(324), plot(xk(:,end), xk(:,4:6),'m');
         subplot(326), plot(xk(:,end), [xk(:,7)*eth.RMh,xk(:,8)*eth.clRNh,xk(:,9)],'m');
         avpcmpplot(err, xk(:,[1:9,end]));
+    case 701, %% Demo_CSINS_toLCEF
+        avp = binfile('ins.bin',10);
+        insplot(avp,'xyz');
     case 8, %% Demo_CAlignsv
         att = binfile('aln.bin', 4);
         T1 = find(diff(att(:,end))<0,1);

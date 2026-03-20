@@ -4,10 +4,10 @@ function x = mulsf(x, sf, clm)
 % Prototype:  x = mulsf(x, sf, clm)
 % Inputs: x_in - input data with bias
 %         sf - scale factor to multiply
-%         clm - data column to delete bias
-% Outputs: x - output data with no bias
+%         clm - data column multiply scale factors
+% Outputs: x - output data with scale factors
 %
-% See also  delbias, imudeldrift.
+% See also  addsf, addslope, delbias, imudeldrift.
 
 % Copyright(c) 2009-2022, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

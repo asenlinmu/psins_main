@@ -12,7 +12,7 @@ function v = m3xv3(m, v)
 %   m = randn(10,9); v = randn(10,3);
 %   v = m3xv3(m,v)
 %
-% See also  m3xm3, m2attBatch, m2quaBatch.
+% See also  m3xm3, VmkXkn, m2attBatch, m2quaBatch.
 
 % Copyright(c) 2009-2025, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

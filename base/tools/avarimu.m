@@ -1,14 +1,17 @@
 function [sigma, tau, m] = avarimu(imu, meanT)
 % Calculate Allan variance for SIMU gyro & acc.
 %
-% Prototype: avarimu(imu)
-% Input: imu - SIMU data
-%        meanT - mean time
+% Prototype: [sigma, tau, m] = avarimu(imu, meanT)
+% Inputs: imu - SIMU data
+%         meanT - mean time
+% Outputs: sigma - Allan std variance
+%          tau - cluster time
+%          m - sensor mean value
 %
 % Example
 %     imu = imustatic(zeros(9,1), 0.01, 3600, imuerrset(0.01,100,0.01,1)); avarimu(imu);
 %
-% See also  avar, avars, avarfit.
+% See also  avar, avars, avarsmth, avarfit.
 
 % Copyright(c) 2009-2023, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

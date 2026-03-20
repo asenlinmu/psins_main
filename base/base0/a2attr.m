@@ -5,7 +5,7 @@ function attr = a2attr(att)
 % Input: att - =[pitch, roll, yaw, t]
 % Output: attr - = dual Euler angle
 %
-% See also  a2mat, a2matBatch, m2att, a2incl.
+% See also  a2mat, a2matBatch, m2att, a2incl, attrf.
 
 % Copyright(c) 2009-2023, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

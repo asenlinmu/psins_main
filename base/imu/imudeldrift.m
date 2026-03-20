@@ -9,7 +9,7 @@ function [imu, eb, db] = imudeldrift(imu, t0, t1, avp, yaw0)
 %         yaw0 - yaw at [t0,t1]
 % Output: imu - new SIMU data with gyro bias deleted
 %
-% See also  delbias, imuadderr, imuclbt, imurepair, imuresample.
+% See also  delbias, imuadderr, imucpn, imustaticdeleb.
 
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi'an, P.R.China

@@ -59,4 +59,7 @@ global glv
     Cnb = a2mat(att);
     wb0 = Cnb'*eth.wnie; gb0 = Cnb'*eth.gn;
     eb = wbib - wb0;  db = fbsf + gb0;
-
+    if nargout>1 && isfig==1
+        subplot(211); ptitle('eb', eb/glv.dph);
+        subplot(212); ptitle('db', db/glv.ug);
+    end

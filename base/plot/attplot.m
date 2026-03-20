@@ -1,7 +1,7 @@
 function attplot(varargin)
 % att plot.
 %
-% Prototype: attplot(varargin)
+% Prototype: res = attplot(varargin)
 % Inputs: varargin - atts (more than one att), attplot(att1, att2, att3, ...)
 %          
 % See also  insplot.
@@ -12,10 +12,11 @@ function attplot(varargin)
 global glv
     myfig;
     if nargin==2
-        if length(varargin{2})<=2  % attplot(att, 10);
+        if length(varargin{2})<=2  % attplot(att, 10);  rotserr
             att = varargin{1};  th = abs(varargin{2});
             if length(th)==1, th=[th;th]; end
             th1=[-th(1),th(1)]; th2=[-th(2),th(2)]; % th in arcsec
+            attc = att2c(att);  datt = diff(attc([1,end],1:3));
             subplot(321), plot(att(:,end), att(:,1)/glv.deg), xygo('p');
                           title(sprintf('\\it\\theta\\rm_0 = %.4f',att(1,1)/glv.deg));
             subplot(323), plot(att(:,end), att(:,2)/glv.deg), xygo('r');
@@ -23,11 +24,12 @@ global glv
             subplot(325), plot(att(:,end), att(:,3)/glv.deg), xygo('y');
                           title(sprintf('\\it\\psi\\rm_0 = %.4f',  att(1,3)/glv.deg));
             subplot(322), plot(att(:,end), (att(:,1)-att(1,1))/glv.sec), xygo('\delta\it\theta\rm / ( \prime\prime )'); ylim(th1);
-                          title(sprintf('%.2f',(att(end,1)-att(1,1))/glv.sec));
+                          title(sprintf('%.2f, %.3f',(att(end,1)-att(1,1))/glv.sec, datt(1)/glv.deg));
             subplot(324), plot(att(:,end), (att(:,2)-att(1,2))/glv.sec), xygo('\delta\it\gamma\rm / ( \prime\prime )'); ylim(th1);
-                          title(sprintf('%.2f',(att(end,2)-att(1,2))/glv.sec));
+                          title(sprintf('%.2f, %.3f',(att(end,2)-att(1,2))/glv.sec, datt(2)/glv.deg));
             subplot(326), plot(att(:,end), (att(:,3)-att(1,3))/glv.sec), xygo('\delta\it\psi\rm / ( \prime\prime )'); ylim(th2);
-                          title(sprintf('%.2f',(att(end,3)-att(1,3))/glv.sec));
+                          title(sprintf('%.2f^{\\prime\\prime}, %.3f\\circ (%.3fppm@%.2fr)',...
+                              (att(end,3)-att(1,3))/glv.sec, datt(3)/glv.deg, (att(end,3)-att(1,3))/datt(3)*1e6,datt(3)/(2*pi))); % rotserr
             return;
         end
         if ischar(varargin{2})

@@ -1,0 +1,13 @@
+glvs
+strcom = {
+    '10 #&#fdkkklll',
+    '20 #&#fdkkklll',
+    '20 #&#fdkkklll',
+    };
+s=serialport('COM11', 115200); 
+for k=1:length(strcom)
+    ps = sscanf(strcom{k}, '%f');
+    pause(ps);
+    writeline(s, strcom{k});
+end
+clear s;

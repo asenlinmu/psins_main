@@ -1,4 +1,4 @@
-function [att, att0, res, phi] = alignsar(av, pos, isppm, isfig)
+function [att, att0, res, phi, vnerr] = alignsar(av, pos, isppm, isfig)
 % Single-axis rotation SIMU alignment from AV from open-loop INS update.
 %
 % Prototype: [att, attk, eb, db] = alignsb(imu, pos, yaw0, isfig)
@@ -6,15 +6,15 @@ function [att, att0, res, phi] = alignsar(av, pos, isppm, isfig)
 %         pos - initial position
 %         ywo0 - initial yaw
 %         isfig - figure flag
-% Outputs: att, attk - attitude align results Euler angles & quaternion
-%          eb, db - gyro drift & acc bias test
+% Outputs: att, att0 - attitude align results Euler angles
+%          res, phi - 
 %
 % Example
 %   [att, att0] = aligni0(datacut(imu,t0,t1),pos);
 %   avp = inspure(datacut(imu,t1,t2),[att;pos], 'O');
 %   [att1, att01] = alignsar(datacut(avp,t1,t2), pos, 0, 1);
 %
-% See also  alignvn, aligni0, alignsbtp, insupdate.
+% See also  alignsars, alignvn, aligni0, alignsbtp, insupdate.
 
 % Copyright(c) 2009-2025, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -29,7 +29,7 @@ global glv
     idx = dyaw>pi;  dyaw(idx)=dyaw(idx)-2*pi;    idx = dyaw<-pi;  dyaw(idx)=dyaw(idx)+2*pi;
     yaw = cumsum([av(1,3);dyaw]);
     wz = mean(dyaw)/ts;  abswz = abs(wz);
-    [wnie,g,gn,wN] = wnieg(pos);  gw = g/wz;  gw2 = gw/wz;
+    [wnie,g,gn,wN,wU] = wnieg(pos);  gw = g/wz;  gw2 = gw/wz;
     if yaw(1)*yaw(end)>0  % if no cross zero-yaw
         if yaw(1)>0, yaw=yaw-2*pi; else, yaw=yaw+2*pi; end
     end
@@ -52,7 +52,9 @@ global glv
         end
         Hu = [I1, t(i0:i1)];
         xu = lscov(Hu, av(i0:i1,6));
-        res(k,:) = [[xn(2)+xu(2)*pch0/g,xe(2)+xu(2)*rll0/g,(xn(5)-xn(6)*rll0)/wN], xn(6)/wz, xe(3:4)'*wz,xu(2), (i1-i0)*ts];
+        phiEe = xn(2)+xu(2)*pch0/g;  phiNe = xe(2)+xu(2)*rll0/g;  phiUe = (xn(5)-xn(6)*rll0+wU*phiNe)/wN; % 20260215
+        res(k,:) = [[phiEe,phiNe,phiUe], xn(6)/wz, xe(3:4)'*wz,xu(2), (i1-i0)*ts];
+        vnerr = [av(i0:i1,4:6)-[He*xe,Hn*xn,Hu*xu], av(i0:i1,end)];
     end
     phiE0 = res(end,1);  phiN0 = res(end,2); phiU0 = res(end,3);  dkgzzwz=xn(6);
     phi = [phiE0-(wN*phiU0+dkgzzwz*rll0)*t+1/2*wN*dkgzzwz*t2, phiN0+dkgzzwz*pch0*t, phiU0-dkgzzwz*t, t+t0];
@@ -67,12 +69,17 @@ global glv
             title(['\phi_0=',sprintf('%.3f  ',res(end,1:3)/glv.min),'(\prime)']);
         subplot(224), plot(t(i0:i1)+t0, Hu*xu,'linewidth',1);  plot(t(i0)+t0, Hu(1,:)*xu, 'mO');
             title(['\nabla^b=', sprintf('%.2f  ',res(end,5:7)/glv.ug),'(ug) [rx,ry=',sprintf('%.2f ',res(end,5:6)/wz^2*100),'(cm)]']);
-        myfigure; fst=3;
-        subplot(321), plot(res(fst:end,end),res(fst:end,1)/glv.sec), xygo('phiE'); ptitle('\phi_0/(\prime)', res(end,1:3)/glv.min);
-        subplot(323), plot(res(fst:end,end),res(fst:end,2)/glv.sec), xygo('phiN');
-        subplot(322), plot(res(fst:end,end),res(fst:end,3)/glv.min), xygo('phiU');
-        subplot(324), plot(res(fst:end,end),res(fst:end,4)/glv.ppm), xygo('dKgzz');
-        subplot(325), plot(phi(:,end),phi(:,1:2)/glv.sec), xygo('phiEN'); ptitle('\phi_{end}/(\prime)', phi(end,1:3)/glv.min);
-        subplot(326), plot(phi(:,end),phi(:,3)/glv.min), xygo('phiU');
+     %   myfig, ve = interp1(av(:,end),av(:,4),t(i0:i1)+t0); plot(t(i0:i1)+t0, [ve,He*xe,200*(smooth(ve,2)-He*xe)]); xygo('dve');
+     %   myfig, ven = interp1(av(:,end),av(:,4:5),t(i0:i1)+t0); plot(t(i0:i1)+t0, smoothn(ven,20)-[He*xe, Hn*xn]); xygo('dv');
+        fst=3;
+        if size(res,1)>fst
+            myfig
+            subplot(321), plot(res(fst:end,end),res(fst:end,1)/glv.sec), xygo('phiE'); ptitle('\phi_0/(\prime)', res(end,1:3)/glv.min);
+            subplot(323), plot(res(fst:end,end),res(fst:end,2)/glv.sec), xygo('phiN');
+            subplot(322), plot(res(fst:end,end),res(fst:end,3)/glv.min), xygo('phiU');
+            subplot(324), plot(res(fst:end,end),res(fst:end,4)/glv.ppm), xygo('dKgzz');
+            subplot(325), plot(phi(:,end),phi(:,1:2)/glv.sec), xygo('phiEN'); ptitle('\phi_{end}/(\prime)', phi(end,1:3)/glv.min);
+            subplot(326), plot(phi(:,end),phi(:,3)/glv.min), xygo('phiU');
+        end
     end
 

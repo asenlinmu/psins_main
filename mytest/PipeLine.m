@@ -17,7 +17,7 @@ function [posdr,posdr0,posdr1] = PipeLine(imuod, t, pos, yaw0, inst, kod, Td)
     if nargin<5, inst=zeros(3,1); end
     glvwie(0);
     %%
-    imuod = imuresample(imurepair(imuod),0.01,0,'spline',0);  % imuplot(imuod(:,[1:7,8]),1); odplot(imuod(:,7:8));
+    imuod = imuresample(imurepair(imuod),0.01,t0,'spline',0);  % imuplot(imuod(:,[1:7,8]),1); odplot(imuod(:,7:8));
     att = alignsb(datacut(imuod,t0,t0+10),pos0); att(3) = yaw0;
     imuod(:,[1:6,8]) = imudeldrift(imuod(:,[1:6,8]), t1-10,t1+10);
     avp = drpure(datacut(imuod,t0,t2), [att;pos0], inst, kod, Td); close(gcf); % insplot(avp);

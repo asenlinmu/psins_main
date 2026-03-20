@@ -88,13 +88,13 @@ global glv
     resdisp('Initial align attitudes (arcdeg)', att0/glv.deg);
     if isfig, ai0plot(timu, attk, attkp, vn0, vnk, posk); end
     
-function ai0plot(t, attk, attkv, vn0, vnk, posk)
+function ai0plot(t, attk, attkp, vn0, vnk, posk)
 global glv
     myfigure;
     subplot(221), plot(t, attk(:,1:2)/glv.deg), xygo('pr');
-        hold on,  plot(t, attkv(:,1:2)/glv.deg, 'm:'),
-    subplot(223), plot(t, attk(:,3)/glv.deg), xygo('y');  title(sprintf('%.4f',attk(end,3)/glv.deg));
-        hold on,  plot(t, attkv(:,3)/glv.deg, 'm:'), legend('i0 pos', 'i0fit pos');
+        hold on,  plot(t, attkp(:,1:2)/glv.deg, 'm:'),
+    subplot(223), plot(t, attk(:,3)/glv.deg), xygo('y');  title(sprintf('%.4f',attkp(end,3)/glv.deg));
+        hold on,  plot(t, attkp(:,3)/glv.deg, 'm:'), legend('i0 pos', 'i0fit pos');
     subplot(322), plot(t, vn0), xygo('vn0 / m/s');
     subplot(324), plot(t, vnk), xygo('vnt / m/s');
     subplot(326), plot(t, posk), xygo('post / m');

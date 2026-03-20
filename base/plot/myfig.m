@@ -14,7 +14,7 @@ function h = myfig(namestr, ylb)
                 myfig; subplot(namestr); return;  % myfig, subplot(ijk);
             end
             if nargin<2, ylb='val'; end
-            myfig; plot(namestr); xygo(ylb);
+            myfig; plot(namestr); xygo(ylb);  % myfig, plot(data);
             return;
         end
         h = myfigure(namestr);

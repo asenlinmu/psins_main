@@ -11,45 +11,25 @@ function kfs = kfstat(kfs, kf, flag)
 global glv
     if isempty(kfs),  % initialize,   kfs = kfstat([], kf)
         kfs.Ak0 = eye(kf.n);
-        kfs.P0 = kf.Pxk;  kfs.Pk = kf.Pxk; kfs.Pk1 = kfs.Pk;
+        kfs.P0 = kf.Pxk;  kfs.Pk = kf.Pxk; kfs.Pk1 = kfs.Pk;  % Pk1 for verification==Pk
         for k=1:kf.l, kfs.Qjk{k} = zeros(kf.n); end
         for k=1:kf.m, kfs.Rsk{k} = zeros(kf.n); end
     elseif nargin>=3,  % update,   kfs = kfstat(kfs, kf, 'B/T/M')
-        Kk = kf.Kk;
-        if flag=='T', kf.Kk=kf.Kk*0; end
-        IKH = kf.I-kf.Kk*kf.Hk;  Akk_1 = IKH*kf.Phikk_1;  Bkk_1 = IKH*kf.Gammak;  % (6.11.3)
-        if flag=='B'
-            kfs.Ak0 = Akk_1*kfs.Ak0;   % (6.11.10a)
-            kfs.Pk1 = kfs.Ak0*kfs.P0*kfs.Ak0';    % (6.11.8) 1-item
-            for j=1:kf.l
-                kfs.Qjk{j} = Akk_1*kfs.Qjk{j}*Akk_1' + kf.Qk(j,j)*Bkk_1(:,j)*Bkk_1(:,j)';   % (6.11.10b)
-                kfs.Pk1 = kfs.Pk1 + kfs.Qjk{j};   % (6.11.8) 2-item
-            end
-            for s=1:kf.m
-                kfs.Rsk{s} = Akk_1*kfs.Rsk{s}*Akk_1' + kf.Rk(s,s)*kf.Kk(:,s)*kf.Kk(:,s)';   % (6.11.11c)
-                kfs.Pk1 = kfs.Pk1 + kfs.Rsk{s};   % (6.11.8) 3-item
-            end
-            kfs.Pk = IKH*(kf.Phikk_1*kfs.Pk*kf.Phikk_1'+kf.Gammak*kf.Qk*kf.Gammak')*IKH'+kf.Kk*kf.Rk*kf.Kk';  % (6.11.2)
-        elseif flag=='T'
-            kfs.Ak0 = Akk_1*kfs.Ak0;
-            kfs.Pk1 = kfs.Ak0*kfs.P0*kfs.Ak0';
-            for j=1:kf.l
-                kfs.Qjk{j} = Akk_1*kfs.Qjk{j}*Akk_1' + kf.Qk(j,j)*Bkk_1(:,j)*Bkk_1(:,j)';
-                kfs.Pk1 = kfs.Pk1 + kfs.Qjk{j};
-            end
-            kfs.Pk = kf.Phikk_1*kfs.Pk*kf.Phikk_1'+kf.Gammak*kf.Qk*kf.Gammak';
-%             err=[kfs.Pk-kfs.Pk1]; max(max(abs(err)))
-        elseif flag=='M'
-            % kfs.Ak0 = Akk_1*kfs.Ak0;
-            % kfs.Pk1 = kfs.Ak0*kfs.P0*kfs.Ak0';
-            kfs.Pk1 = IKH*kfs.Pk1*IKH';  % 20250902
-            for s=1:kf.m
-                kfs.Rsk{s} = Akk_1*kfs.Rsk{s}*Akk_1' + kf.Rk(s,s)*kf.Kk(:,s)*kf.Kk(:,s)';
-                kfs.Pk1 = kfs.Pk1 + kfs.Rsk{s};
-            end
-            kfs.Pk = IKH*kfs.Pk*IKH'+kf.Kk*kf.Rk*kf.Kk';
+        if nargin==2, flag='B'; end
+        Phikk_1 = kf.Phikk_1;  Qk = kf.Qk;  Kk = kf.Kk;
+        if flag=='T', Kk=kf.Kk*0;  elseif flag=='M', Phikk_1=kf.I; Qk=kf.Qk*0;  end
+        IKH = kf.I-Kk*kf.Hk;  Akk_1 = IKH*Phikk_1;  Bkk_1 = IKH*kf.Gammak;
+        kfs.Ak0 = Akk_1*kfs.Ak0;
+        kfs.Pk1 = kfs.Ak0*kfs.P0*kfs.Ak0'; % kfs Pk
+        for j=1:kf.l
+            kfs.Qjk{j} = Akk_1*kfs.Qjk{j}*Akk_1' + Qk(j,j)*Bkk_1(:,j)*Bkk_1(:,j)';
+            kfs.Pk1 = kfs.Pk1 + kfs.Qjk{j};
         end
-        kf.Kk = Kk;
+        for s=1:kf.m
+            kfs.Rsk{s} = Akk_1*kfs.Rsk{s}*Akk_1' + kf.Rk(s,s)*Kk(:,s)*Kk(:,s)';
+            kfs.Pk1 = kfs.Pk1 + kfs.Rsk{s};
+        end
+        kfs.Pk = IKH*(Phikk_1*kfs.Pk*Phikk_1'+kf.Gammak*Qk*kf.Gammak')*IKH'+Kk*kf.Rk*Kk'; % real Pk
     else   %  plot,   kfs = kfstat(kfs)
         n = length(kfs.P0); kfl = length(kfs.Qjk); m = length(kfs.Rsk);
         p = zeros(n); q = zeros(n,kfl); r = zeros(n,m);

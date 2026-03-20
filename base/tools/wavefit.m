@@ -12,7 +12,7 @@ function [A, w, phi, b1, b0, data1] = wavefit(data, ts)
 %   [A, w, phi, b1, b0] = wavefit([t,x]);
 %   [A, w, phi, b1, b0]'
 %
-% See also:  N/A.
+% See also:  sinfit.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -21,6 +21,7 @@ function  [imu, avp0, avp] = ap2imu(ap, ts)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 06/03/2020
     if nargin<2, ts = diff(ap(1:2,end)); end
+    if size(ap,2)>7, ap=ap(:,[1:3,7:10]); end
     avp = ap2avp(ap, ts);
     [imu, avp0] = avp2imu(avp);
     

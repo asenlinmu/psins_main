@@ -20,7 +20,7 @@ function imu = imuresample(imu0, ts, t1, method, temflag)
     t0 = [t0(1)-ts0; t0];
     imu0 = cumsum([zeros(1,n-1); imu0(:,1:n-1)]);  % cumulated increment
     if nargin<5, temflag=0; end
-    if nargin<4, method='spline'; end
+    if nargin<4, method='linear'; end
     if nargin<3, t1=0; end
     if nargin==3, 
         if ischar(t1), method=t1; t1=fix(t0(1)); end 
@@ -32,6 +32,7 @@ function imu = imuresample(imu0, ts, t1, method, temflag)
     t = (t1:ts:t0(end))';
     imu = interp1(t0, imu0, t, method);   % 'linear' or 'spline' interpolation
     imu = [diff(imu), t(2:end)];  % restore increment (de-cumulate)
+    idx = isnan(imu(:,1));  imu(idx,:)=[];
     if temflag==1
         imu(:,7:end-1) = imu(:,7:end-1)/(ts/ts0);  % for temperature mean
     end

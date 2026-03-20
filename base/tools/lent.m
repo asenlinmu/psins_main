@@ -7,7 +7,7 @@ function t = lent(data, ts, t0)
 %         t0  - start time
 % Output: t - time tag
 %
-% See also  appendt, datacut, addclmt.
+% See also  resett, appendt, datacut, addclmt.
 
 % Copyright(c) 2009-2023, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -6,7 +6,7 @@ function data = addslope(data, kslope, nclm)
 %         kslope - slope
 %         nclm - n-columns index
 %
-% See also  addaging, adddt.
+% See also  addsf, addaging, adddt.
 
 % Copyright(c) 2009-2025, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

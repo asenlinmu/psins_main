@@ -7,7 +7,7 @@ function [data,dt] = adddt(data, dt)
 % Output; data - data output
 %         dt - time to shift
 %
-% See also  getat, sortt, tshift, delbias, scalet, addclmt.
+% See also  tt0, getat, sortt, tshift, delbias, scalet, addclmt.
 
 % Copyright(c) 2009-2020, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

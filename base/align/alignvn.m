@@ -34,6 +34,9 @@ global glv
     if nargin<6,  wvn = 0.01;  end;  if length(wvn)==1, wvn=repmat(wvn,3,1); end
     if nargin<5,  imuerr = imuerrset(0.01, 100, 0.001, 1);  end
     if nargin<4,  phi0 = [1.5; 1.5; 3]*glv.deg;  end
+    if isempty(wvn), wvn=0.01; end
+    if isempty(imuerr), imuerr = imuerrset(0.01, 100, 0.001, 1);  end
+    if isempty(phi0), phi0 = [1.5; 1.5; 3]*glv.deg;  end
     if length(pos)==1, pos=[pos;0;0]; end
     [nn, ts, nts] = nnts(2, diff(imu(1:2,end)));
     if length(qnb)==1, qnb=a2qua(aligni0(imu(1:fix(qnb/ts),:),pos,0)); % 11/12/2024

@@ -15,7 +15,7 @@ function [att0, attk, xkpk, kfs] = alignvn_kfs(imu, qnb, pos, phi0, imuerr, wvn,
 %         attk, xkpk - for debug
 %         kf - kf statistic
 %
-% See also  alignvn, kfstat.
+% See also  alignvn, kfstat, test_align_two_position.
 
 % Copyright(c) 2009-2018, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -48,13 +48,14 @@ global glv
         if mod(k-1,4)==0 && norm(phim)<100*glv.dps*nts
             kf = kfupdate(kf, vn);
             kfs = kfstat(kfs, kf, 'B');
-%             kfs = kfstat(kfs, kf, 'T');
-%            kfs = kfstat(kfs, kf, 'M');
+            %  kfs = kfstat(kfs, kf, 'T');
+            % kfs = kfstat(kfs, kf, 'M');
         else
             kf = kfupdate(kf);
             kfs = kfstat(kfs, kf, 'T');
         end
-%         kfs = kfstat(kfs, kf, 'B');
+        % kf = kfupdate(kf, vn);
+        % kfs = kfstat(kfs, kf, 'B');
         qnb = qdelphi(qnb, 0.1*kf.xk(1:3)); kf.xk(1:3) = 0.9*kf.xk(1:3);
         vn = vn-0.1*kf.xk(4:6);  kf.xk(4:6) = 0.9*kf.xk(4:6);
         attk(ki,:) = [q2att(qnb)', t];
@@ -67,7 +68,7 @@ global glv
     resdisp('Initial align attitudes (arcdeg)', att0/glv.deg);
     avnplot(attk, xkpk);
     kfs = kfstat(kfs);
-    kfsplot(kfs, 0);
+    kfsplot(kfs, 1);
     
 function kf = avnkfinit(nts, pos, phi0, imuerr, wvn)
     eth = earth(pos); wnie = eth.wnie;
@@ -79,7 +80,7 @@ function kf = avnkfinit(nts, pos, phi0, imuerr, wvn)
 	kf.Pxk = diag([phi0; [1;1;1]; imuerr.eb; imuerr.db])^2;
 	Ft = zeros(12); Ft(1:3,1:3) = askew(-wnie); kf.Phikk_1 = eye(12)+Ft*nts;
 	kf.Hk = [zeros(3),eye(3),zeros(3,6)];
-    [kf.m, kf.n] = size(kf.Hk);
+    [kf.m, kf.n] = size(kf.Hk);  kf.Kk=zeros(kf.n,kf.m);
     kf.I = eye(kf.n);
     kf.xk = zeros(kf.n, 1);
     kf.measmask = [];

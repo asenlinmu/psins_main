@@ -7,7 +7,7 @@ function [imu, sw, sf] = imustaticscale(imu, pos)
 %    pos - sampling position
 % Output: imu - new SIMU data with adequate incremental sampling output
 %
-% See also  imuscale, imustatic.
+% See also  imustaticdeleb, imuscale, imustatic.
 
 % Copyright(c) 2009-2022, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi'an, P.R.China

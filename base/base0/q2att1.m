@@ -1,7 +1,7 @@
 function [att, Cnb] = q2att1(qnb, yaw0)
 % Convert attitude quaternion to Euler attitude angles.
 % NOTE: the output Euler angle sequence is pitch->yaw->roll, 
-% which is always used by launch vehicle.
+% which is always used by launch vehicle. (in F/x-U/y-R/z order)
 %
 % Prototype: att = q2att1(qnb)
 % Input: qnb - attitude quaternion

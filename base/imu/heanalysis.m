@@ -18,13 +18,17 @@ function mebxy = heanalysis(gyac, yaw, lat, eb, db)
 global glv
     if nargin<5, db=zeros(3,1);  end
     if nargin<4, eb=zeros(3,1);  end
+    [wnie,g,gn] = wnieg(lat);
     [M, N] = size(gyac);
+    if N==4  % input to be estimated attitude NOTE: 4-column gyac=[pch,rll,yaw,t], trans to gyro-acc data, 2025-12-1
+        N=6; att=gyac(:,1:3); gyac=zeros(M,N);
+        for k=1:M, Cbn=a2mat(att(k,:)')'; gyac(k,:)=[Cbn*wnie;-Cbn*gn]; end
+    end
     for k=1:3, gyac(:,k)=gyac(:,k)-eb(k); end
     if N>3, for k=1:3, gyac(:,3+k)=gyac(:,3+k)-db(k); end; end
-    [wnie,g,gn] = wnieg(lat);
     wbie = zeros(M,3);  attk = zeros(M,3);
     for k=1:M
-        if N<4, acc=[0;0;g]; else, acc=gyac(k,4:6)'; end
+        if N<4, acc=[0;0;g]; else, acc=gyac(k,4:6)'; end  % N==3, gyro input only
         [qnb, att, Cnb] = sv2atti([0;0;g], acc, yaw(k));
         wbie(k,:) = wnie'*Cnb;
         [qnb, att, Cnb] = dv2atti([0;0;g], wnie, acc, gyac(k,1:3)');
@@ -34,14 +38,15 @@ global glv
     yawerr = attk(:,3)-yaw;  yaw=yawcvt(yaw,'cc180c360');
     idx=yawerr>pi; yawerr(idx)=yawerr(idx)-2*pi;  idx=yawerr<-pi; yawerr(idx)=yawerr(idx)+2*pi;
     myfig,
+	enE = err(:,1).*cos(yaw)+err(:,2).*sin(yaw);  % 2025-11-22
     if N>3
-        subplot(221), plot(yaw/glv.deg, err(:,1:2)/glv.dph, '--o');  xygo('y', 'ebxy');
+        subplot(221), plot(yaw/glv.deg, [err(:,1:2),enE]/glv.dph, '--o');  xygo('y', 'ebxy,enE / (\circ/h)');
         subplot(223), plot(yaw/glv.deg, yawerr/glv.min, '--o');  xygo('y', 'dyaw');
         subplot(322), plot(yaw/glv.deg, attk(:,1)/glv.deg, '--o');  xygo('y', 'p');
         subplot(324), plot(yaw/glv.deg, attk(:,2)/glv.deg, '--o');  xygo('y', 'r');
         subplot(326), plot(yaw/glv.deg, err(:,3)/glv.dph, '--o');  xygo('y', 'ebz');
     else
-        subplot(221), plot(yaw/glv.deg, err(:,1:2)/glv.dph, '--o');  xygo('y', 'ebxy');
+        subplot(221), plot(yaw/glv.deg, [err(:,1:2),enE]/glv.dph, '--o');  xygo('y', 'ebxy,enE (\circ/h)');
         subplot(223), plot(yaw/glv.deg, yawerr/glv.min, '--o');  xygo('y', 'dyaw');
         subplot(222), plot(yaw/glv.deg, err(:,3)/glv.dph, '--o');  xygo('y', 'ebz');
     end

@@ -18,6 +18,10 @@ function [att, att0, res] = aligni0(imu, pos, isfig)
 %     att0 = aligni0(datacut(imu,t0,t1), getat(gps(:,4:end),t0));
 %     avp = inspure(datacut(imu,t1,t2), [att0;getat(gps(:,4:end),t1)], 'f');
 %
+%    tt = [1;200;inf];
+%    att = aligni0(datacut(imu,tt(1),tt(2),'(]'), pos);
+%    avp = inspure(datacut(imu,tt(2),tt(3),'(]'),[att;pos]);
+%
 % See also  alignfn, alignvn, aligni0vn, alignpe, aligni0fitp, aligncmps, alignWahba, alignsb, i0fvp.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
@@ -71,7 +75,7 @@ global glv
 %     attk(1:k0,:) = repmat(attk(k0+1,:),k0,1);
     Cni0 = [0,1,0; -eth.sl,0,eth.cl;  eth.cl,0,eth.sl];
     att0 = q2att(qmul(m2qua(Cni0),qi0ib0));
-    attk(1:k0,:) = repmat(att0',k0,1);
+    attk(1:k0,:) = repmat(att0',k0,1);  % assume to be static within [0,k0*nts]
     attkv(1:k0,:) = repmat(attkv(k0+1,:),k0,1);
     tk = imu(nn:nn:length(attk)*nn,end); attk(:,4) = tk; attkv(:,4) = tk;
     att = attk(end,1:3)';

@@ -9,7 +9,7 @@ function att = atttrans(att, typ, fireAng)
 %         fireAng - firing/shooting angle, NOTE: counter-clockwise to be +
 % Output: att - attitude out =[pitch,roll,yaw]
 %
-% See also  q2att, q2att1, axxx2a, attrf, avptrans.
+% See also  q2att, q2att1, axxx2a, attrf, attrfu, avptrans.
 
 % Copyright(c) 2009-2023, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

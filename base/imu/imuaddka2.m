@@ -7,7 +7,7 @@ function imu = imuaddka2(imu, ka2, ka1)
 %         ka1 - if considering linear scale factor compensation, 1 for yes, 0 for no
 % Output: imu - output SIMU data added errors
 %
-% See also  imuadderr, imuerrset, imuclbt, imudeldrift.
+% See also  imuadderr, imuaddka, imuerrset, imuclbt, imudeldrift.
 
 % Copyright(c) 2009-2022, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

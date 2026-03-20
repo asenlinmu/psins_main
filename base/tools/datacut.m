@@ -7,7 +7,7 @@ function [data, idx, m, s] = datacut(data0, t1, t2, co)
 %         co - closed or open interval
 % Outputs: data, idx - output data & index in data0
 %
-% See also  datahalf, datacuts, datadel, getat, combinet.
+% See also  cut, datahalf, datacuts, datadel, getat, combinet, txtcut.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -28,6 +28,7 @@ function [data, idx, m, s] = datacut(data0, t1, t2, co)
         return;
     end
     if nargin<3, t2=data0(end,end); end
+    if t2<=0&&t1>=0, t1=data0(1,end)+t1; t2=data0(end,end)+t2; end  % relative time cut, 2025-12-1
     if co(1)=='[', i1 = find(data0(:,end)>=t1, 1, 'first');  % left bound
     else           i1 = find(data0(:,end)> t1, 1, 'first');  end
     if co(2)==']', i2 = find(data0(:,end)<=t2, 1, 'last');   % right bound

@@ -31,8 +31,8 @@ for k=1:nn:len-nn+1
     kfs = kfstat(kfs, kf, 'T');
     if mod(t,1)==0
         posGPS = trj.avp(k1,7:9)' + davp0(7:9).*randn(3,1);  % GPS pos simulation with some white noise
-        kf = kfupdate(kf, ins.pos-posGPS, 'M');
-        kfs = kfstat(kfs, kf, 'M');
+        % kf = kfupdate(kf, ins.pos-posGPS, 'M');
+        % kfs = kfstat(kfs, kf, 'M');
         kfs = kfstat(kfs);
         pqr(:,:,ki) = [kfs.p, kfs.q, kfs.r];
         [kf, ins] = kffeedback(kf, ins, 1, 'avp');

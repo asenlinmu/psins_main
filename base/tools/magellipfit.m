@@ -36,13 +36,14 @@ function [mag1, K, b, K1, b1, K0, b0, err] = magellipfit(mag0, isfig)
     K = K1*diag(K0); b = b0+(K1*diag(K0))^-1*b1;
     mag1 = delbias(mag*K1', b1);
     % mag2 = delbias(mag0,b)*K'; mag3 = delbias(delbias(mag0,b0)*diag(K0)'*K1',b1); myfig; plot([mag2-mag1,mag3-mag1]);
-    err = ym - hm*xm;
+    err = ym - hm*xm;   
+    %  err = [mag1-vnormlz(mag1), err];
     if nargin<2, isfig=1; end
     if isfig==1
         myfig
         subplot(321), plot([mag0(:,1:3),normv(mag0(:,1:3))]), xygo('k', 'mag raw');
         subplot(323), plot([mag1,normv(mag1(:,1:3))]), xygo('k', 'mag scaled & fitted'); plot(mag,':');
-                      title(sprintf('K:%.4f,%.4f,%.4f;   b:%.1f,%.1f,%.1f',K(1,1),K(2,2),K(3,3),b(1),b(2),b(3)));
+                      title(sprintf('K:%.4f,%.4f,%.4f;   b:%.3f,%.3f,%.3f',K(1,1),K(2,2),K(3,3),b(1),b(2),b(3)));
         subplot(325), plot(err); xygo('k', 'norm fitted error');
         subplot(3,2,[2,4,6])
         r=0.95; [x, y, z] = ellipsoid(0,0,0,r,r,r,20); 

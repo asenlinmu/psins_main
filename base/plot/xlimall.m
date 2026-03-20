@@ -5,7 +5,7 @@ function xlimall(x0, x1, fign)
 % Inputs: x0, x1 - xlim value.
 %         fign - figure NO.
 %
-% See also  ylimall, gridall, xlabelall, scft0, xygo, mylegend.
+% See also  ylimall, gridall, xlaball, scft0, xygo, mylegend.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

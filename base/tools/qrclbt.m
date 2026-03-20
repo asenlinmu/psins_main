@@ -12,11 +12,19 @@ function [Kg, eb, Ka, db, q] = qrclbt(Kg, eb, Ka, db, lu)
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 25/04/2024
-    if nargin<=2      %  [clbt, q] = qrclbt(clbt, lu)
-        if nargin<2, lu = 'L'; end
-        clbt = Kg;
-        [clbt.Kg, clbt.eb, clbt.Ka, clbt.db, q] = qrclbt(clbt.Kg, clbt.eb, clbt.Ka, clbt.db, lu);
-        Kg = clbt.Kg; eb = q;
+    if nargin<=3 
+        if ~isstruct(Kg)  % [Kg, Ka, q] = qrclbt(Kg, Ka, lu);
+            if nargin<3, lu = 'L'; end
+            Ka = eb;
+            [Kg, eb, Ka, db, q] = qrclbt(Kg, zeros(3,1), Ka, zeros(3,1), lu);
+            eb = Ka;  Ka = q;
+            return
+        else     %  [clbt, q] = qrclbt(clbt, lu)
+            if nargin<2, lu = 'L'; end
+            clbt = Kg;
+            [clbt.Kg, clbt.eb, clbt.Ka, clbt.db, q] = qrclbt(clbt.Kg, clbt.eb, clbt.Ka, clbt.db, lu);
+            Kg = clbt.Kg; eb = q;
+        end
         return;
     end
     if nargin<5, lu = 'L'; end

@@ -20,6 +20,6 @@ paras = [
 ];  paras(:,5) = paras(:,5)*glv.deg;
 att = attrottt(att0, paras, ts);
 imu = avp2imu(att,pos0);
-imuplot(imu,1);
+imuplot(imu,1);  % imuplot(imu,-21);
 imu1 = imuclbt(imu);
 [clbt, av] = sysclbt(imu1, pos0);

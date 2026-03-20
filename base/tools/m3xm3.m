@@ -13,7 +13,7 @@ function m = m3xm3(m1, m2)
 %   m1 = randn(10,9); m2 = randn(3);
 %   m = m3xm3(m1,m2);
 %
-% See also  m3xv3, m2attBatch, m2quaBatch.
+% See also  m3xv3, VmkXkn, m2attBatch, m2quaBatch.
 
 % Copyright(c) 2009-2025, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
