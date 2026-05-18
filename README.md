@@ -774,11 +774,11 @@ $$
 $$
  , $L,\lambda,h$ latitude, longitude and altitude above sea level
 
-$R_{e}$: the Earth\'s semi-major axis, $R_{e}= 6378137m$
+$R_{e}$: the Earth's semi-major axis, $R_{e}= 6378137m$
 
-$f$: the Earth\'s flattening, $f= 1/298.257$ 
+$f$: the Earth's flattening, $f= 1/298.257$ 
 
-$\omega_{ie}$: the Earth\'s angular rate, $\omega_{ie}=7.2921151467E-5rad/s$
+$\omega_{ie}$: the Earth's angular rate, $\omega_{ie}=7.2921151467E-5rad/s$
 
 $g_{0}$: gravity magnitude at the equatorial sea-surface, $g_{0}=9.7803267714m/s^{2}$
 
@@ -811,9 +811,9 @@ $$
 $$
 . The attitude updating interval is $T_{m} = t_{m} - t_{m - 1}$.
 
-$\mathbf{C}_{b_{m}}^{b_{m - 1}}$ is determined by rotation vector $\boldsymbol{\Phi}_{m}$. If 2-sample coning compensation algorithm is applied, then we have $\boldsymbol{\Phi}_{m} = \boldsymbol{\Delta}\boldsymbol{\theta}_{m} + 2/3 \cdot \boldsymbol{\Delta}\boldsymbol{\theta}_{m}(1) \times \boldsymbol{\Delta}\boldsymbol{\theta}_{m}(2)$. Here, $ \boldsymbol{\Delta}\boldsymbol{\theta}_{m}(1),\boldsymbol{\Delta}\boldsymbol{\theta}_{m}(2)$  are gyro angular increments within time intervals $\lbrack t_{m - 1},t_{m - 1/2}\rbrack$ and $\lbrack t_{m - 1/2},t_{m}\rbrack$, and the total increment is $\boldsymbol{\Delta}\boldsymbol{\theta}_{m} = \boldsymbol{\Delta}\boldsymbol{\theta}_{m}(1) + \boldsymbol{\Delta}\boldsymbol{\theta}_{m}(2)$.
+$\mathbf{C}_{b_{m}}^{b_{m - 1}}$ is determined by rotation vector $\boldsymbol{\Phi}_{m}$. If 2-sample coning compensation algorithm is applied, then we have $\boldsymbol{\Phi}_{m} = \boldsymbol{\Delta}\boldsymbol{\theta}_{m} + 2/3 \cdot \boldsymbol{\Delta}\boldsymbol{\theta}_{m}(1) \times \boldsymbol{\Delta}\boldsymbol{\theta}_{m}(2)$. Here, $\boldsymbol{\Delta}\boldsymbol{\theta}_{m}(1), \boldsymbol{\Delta}\boldsymbol{\theta}_{m}(2)$ are gyro angular increments within time intervals $[ t_{m - 1},t_{m - 1/2}]$ and $[ t_{m - 1/2},t_{m}]$, and the total increment is $\boldsymbol{\Delta}\boldsymbol{\theta}_{m} = \boldsymbol{\Delta}\boldsymbol{\theta}_{m}(1) + \boldsymbol{\Delta}\boldsymbol{\theta}_{m}(2)$.
 
-The relationship be DCM $\mathbf{C}$and rotation vector $\mathbf{V}$is  given by
+The relationship be DCM $\mathbf{C}$ and rotation vector $\mathbf{V}$ is given by
 
 $$
 \mathbf{C} = \mathbf{I} + \frac{\sin\lvert\mathbf{V}\rvert}{\lvert\mathbf{V}\rvert}(\mathbf{V} \times ) + \frac{1 - \cos^{2}\lvert\mathbf{V}\rvert}{\lvert\mathbf{V}\rvert^{2}}(\mathbf{V} \times )^{2}
@@ -858,7 +858,7 @@ $$
 
 and where:
 
-$\boldsymbol{\Delta}\mathbf{v}_{m}(1),\boldsymbol{\Delta}\mathbf{v}_{m}(2)$ are accelerometer specific force increments within time intervals  $\lbrack t_{m - 1},t_{m - 1/2}\rbrack$ and $\lbrack t_{m - 1/2},t_{m}\rbrack$.
+$\boldsymbol{\Delta}\mathbf{v}_{m}(1), \boldsymbol{\Delta}\mathbf{v}_{m}(2)$ are accelerometer specific force increments within time intervals $[ t_{m - 1},t_{m - 1/2}]$ and $[ t_{m - 1/2},t_{m}]$.
 
 $\mathbf{v}_{m - 1/2}^{n}$ is obtained by extrapolation method:
 
@@ -1008,7 +1008,7 @@ $\mathbf{M}_{va} = (\mathbf{f}_{sf}^{n} \times )$  , $\mathbf{M}_{vv} = (\mathbf
 $$
 \mathbf{M}_{vf} = \begin{bmatrix}f_{sfx}^{b}\mathbf{C}_{b}^{n} & f_{sfy}^{b}\mathbf{C}_{b}^{n}(:,2) & f_{sfy}^{b}\mathbf{C}_{b}^{n}(:,3) & f_{sfz}^{b}\mathbf{C}_{b}^{n}(:,3)\end{bmatrix}
 $$
-,  $\mathbf{C}_{b}^{n}(:,i)$ =$i$^th^ column of$\mathbf{C}_{b}^{n}$
+,  $\mathbf{C}_{b}^{n}(:,i)$ = the $i$-th column of $\mathbf{C}_{b}^{n}$.
 
 $$
 \mathbf{M}_{pv} = \begin{bmatrix}0 & 1/R_{Mh} & 0 \\\sec L/R_{Nh} & 0 & 0 \\0 & 0 & 1\end{bmatrix}
@@ -1120,7 +1120,7 @@ $$
 \mathbf{H} = \begin{bmatrix}\mathbf{0}_{3 \times 3} & \mathbf{I}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3}\end{bmatrix}
 $$
 
-where $\boldsymbol{\varepsilon}_{w}^{b}$,$\nabla_{w}^{n}$,$\mathbf{v}$ are gyro output noise, accelerometer output noise and velocity measurement noise respectively.
+where $\boldsymbol{\varepsilon}_{w}^{b}$, $\nabla_{w}^{n}$, $\mathbf{v}$ are gyro output noise, accelerometer output noise and velocity measurement noise respectively.
 
 ### B) Large Header Misalignment Angle EKF Model
 
@@ -1331,7 +1331,7 @@ The state components $\mathbf{l}^{b},\tau$ are also assumed to be constant. Note
 
 ### A) DR Algorithm
 
-The output of odometer is the distance increment $\Delta S_{m}$ at time interval $\lbrack t_{m - 1},t_{m}\rbrack$ along the car/vehicle forward direction. We define the average velocity as $v_{OD} = \Delta S_{m}/T_{m}$, which can be seen as a continuous variable without loss of generality. Assume that $\alpha_{\theta},\alpha_{\psi}$ are, respectively, pitch and yaw misalignment angles from odometer/vehicle frame (o-frame) to SIMU b-frame. The odometer measured velocity expressed in b-frame is then written as
+The output of odometer is the distance increment $\Delta S_{m}$ at time interval $[ t_{m - 1},t_{m}]$ along the car/vehicle forward direction. We define the average velocity as $v_{OD} = \Delta S_{m}/T_{m}$, which can be seen as a continuous variable without loss of generality. Assume that $\alpha_{\theta},\alpha_{\psi}$ are, respectively, pitch and yaw misalignment angles from odometer/vehicle frame (o-frame) to SIMU b-frame. The odometer measured velocity expressed in b-frame is then written as
 
 $$
 \mathbf{v}_{OD}^{b} = \mathbf{C}_{o}^{b}\begin{bmatrix}
@@ -1429,7 +1429,7 @@ $$
 \end{aligned}\qquad(10.6-8)
 $$
 
-where  $\mathbf{M}_{Dpa} = \mathbf{M}_{Dpv}(\mathbf{v}_{OD}^{n} \times )$,$\mathbf{M}_{Dpi} = v_{OD}\mathbf{M}_{Dpv}\mathbf{C}_{b}^{n}\mathbf{M}_{\alpha}$,$\mathbf{M}_{Dpk} = \mathbf{M}_{Dpv}\mathbf{v}_{OD}^{n}$.
+where $\mathbf{M}_{Dpa} = \mathbf{M}_{Dpv}(\mathbf{v}_{OD}^{n} \times )$, $\mathbf{M}_{Dpi} = v_{OD}\mathbf{M}_{Dpv}\mathbf{C}_{b}^{n}\mathbf{M}_{\alpha}$, $\mathbf{M}_{Dpk} = \mathbf{M}_{Dpv}\mathbf{v}_{OD}^{n}$.
 
 ### C) SINS/DR Integrated State-space Model
 
@@ -1494,9 +1494,9 @@ $$
   \end{bmatrix}^{T}\qquad(10.7-2)
 $$
 
-where $\alpha$ is the half-apex angle and $\Omega$is the coning frequency.
+where $\alpha$ is the half-apex angle and $\Omega$ is the coning frequency.
 
-Integrating Eq. (10.7-2) over the sampling interval$\lbrack t_{m - 1} + (i - 1)h, t_{m - 1} + ih\rbrack$,gives angular increment vector as
+Integrating Eq. (10.7-2) over the sampling interval $[ t_{m - 1} + (i - 1)h, t_{m - 1} + ih]$, gives angular increment vector as
 
 $$
 \Delta\boldsymbol{\theta}_{m}(i) = \int_{ t_{m - 1} + (i - 1)h}^{ t_{m - 1} + ih}{\boldsymbol{\omega}_{ib}^{b}(t)dt} = \begin{bmatrix}
@@ -1507,7 +1507,7 @@ $$
   \end{bmatrix}\qquad(10.7-3)
 $$
 
-Using $N$ -subsample algorithm over the period$T_{m} = t_{m} - t_{m - 1} = Nh$, a general rotation vector updating formula for coning compensation is:
+Using $N$ -subsample algorithm over the period $T_{m} = t_{m} - t_{m - 1} = Nh$, a general rotation vector updating formula for coning compensation is:
 
 $$
 {\widehat{\boldsymbol{\Phi}}}_{m} = \sum_{i = 1}^{n}{\Delta\boldsymbol{\theta}_{m}(i)} + \lbrack\sum_{i = 1}^{N - 1}{k_{i}\Delta\boldsymbol{\theta}_{m}(i)\rbrack \times}\Delta\boldsymbol{\theta}_{m}(N)\qquad(10.7-4)
@@ -1579,7 +1579,7 @@ $$
   \end{bmatrix} \quad \text{(obscure?)} \qquad(10.7-8)
 $$
 
-Integrating Eq. (10.7-6), it leads to incremental information within sampling interval $\lbrack t_{m - 1} + (i - 1)h, t_{m - 1} + ih\rbrack$,as
+Integrating Eq. (10.7-6), it leads to incremental information within sampling interval $[ t_{m - 1} + (i - 1)h, t_{m - 1} + ih]$, as
 
 $$
 \Delta\boldsymbol{\theta}_{m}(i) = \int_{ t_{m - 1} + (i - 1)h}^{ t_{m - 1} + ih}{\boldsymbol{\omega}_{ib}^{b}(t)dt} = \begin{bmatrix}
@@ -1605,7 +1605,7 @@ $$
 
 where
 
-$\Delta\boldsymbol{\theta}_{m} = \sum_{i = 1}^{N}{k_{i}\Delta\boldsymbol{\theta}_{m}(i)}$,$\Delta\mathbf{v}_{m} = \sum_{i = 1}^{N}{k_{i}\Delta\mathbf{v}_{m}(i)}$
+$\Delta\boldsymbol{\theta}_{m} = \sum_{i = 1}^{N}{k_{i}\Delta\boldsymbol{\theta}_{m}(i)}$, $\Delta\mathbf{v}_{m} = \sum_{i = 1}^{N}{k_{i}\Delta\mathbf{v}_{m}(i)}$
 
 $$
 \Delta\mathbf{v}_{rot,m} = \frac{1}{2}\Delta\boldsymbol{\theta}_{m} \times \Delta\mathbf{v}_{m}
@@ -1639,7 +1639,7 @@ $$
 \end{bmatrix}
 $$
 
-In our trajectory simulation scenario, the Euler angular rate $\mathbf{w} = \begin{bmatrix}\dot{\theta} & \dot{\gamma} & \dot{\psi}\end{bmatrix}^{T}$ =$\begin{bmatrix}\omega_{\theta} & \omega_{\gamma} & \omega_{\psi}\end{bmatrix}^{T}$ and trajectory acceleration$\mathbf{a}^{t} = \begin{bmatrix}a_{x}^{t} & a_{x}^{t} & a_{x}^{t}\end{bmatrix}^{T}$ are taken as original inputs to generate the profile [$\mathbf{A}$,$\mathbf{p}$\], with the whole set of differential equations listed as follows
+In our trajectory simulation scenario, the Euler angular rate $\mathbf{w} = \begin{bmatrix}\dot{\theta} & \dot{\gamma} & \dot{\psi}\end{bmatrix}^{T}$ = $\begin{bmatrix}\omega_{\theta} & \omega_{\gamma} & \omega_{\psi}\end{bmatrix}^{T}$ and trajectory acceleration $\mathbf{a}^{t} = \begin{bmatrix}a_{x}^{t} & a_{x}^{t} & a_{x}^{t}\end{bmatrix}^{T}$ are taken as original inputs to generate the profile [$\mathbf{A}$, $\mathbf{p}$], with the whole set of differential equations listed as follows
 
 $$
 \left\{ \begin{aligned}
@@ -1665,7 +1665,7 @@ A trajectory profile is typically consists of several segments, such as uniform 
 
 ### B) SIMU Sensor Simulation
 
-Beside the previous simulated method to generate the trajectory profile data \[$\mathbf{A}$,$\mathbf{p}$\], a high-precision SINS/GPS post-processing attitude and position results can also be applied to produce the profile, which may greatly improve the sense of reality, while this idea won't be discussed in detail here.
+Beside the previous simulated method to generate the trajectory profile data [$\mathbf{A}$, $\mathbf{p}$], a high-precision SINS/GPS post-processing attitude and position results can also be applied to produce the profile, which may greatly improve the sense of reality, while this idea won't be discussed in detail here.
 
 Based on section A), the formulae to generate SIMU sensor output are
 
@@ -1687,7 +1687,7 @@ $$
 \end{aligned} \right.\qquad(10.8-3)
 $$
 
-where $\boldsymbol{\varsigma}_{m} = \boldsymbol{\omega}_{in,m - 1/2}^{n}T_{m}$,$\boldsymbol{\Phi}_{nb,m}^{b} = \lbrack(\mathbf{C}_{b,m - 1}^{n})^{T}\mathbf{C}_{b,m}^{n}\rbrack_{M \rightarrow RV}$,$\mathbf{v}_{m}^{n} = \mathbf{M}_{pv,m - 1/2}^{- 1}(\mathbf{p}_{m} - \mathbf{p}_{m - 1})$,$\lbrack \bullet \rbrack_{M \rightarrow RV}$ denotes the transformation from DCM to rotation vector, $T_{m} = t_{m} - t_{m - 1}$ is the discrete time interval.
+where $\boldsymbol{\varsigma}_{m} = \boldsymbol{\omega}_{in,m - 1/2}^{n}T_{m}$, $\boldsymbol{\Phi}_{nb,m}^{b} = [(\mathbf{C}_{b,m - 1}^{n})^{T}\mathbf{C}_{b,m}^{n}]_{M \rightarrow RV}$, $\mathbf{v}_{m}^{n} = \mathbf{M}_{pv,m - 1/2}^{- 1}(\mathbf{p}_{m} - \mathbf{p}_{m - 1})$, $[\bullet]_{M \rightarrow RV}$ denotes the transformation from DCM to rotation vector, $T_{m} = t_{m} - t_{m - 1}$ is the discrete time interval.
 
 Considering the following attitude coning and velocity rotation effects
 
