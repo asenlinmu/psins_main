@@ -1393,7 +1393,9 @@ $$
 
 where 
 $$
-\mathbf{M}_{\alpha} = \begin{bmatrix}\sin\alpha_{\psi}\sin\alpha_{\theta} & \cos\alpha_{\psi}\cos\alpha_{\theta} \\cos\alpha_{\psi}\sin\alpha_{\theta} & - \sin\alpha_{\psi}\cos\alpha_{\theta} \\cos\alpha_{\theta} & 0\end{bmatrix}$$\boldsymbol{\delta\alpha} = \begin{bmatrix}\delta\alpha_{\theta} \\delta\alpha_{\psi}\end{bmatrix}$ is the residual errors of misalignment angles,- $\delta K_{OD}$ is odometer scale factor error.
+\mathbf{M}_{\alpha} = \begin{bmatrix}\sin\alpha_{\psi}\sin\alpha_{\theta} & \cos\alpha_{\psi}\cos\alpha_{\theta} \\cos\alpha_{\psi}\sin\alpha_{\theta} & - \sin\alpha_{\psi}\cos\alpha_{\theta} \\cos\alpha_{\theta} & 0\end{bmatrix}
+$$
+$\boldsymbol{\delta\alpha} = \begin{bmatrix}\delta\alpha_{\theta} \\delta\alpha_{\psi}\end{bmatrix}$ is the residual errors of misalignment angles, and $\delta K_{OD}$ is odometer scale factor error.
 
 We rewrite Eq. (10.6-6) as
 
@@ -1688,6 +1690,5 @@ $$
  & \boldsymbol{\Delta}\mathbf{v}_{m} = \lbrack\mathbf{I} + 1/2(\boldsymbol{\Delta}\boldsymbol{\theta}_{m} \times )\rbrack^{- 1}\boldsymbol{\Delta}\mathbf{v}_{sf,m}^{b_{m - 1}}
 \end{aligned} \right.\qquad(10.8-4)
 $$
-$
 
 #THE END OF THIS MANUAL
