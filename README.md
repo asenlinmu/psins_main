@@ -719,21 +719,37 @@ $$
 
 where:
 
-$$ \mathbf{f}_{sf}^{n} = \mathbf{C}_{b}^{n}\mathbf{f}_{sf}^{b} $$
+$$
+\mathbf{f}_{sf}^{n} = \mathbf{C}_{b}^{n}\mathbf{f}_{sf}^{b}
+$$
 
-$$ \boldsymbol{\omega}_{nb}^{b} = \boldsymbol{\omega}_{ib}^{b} - (\mathbf{C}_{b}^{n})^{T}\boldsymbol{\omega}_{in}^{n} $$
+$$
+\boldsymbol{\omega}_{nb}^{b} = \boldsymbol{\omega}_{ib}^{b} - (\mathbf{C}_{b}^{n})^{T}\boldsymbol{\omega}_{in}^{n}
+$$
 
-$$ \boldsymbol{\omega}_{in}^{n} = \boldsymbol{\omega}_{ie}^{n} + \boldsymbol{\omega}_{en}^{n} $$
+$$
+\boldsymbol{\omega}_{in}^{n} = \boldsymbol{\omega}_{ie}^{n} + \boldsymbol{\omega}_{en}^{n}
+$$
 
-$$ \boldsymbol{\omega}_{ie}^{n} = \begin{bmatrix}0 & \omega_{N} & \omega_{U}\end{bmatrix}^{T} = \begin{bmatrix}0 & \omega_{ie}\cos L & \omega_{ie}\sin L\end{bmatrix}^{T} $$
+$$
+\boldsymbol{\omega}_{ie}^{n} = \begin{bmatrix}0 & \omega_{N} & \omega_{U}\end{bmatrix}^{T} = \begin{bmatrix}0 & \omega_{ie}\cos L & \omega_{ie}\sin L\end{bmatrix}^{T}
+$$
 
-$$ \boldsymbol{\omega}_{en}^{n} = \begin{bmatrix}\frac{v_{N}^{n}}{R_{Mh}} & \frac{v_{E}^{n}}{R_{Nh}} & \frac{v_{E}^{n}}{R_{Nh}}\tan L\end{bmatrix}^{T} $$
+$$
+\boldsymbol{\omega}_{en}^{n} = \begin{bmatrix}\frac{v_{N}^{n}}{R_{Mh}} & \frac{v_{E}^{n}}{R_{Nh}} & \frac{v_{E}^{n}}{R_{Nh}}\tan L\end{bmatrix}^{T}
+$$
 
-$$ R_{Mh} = R_{M} + h, \quad R_{Nh} = R_{N} + h $$
+$$
+R_{Mh} = R_{M} + h, \quad R_{Nh} = R_{N} + h
+$$
 
-$$ R_{M} = \frac{R_{N}(1 - e^{2})}{1 - e^{2}\sin^{2}L}, \quad R_{N} = \frac{R_{e}}{\sqrt{1 - e^{2}\sin^{2}L}}, \quad e = \sqrt{2f - f^{2}} $$
+$$
+R_{M} = \frac{R_{N}(1 - e^{2})}{1 - e^{2}\sin^{2}L}, \quad R_{N} = \frac{R_{e}}{\sqrt{1 - e^{2}\sin^{2}L}}, \quad e = \sqrt{2f - f^{2}}
+$$
 
-$$ \mathbf{g}^{n} = \begin{bmatrix}0 & 0 & - g\end{bmatrix}^{T}, \quad g = g_{0}(1 + \beta_{1}\sin^{2}L + \beta_{2}\sin^{4}L) - \beta_{3}h $$
+$$
+\mathbf{g}^{n} = \begin{bmatrix}0 & 0 & - g\end{bmatrix}^{T}, \quad g = g_{0}(1 + \beta_{1}\sin^{2}L + \beta_{2}\sin^{4}L) - \beta_{3}h
+$$
 
 and where:
 
