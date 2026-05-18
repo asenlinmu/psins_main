@@ -742,18 +742,16 @@ $$
 $$
 R_{Mh} = R_{M} + h, \quad R_{Nh} = R_{N} + h
 $$
-
 $$
 R_{M} = \frac{R_{N}(1 - e^{2})}{1 - e^{2}\sin^{2}L}, \quad R_{N} = \frac{R_{e}}{\sqrt{1 - e^{2}\sin^{2}L}}, \quad e = \sqrt{2f - f^{2}}
 $$
-
 $$
 \mathbf{g}^{n} = \begin{bmatrix}0 & 0 & - g\end{bmatrix}^{T}, \quad g = g_{0}(1 + \beta_{1}\sin^{2}L + \beta_{2}\sin^{4}L) - \beta_{3}h
 $$
 
 and where:
 
-$\mathbf{C}_{b}^{n}$ : transformation DCM (Direct Cosine Matrix) from 'right-forward-up' body b-frame to 'east-north-up' navigation n-frame
+$\mathbf{C}_{b}^{n}$: transformation DCM (Direct Cosine Matrix) from 'right-forward-up' body b-frame to 'east-north-up' navigation n-frame
 
 $$
 \boldsymbol{\omega}_{ib}^{b} = \begin{bmatrix}\omega_{ibx}^{b} & \omega_{iby}^{b} & \omega_{ibz}^{b}\end{bmatrix}^{T}
