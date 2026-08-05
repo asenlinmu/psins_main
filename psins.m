@@ -1,4 +1,5 @@
 % Precise Strapdown Inertial Navigation System (PSINS) toolbox by YanG@NWPU
+% PSINS Help
 %
 %   psinsmain --- load PSINS main dialog menu
 %   pdemo     --- list PSINS demo_*/test_* examples, e.g. 'pdemo('ekf')'

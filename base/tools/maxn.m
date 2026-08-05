@@ -2,11 +2,11 @@ function res = maxn(scr, n, dim)
 % Find the n-th max element.
 %
 % Prototype: res = maxn(scr, n, dim)
-% Inputs: scr - data source input to be averaged
-%         n - element number to be averaged
+% Inputs: scr - data source input
+%         n - the n maximum element number
 %         dim - =1 max along rows, =2 max along columns
 %
-% See also  max2, meann, sumn, avar.
+% See also  minn, max2, medianp, meann, sumn, avar.
 
 % Copyright(c) 2009-2020, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

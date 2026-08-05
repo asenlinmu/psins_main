@@ -76,12 +76,12 @@ global glv
             if size(avp,2)==9, t=1:length(t); end
             myfig;
             subplot(321), plot(t, avp(:,1:2)/glv.deg); xygo('pr'); legend('Pitch','Roll');
-            subplot(322), plot(t, avp(:,3)/glv.deg); xygo('y'); legend('Yaw');
+            subplot(322), plot(t, avp(:,3)/glv.deg); xygo('y'); legend('Yaw');  ptitle('y',avp([1,end],3)/glv.deg);
             % subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)]); xygo('V'); legend('V_E','V_N', 'V_U', '|V|');
-            subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2)]); xygo('V'); legend('V_E','V_N', 'V_U', 'V_G');
+            subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2)]); xygo('V'); mylegend('VE','VN', 'VU', 'VG');
 %             subplot(323), plot(t, avp(:,4:6)); xygo('V'); legend('V_E','V_N', 'V_U');
             dxyz = pos2dxyz(avp(:,7:9));
-            subplot(325), plot(t, dxyz(:,[2,1,3])); xygo('DP'); legend('\DeltaLat','\DeltaLon','\DeltaHgt');
+            subplot(325), plot(t, dxyz(:,[2,1,3])); xygo('DP'); mylegend('Dlat','Dlon','DH');
 %             subplot(325), plot(t, [[avp(:,7)-avp(1,7),(avp(:,8)-avp(1,8))*cos(avp(1,7))]*glv.Re,avp(:,9)-avp(1,9)]); xygo('DP');
 %             subplot(3,2,[4,6]), plot(r2d(avp(:,8)), r2d(avp(:,7))); xygo('lon', 'lat');
 %                 hold on, plot(r2d(avp(1,8)), r2d(avp(1,7)), 'rp');
@@ -118,7 +118,7 @@ global glv
             subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+0*avp(:,6).^2)]); xygo('V'); legend('V_E','V_N', 'V_U', '|V|');
 %             subplot(323), plot(t, avp(:,4:6)); xygo('V'); legend('V_E','V_N', 'V_U');
             dxyz = pos2dxyz(avp(:,7:9));
-            subplot(325), plot(t, dxyz(:,[2,1,3])); xygo('DP'); legend('\DeltaLat','\DeltaLon','\DeltaHgt');
+            subplot(325), plot(t, dxyz(:,[2,1,3])); xygo('DP'); mylegend('Dlat','Dlon','DH');
 %             subplot(325), plot(t, [[avp(:,7)-avp(1,7),(avp(:,8)-avp(1,8))*cos(avp(1,7))]*glv.Re,avp(:,9)-avp(1,9)]); xygo('DP');
 %             subplot(3,2,[4,6]), plot(r2d(avp(:,8)), r2d(avp(:,7))); xygo('lon', 'lat');
 %                 hold on, plot(r2d(avp(1,8)), r2d(avp(1,7)), 'rp');
@@ -149,6 +149,16 @@ global glv
         case 'qvpi1', % for launch vehicle
             quat = q32q4(avp(:,1:3));  avp(:,1:3) = q2att1Batch(quat);
             insplot(avp,'avpi');
+        case 'allh', % for launch vehicle
+            myfig;
+            subplot(221), plot(avp(:,end), avp(:,1:2)/glv.deg), xygo('pr');
+            subplot(223), plot(avp(:,end), avp(:,3)/glv.deg), xygo('y');
+            subplot(222), plot(avp(:,5)/glv.deg, avp(:,4)/glv.deg, '-', avp(1,5)/glv.deg, avp(1,4)/glv.deg, 'p'), xygo('lat','lon');
+            subplot(224), plot(avp(:,end), avp(:,6)), xygo('hgt');
+        case 'llh', % for launch vehicle
+            myfig;
+            subplot(211), plot(avp(:,2)/glv.deg, avp(:,1)/glv.deg, '-', avp(1,2)/glv.deg, avp(1,1)/glv.deg, 'p'), xygo('lat','lon');
+            subplot(212), plot(avp(:,end), avp(:,3)), xygo('hgt');
         case {'t/m', 't/h', 't/d'},  % AVP-plot where t-axis in day
             tscalepush(ptype);
             insplot([avp(:,1:9),avp(:,end)/tscaleget()],'avp');
@@ -175,26 +185,30 @@ global glv
         case 'avped'
             myfigure;
             subplot(321), plot(t, avp(:,1:2)/glv.deg); xygo('pr'); legend('Pitch','Roll');
-            subplot(322), plot(t, avp(:,3)/glv.deg); xygo('y'); legend('Yaw');
+            subplot(322), plot(t, avp(:,3)/glv.deg); xygo('y'); legend('Yaw');  ptitle('y',avp([1,end],3)/glv.deg);
             subplot(323), plot(t, [avp(:,4:6),normv(avp(:,4:6))]); xygo('V'); legend('V_E','V_N', 'V_U', '|V|');
             dxyz = pos2dxyz(avp(:,7:9));
-            subplot(324), plot(t, dxyz(:,[2,1,3])); xygo('DP'); legend('\DeltaLat','\DeltaLon','\DeltaHgt');
+            subplot(324), plot(t, dxyz(:,[2,1,3])); xygo('DP'); mylegend('Dlat','Dlon','DH');
 %             subplot(324), plot(t, [[avp(:,7)-avp(1,7),(avp(:,8)-avp(1,8))*cos(avp(1,7))]*glv.Re,avp(:,9)-avp(1,9)]); xygo('DP');
-            subplot(325), plot(t, avp(:,10:12)/glv.dph); xygo('eb'); legend('\epsilon_x','\epsilon_y','\epsilon_z');
-            subplot(326), plot(t, avp(:,13:15)/glv.ug); xygo('db'); legend('\nabla_x','\nabla_y','\nabla_z');
+            subplot(325), plot(t, avp(:,10:12)/glv.dph); xygo('eb'); legend('\epsilon_x','\epsilon_y','\epsilon_z'); ptitle('eb',avp(end,10:12)/glv.dph);
+            subplot(326), plot(t, avp(:,13:15)/glv.ug); xygo('db'); legend('\nabla_x','\nabla_y','\nabla_z'); ptitle('db',avp(end,13:15)/glv.ug);
         case 'avpedl'
             myfigure;
             subplot(421), plot(t, avp(:,1:2)/glv.deg); xygo('pr');
-            subplot(422), plot(t, avp(:,3)/glv.deg); xygo('y');
+            subplot(422), plot(t, avp(:,3)/glv.deg); xygo('y');  ptitle('y',avp(end,3)/glv.deg);
             subplot(423), plot(t, [avp(:,4:6),normv(avp(:,4:6))]); xygo('V');
             dxyz = pos2dxyz(avp(:,7:9));
             subplot(424), plot(t, dxyz(:,[2,1,3])); xygo('DP');
-            subplot(425), plot(t, avp(:,10:12)/glv.dph); xygo('eb');
-            subplot(426), plot(t, avp(:,13:15)/glv.ug); xygo('db');
+            subplot(425), plot(t, avp(:,10:12)/glv.dph); xygo('eb'); ptitle('eb',avp(end,10:12)/glv.dph);
+            subplot(426), plot(t, avp(:,13:15)/glv.ug); xygo('db'); ptitle('db',avp(end,13:15)/glv.ug);
             subplot(427), plot(t, avp(:,16:18)); xygo('L');
         case 'avpedlt'
             insplot(avp, 'avpedl');
             subplot(428), plot(t, avp(:,19)); xygo('dT');
+        case 'avpedod'
+            insplot(avp, 'avpedl');
+            subplot(427), hold off; plot(t, avp(:,[16,18])/glv.deg); xygo('dpy');
+            subplot(428), plot(t, avp(:,17)); xygo('Kod');
         case 'trjpy'  
             py = vn2att(avp(:,[4:6,end]));
             p1 = interp1(avp(:,end), avp(:,1), py(:,end));

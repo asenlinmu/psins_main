@@ -1,4 +1,7 @@
 % Ballistic missile trajectory & SINS/GPS simulation
+% See also  test_ballistic_missile_SINS_error_eval.
+% Copyright(c) 2009-2026, by Gongmin Yan, All rights reserved.
+% Northwestern Polytechnical University, Xi An, P.R.China
 glvs
 ts = 0.01;
 %% trajectory simulation

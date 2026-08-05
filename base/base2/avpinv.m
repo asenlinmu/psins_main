@@ -12,6 +12,8 @@ function avp = avpinv(avp)
 % 16/09/2023
     avp = flipud(avp);
     [m,n] = size(avp);
-    idx = 4:6;
-    if n>10, idx = [4:6,10:12]; end
+    if n>19, idx = [4:6,10:12,19];  % vn,eb,dT
+    elseif n>15, idx = [4:6,10:12]; 
+    elseif n>9, idx = 4:6;
+    end
     avp(:,idx) = -avp(:,idx);

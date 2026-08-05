@@ -30,7 +30,7 @@ function [ps, psf] = POSProcessing(kf, ins, imu, vpGPS, fbstr, ifbstr)
 %     psf = POSFusion(ps.avp, ps.xkpk, ps.iavp, ps.ixkpk);
 %     POSplot(psf);
 % 
-% See also  sinsgps, insupdate, kfupdate, POSFusion, posplot.
+% See also  sinsgps, insupdate, kfupdate, POSFusion, posplot, RTSProcessing.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

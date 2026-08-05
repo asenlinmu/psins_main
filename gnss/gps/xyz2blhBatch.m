@@ -23,6 +23,7 @@ global glv
     N = glv.Re./sqrt(1-glv.e2*sB.^2);
     H = s./cB-N;
     blh = [B, L, H];
+    if size(xyz,2)>3, blh(:,4)=xyz(:,end); end
     if nargout==2
         sL = sin(L); cL = cos(L);
         Cen = [-sL, -sB.*cL, cB.*cL,   cB, -sB.*sL, cB.*sL,  0, cB, sB];

@@ -3,7 +3,7 @@ function ai = swa2ai(swa, k, k1, phi0, wf)
 global glv
     if nargin<5, wf=0; end
     if nargin<4, phi0=0; end
-    if nargin<3, k1=10*glv.dph; end
+    if nargin<3, k1=0*glv.dph; end
     if nargin<2, k=0.27; end
     if length(k)==1, k=repmat(k,3,1); end
     if length(k1)==1, k1=repmat(k1,3,1); end
@@ -13,6 +13,7 @@ global glv
     ts = diff(swa(1:2,end));
     [~,N] = size(swa);
     if N==2, N3=1;  % 1 HRG
+    elseif N==4, N3=3;  % 3 HRG
     elseif N==5, N3=4;  % 4 HRG
     elseif N==7, N3=3;  % 3 HRG IMU
     end

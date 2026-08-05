@@ -23,7 +23,7 @@ global glv
     if ins.openloop==0, ins.eth = ethupdate(ins.eth, pos01, vn01);
     elseif ins.openloop==1, ins.eth = ethupdate(ins.eth, ins.pos0, ins.vn0); end
     ins.wib = phim/nts; ins.fb = dvbm/nts;  % same as trjsimu
-    ins.web = ins.wib - ins.Cnb'*ins.eth.wnie;
+    ins.web = ins.wib - ins.Cnb'*ins.eth.wnie;  ins.wbar = 0.9*ins.wbar + 0.1*ins.web;
 %     ins.wnb = ins.wib - ins.Cnb'*ins.eth.wnin;
     ins.wnb = ins.wib - (ins.Cnb*rv2m(phim/2))'*ins.eth.wnin;  % 2014-11-30
     %% (1)velocity updating

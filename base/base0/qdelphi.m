@@ -14,4 +14,5 @@ function qnb = qdelphi(qpb, phi)
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 31/03/2008
+    if length(phi)==1, phi=[0;0;phi]; end % azimuth only, 2026-5-8
     qnb = qmul(rv2q(phi), qpb);

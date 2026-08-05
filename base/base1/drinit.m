@@ -32,7 +32,7 @@ function dr = drinit(avp0, inst, kod, ts, Td)
     dr.Mpv = [0, 1/dr.eth.RMh, 0; 1/dr.eth.clRNh, 0, 0; 0, 0, 1];
     if nargin<5, Td=0; end
     dr.Td = Td;
-    if Td>0  % for leveling
+    if Td>0  % for low-grade IMU leveling
         xi=0.707; xi2=xi*xi; ws2=9.8/6738160; sigma=2*pi*xi/(Td*sqrt(1.0-xi2)); sigma2=sigma*sigma;
         dr.gck(1) = 3.0*sigma; 
         dr.gck(2) = sigma2*(2.0+1.0/xi2)/ws2-1.0; 

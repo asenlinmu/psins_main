@@ -70,7 +70,7 @@ global glv
     glv.dphpg = glv.dph/glv.g0;     % (arcdeg/hour) / g
     glv.dphpg2 = glv.dphpg/glv.g0;  % (arcdeg/hour) / g^2
     glv.ugpsHz = glv.ug/sqrt(glv.Hz);  % ug / sqrt(Hz)
-    glv.mpsph = 1/sqrt(glv.hur);          % m/s/sqrt(hour)
+    glv.mpspsh = 1/sqrt(glv.hur);          % m/s/sqrt(hour)
     glv.ugpsh = glv.ug/sqrt(glv.hur); % ug / sqrt(hour)
     glv.ugph = glv.ug/glv.hur;      % ug / hour
     glv.ugphpsh = glv.ugph/sqrt(glv.hur);  % ug / hour /sqrt(hur)

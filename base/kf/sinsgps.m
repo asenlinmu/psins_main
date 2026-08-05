@@ -12,10 +12,11 @@ function [avp, xkpk, zkrk, sk, ins, kf] = sinsgps(imu, gps, ins, davp, imuerr, l
 %         davp - AVP array for P0 setting
 %         imuerr - set by function 'imuerrset', for P0 and Qk setting
 %         lever - lever arm from IMU to GNSS,
-%                 if lever(4)=0 then Pk(lever)=0 for no lever estimation, =1 for lever estimation
+%                 if lever(4)=0 then Pk(lever)=0 for no lever estimation, NOTE: lever(4)~=0 affect measurement !
+%                            =1 for lever estimation
 %                 if lever(5)=0 then AVP output IMU position, else lever(5)=1 for GNSS antenna position
 %         dT - time delay from IMU to GNSS, 
-%                 if dT(2)=0 then Pk(dT)=0 for no time delay estimation
+%                 if dT(2)=0 then Pk(dT)=0 for no time delay estimation, NOTE: dT(1)~=0 affect measurement !
 %         rk - measurement noise std(dpos) or std([dvn;dpos])
 %         Pmin - Pmin setting, Pmin<=0 for no Pmin constrain
 %         Rmin - Rmin setting, Rmin<=0 for no adaptive KF, Rmin=0~1 scale for adaptive KF and Rmin = Rk*Rmin
@@ -26,12 +27,11 @@ function [avp, xkpk, zkrk, sk, ins, kf] = sinsgps(imu, gps, ins, davp, imuerr, l
 %   [avp1, xkpk, zkrk, sk, ins1, kf1] = sinsgps(imu, gps, 300);
 %
 % Example 2:  RLG/FOG
-% ins = insinit([yaw;pos], ts);
 % avperr = avperrset([60;300], 1, 100);
 % imuerr = imuerrset(0.03, 100, 0.001, 1);
 % Pmin = [avperrset([0.1,1],0.001,0.01); gabias(0.001, [10,30]); [0.01;0.01;0.01]; 0.0001].^2;
 % Rmin = vperrset(0.001, 0.01).^2;
-% [avp1, xkpk, zkrk, sk, ins1, kf1] = sinsgps(imu, gps, ins, avperr, imuerr, [rep3(1);1;1], [0.01;1], vperrset(0.1,10), Pmin, Rmin, 'avp');
+% [avp1, xkpk, zkrk, sk, ins1, kf1] = sinsgps(imu, gps, [att;pos], avperr, imuerr, [rep3(1);1;1], [0.01;1], vperrset(0.1,10), Pmin, Rmin, 'avp');
 %
 % Example 3:  FOG/MEMS
 % t0 = 1;  t1 = 916;
@@ -43,11 +43,11 @@ function [avp, xkpk, zkrk, sk, ins, kf] = sinsgps(imu, gps, ins, davp, imuerr, l
 % Rmin = vperrset(0.1, 0.3).^2;
 % [avp1, xkpk, zkrk, sk, ins1, kf] = sinsgps(imu(t0/ts:t1/ts,:), gps, ins, avperr, imuerr, rep3(1), 0.1, vperrset(0.1,10), Pmin, Rmin, 'avped');
 % 
-% See also  kfinit, kfupdate, imugpssyn, igsplot, insupdate, posprocessing.
+% See also  sinsgps34rts, kfinit, kfupdate, imugpssyn, igsplot, insupdate, sinsgpsrvs, POSProcessing.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
-% 09/10/2013, 06/02/2021, 02/11/2021, 30/08/2022
+% 09/10/2013, 06/02/2021, 02/11/2021, 30/08/2022, 23/06/2026
 global glv
     [nn, ts, nts] = nnts(2, diff(imu(1:2,end)));
     clmgps = size(gps,2); SatNum = 20; DOP = 1.0;
@@ -61,9 +61,13 @@ global glv
     if ~exist('imuerr', 'var'), imuerr = imuerrset(0.05, 500, 0.001, [10;10;100]); end
     if ~exist('davp', 'var'), davp = avperrset([10;300], 1, [10;30]); end
     if ~exist('ins', 'var'), ins=100; end
-    if ~isstruct(ins)  % sinsgps(imu, gps, T);  T=ins align time
-        [att, att0] = aligni0(imu(1:fix(ins/ts),:), pos0);  imu(1:fix(ins/ts),:)=[];
-        ins = insinit([att0; 0;0;0; pos0], ts); ins.nts=nts;
+    if ~isstruct(ins) 
+        if length(ins)==1   % sinsgps(imu, gps, T);  T=ins align time
+            [~, att0] = aligni0(imu(1:fix(ins/ts),:), pos0);  imu(1:fix(ins/ts),:)=[];  vn0=zeros(3,1);
+        elseif length(ins)==3, att0 = ins; vn0=zeros(3,1);  % sinsgps(imu, gps, att0);
+        elseif length(ins)==6, att0 = ins(1:3); vn0=zeros(3,1); pos0=ins(4:6); % sinsgps(imu, gps, [att0;pos0]);
+        elseif length(ins)==9, att0 = ins(1:3); vn0=zeros(3,1); pos0=ins(7:9); end  % sinsgps(imu, gps, [att0;vn0;pos0]);
+        ins = insinit([att0; vn0; pos0], ts); ins.nts=nts;
     end
     ins.lever = lever(1:3)*(1-lever(4));  ins.tDelay = dT(1)*(1-dT(2));
     ins = inslever(ins, -ins.lever);  ins.vn = ins.vnL; ins.pos = ins.posL;
@@ -78,7 +82,10 @@ global glv
     kf.xk(16:18) = lever(1:3)*lever(4);  kf.xk(19) = dT(1)*dT(2);
     if exist('Pmin', 'var'),
         if sum(Pmin)<=0, kf.pconstrain=0;
-        else kf.Pmin = Pmin; kf.pconstrain = 1; end
+        else, kf.Pmin = Pmin; kf.pconstrain = 1;
+            if lever(4)==0, kf.Pmin(16:18)=0; end
+            if dT(2)==0, kf.Pmin(19)=0; end
+        end
     end
     kf.adaptive = 1;
     if exist('Rmin', 'var'), 
@@ -91,8 +98,8 @@ global glv
     if exist('fbstr', 'var'), kf.fbstr=fbstr; end
     kf.xtau = [ [1;1;1]; [1;1;1]; [1;1;1]; [1;1;1]; [1;1;1]; [1;1;1]; 1]*1;
     imugpssyn(imu(:,end), gps(:,end));
-    len = length(imu); [avp, xkpk, zkrk, sk] = prealloc(fix(len/nn), 16, 2*kf.n+1, 2*kf.m+1, 2);
-    if len<101, return; end;  % return kf struct
+    len = length(imu); [avp, xkpk, zkrk, sk] = prealloc(fix(len/nn), 20, 2*kf.n+1, 2*kf.m+1, 2);
+    if len<101, return; end  % return kf struct
     timebar(nn, len, '19-state SINS/GNSS simulation.'); ki = 1; kiz = 1;
     for k=1:nn:len-nn+1
         k1 = k+nn-1; 
@@ -107,12 +114,12 @@ global glv
             if SatNum<10||DOP>1.5, kgps=0; end  % disable meas
         end
         if kgps>0
-            dtpos=+vn2dpos(ins.eth,ins.vnL,ins.tDelay);
+            dtpos=+vn2dpos(ins.eth,ins.vnL,ins.tDelay-dt);
             if gpspos_only==1
                 zk = ins.posL+dtpos-gps(kgps,1:3)';
                 kf.Hk = [zeros(3,6), eye(3), zeros(3,6), -ins.MpvCnb,-ins.Mpvvn];
             else
-                zk = [ins.vnL+ins.tDelay*ins.anbar;ins.posL+dtpos]-gps(kgps,1:6)';
+                zk = [ins.vnL+(ins.tDelay-dt)*ins.anbar;ins.posL+dtpos]-gps(kgps,1:6)';
 %                 if gps(kgps,7)<10 || (gps(kgps,7)-fix(gps(kgps,7)))*1000>1.2
 %                     zv = ins.Cnb'*zk(1:3); zv(1)=0; zp = ins.MpvCnb^-1*zk(4:6); %zp(1)=0;
 %                     zk = [ins.Cnb*zv; ins.MpvCnb*zp];
@@ -123,10 +130,12 @@ global glv
             zkrk(kiz,:) = [zk; diag(kf.Rk); t];  kiz = kiz+1;
         end
         [kf, ins] = kffeedback(kf, ins, nts);
-        if lever(5)==1,
+        if lever(5)==1
             insL = inslever(ins, ins.lever+kf.xk(16:18));
-            avp(ki,:) = [ins.att; insL.vnL; insL.posL; ins.eb; ins.db; t]';
-        else             avp(ki,:) = [ins.att; ins.vn;  ins.pos;  ins.eb; ins.db; t]';   end
+            avp(ki,:) = [ins.att; insL.vnL; insL.posL; ins.eb; ins.db; ins.lever; ins.tDelay; t]';
+        else
+            avp(ki,:) = [ins.att; ins.vn;  ins.pos;  ins.eb; ins.db; ins.lever; ins.tDelay; t]';
+        end
         xkpk(ki,:) = [kf.xk; diag(kf.Pxk); t]';
         sk(ki,:) = [kf.measlog, t];  kf.measlog=0;  ki = ki+1; 
         timebar;
@@ -137,5 +146,5 @@ global glv
         insplot(avp);
         kfplot(xkpk);
         rvpplot(zkrk);
-        stateplot(sk,length(zk)/3);
+        stateplot(sk,length(kf.Rk)/3);
     end

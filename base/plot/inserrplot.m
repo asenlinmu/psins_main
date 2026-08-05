@@ -108,7 +108,17 @@ global glv
             subplot(425), plot(t, err(:,10:12)/glv.dph); xygo('eb');
             subplot(426), plot(t, err(:,13:15)/glv.ug); xygo('db');
             subplot(427), plot(t, err(:,16:18)); xygo('L');
-            subplot(428), plot(t, err(:,19)); xygo('dT');
+            subplot(428), plot(t, err(:,19)*1000); xygo('dT');
+        case 'avpedod'
+            myfigure;
+            subplot(421), plot(t, err(:,1:2)/glv.sec); xygo('phiEN');
+            subplot(422), plot(t, err(:,3)/glv.min); xygo('phiU');
+            subplot(423), plot(t, err(:,4:6)); xygo('dv');
+            subplot(424), plot(t, [err(:,7:8)*glv.Re,err(:,9)]); xygo('dP');
+            subplot(425), plot(t, err(:,10:12)/glv.dph); xygo('eb');
+            subplot(426), plot(t, err(:,13:15)/glv.ug); xygo('db');
+            subplot(427), plot(t, err(:,[16,18])/glv.deg); xygo('dpy');
+            subplot(428), plot(t, err(:,17)); xygo('Kod');
         case 'kgka'
             myfigure;
             subplot(221), plot(t, err(:,[1,5,9])/glv.ppm); xygo('dKg');

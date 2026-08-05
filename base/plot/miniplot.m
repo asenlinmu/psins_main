@@ -72,7 +72,7 @@ global glv
         case 'phi',
             if sz>4, sz=4; data=data(:,[1:3,end]); end
             sz1=3; data(:,1:sz1)=data(:,1:sz1)/glv.min;
-        case 'dV',
+        case 'dv',
             if sz>4, sz=4; data=data(:,[4:6,end]); end
             sz1=3;
         case 'dP',

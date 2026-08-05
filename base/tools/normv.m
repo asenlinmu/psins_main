@@ -6,7 +6,7 @@ function res = normv(vects, dim)
 %         dim - =1 norm along rows, =2 norm along columns
 % Output: res - norm result
 %
-% See also  N/A.
+% See also  addnormv.
 
 % Copyright(c) 2009-2016, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

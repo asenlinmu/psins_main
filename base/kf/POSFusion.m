@@ -1,4 +1,4 @@
-function psf = POSFusion(rf, xpf, rr, xpr, ratio)
+function psf = POSFusion(rf, xpf, rr, xpr, ratio, isfig)
 % POS data fusion for forward and backward results.
 %
 % Prototype: psf = POSFusion(rf, xpf, rr, xpr, ratio)
@@ -6,7 +6,7 @@ function psf = POSFusion(rf, xpf, rr, xpr, ratio)
 %         xpf - forward state estimation and covariance
 %         rr - backward avp
 %         xpr - backward state estimation and covariance
-%         ratio - the ratio of state estimation used to modify avp.
+%         ratio - the ratio of state estimation Xk used to modify avp.
 % Output: the fields in psf are
 %         rf, pf - avp & coveriance after fusion
 %         r1, p1 - forward avp & coveriance
@@ -17,9 +17,8 @@ function psf = POSFusion(rf, xpf, rr, xpr, ratio)
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 22/01/2014
-    if nargin<5
-        ratio = 1;
-    end
+    if nargin<6,  isfig = 0;  end
+    if nargin<5,  ratio = 1;  end
     [t, i1, i2] = intersect(rf(:,end), rr(:,end));
     n = size(xpf,2)-1;  n2 = n/2;
     r1 = rf(i1,1:end-1); x1 = xpf(i1,1:n2); p1 = xpf(i1,n2+1:end-1);
@@ -42,3 +41,6 @@ function psf = POSFusion(rf, xpf, rr, xpr, ratio)
     rf(isnan(rf)) = 0;
     pf(isnan(pf)) = 0;
     psf = varpack(rf, pf, r1, p1, r2, p2);
+    if isfig==1
+        avpcmpplot(rf, r1, r2);
+    end

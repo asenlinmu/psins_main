@@ -19,7 +19,10 @@ function [err, Kg, eb, Ka, db] = clbtdiff(Kga1, Kga2, gyrofirst)
 % 16/03/2021
 global glv
     if nargin<3, gyrofirst=0; end
-    if isstruct(Kga1), Kga1=[Kga1.Kg;Kga1.eb';Kga1.Ka;Kga1.db']; Kga2=[Kga2.Kg;Kga2.eb';Kga2.Ka;Kga2.db']; end
+    if isstruct(Kga1)
+        Kga1=[Kga1.Kg;Kga1.eb'; Kga1.Ka;Kga1.db'];
+        Kga2=[Kga2.Kg;Kga2.eb'; Kga2.Ka;Kga2.db'];
+    end
     if size(Kga1,1)==6,  % Kga=[Kg; Ka]
         Kga1=[Kga1(1:3,:);zeros(1,3); Kga1(4:6,:);zeros(1,3)];
         Kga2=[Kga2(1:3,:);zeros(1,3); Kga2(4:6,:);zeros(1,3)]; 
@@ -41,6 +44,7 @@ global glv
         Ka = Ka2*Ka1^-1;  db = (db2-db1)';
     end
     return;
+
     % example:
     Kga1 = [eye(3); eye(3)];
     Kga2 = [ [1       -0.0001   0.0002;

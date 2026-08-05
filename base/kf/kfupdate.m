@@ -27,15 +27,16 @@ function kf = kfupdate(kf, yk, TimeMeasBoth)
 % Copyright(c) 2009-2015, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 08/12/2012, 29/08/2013, 16/04/2015, 01/06/2017, 11/03/2018
-    if nargin==1;
+    if nargin==1
         TimeMeasBoth = 'T';
     elseif nargin==2
         TimeMeasBoth = 'B';
     end
     
     if TimeMeasBoth=='T'            % Time Updating
-        kf.xk = kf.Phikk_1*kf.xk;    
-        kf.Pxk = kf.Phikk_1*kf.Pxk*kf.Phikk_1' + kf.Gammak*kf.Qk*kf.Gammak';
+        kf.xkk_1 = kf.Phikk_1*kf.xk;
+        kf.Pxkk_1 = kf.Phikk_1*kf.Pxk*kf.Phikk_1' + kf.Gammak*kf.Qk*kf.Gammak';
+        kf.xk = kf.xkk_1;  kf.Pxk = kf.Pxkk_1;
         kf.measstop = kf.measstop - kf.nts;  kf.measlost = kf.measlost + kf.nts;
     else
         if TimeMeasBoth=='M'        % Meas Updating
@@ -91,9 +92,11 @@ function kf = kfupdate(kf, yk, TimeMeasBoth)
             for k=1:kf.n
                 if kf.Pxk(k,k)<kf.Pmin(k)
                     kf.Pxk(k,k)=kf.Pmin(k);
+                    kf.Pmini(k)=kf.Pmini(k)+1;  % 28/6/2026, Pmin call monitor
                 elseif kf.Pxk(k,k)>kf.Pmax(k)
                     ratio = sqrt(kf.Pmax(k)/kf.Pxk(k,k));
                     kf.Pxk(:,k) = kf.Pxk(:,k)*ratio;  kf.Pxk(k,:) = kf.Pxk(k,:)*ratio;
+                    kf.Pmaxi(k)=kf.Pmaxi(k)+1;
                 end
             end
         end

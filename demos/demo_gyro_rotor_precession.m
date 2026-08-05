@@ -8,7 +8,7 @@ function demo_gyro_rotor_precession(My)
     Jy = 1*Jx; Jz = Jy; J = [Jx; Jy; Jz];
     f = 1; Omega = 2*pi*f;
     if nargin<1
-        My = 1; % N*m       Please try to modify My and see result...
+        My = 100; % N*m       Please try to modify My and see result...
     end
     My = 1e-6*9.8 * My;
     Mx = 0; Mz = 0; M = [Mx;My;Mz];

@@ -1,5 +1,5 @@
 function [phi0, en, phi] = vn2phil(vn, pos0, isfig)
-% Calculating misalign angles from long-time (>20min) pure open-loop SINS velocity error.
+% Calculating misalign angles from long-time (>20min) pure SINS velocity error.
 %
 % Prototype: [phi0, eN, eU] = vn2phil(vn, pos0, isfig)
 % Inputs: vn - long-time pure open-loop SINS velocity error, in most case for static base

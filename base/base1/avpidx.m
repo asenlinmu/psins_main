@@ -9,6 +9,9 @@ function avp = avpidx(data, idx, isdeg, isyawcvt, t0)
 %         t0 - relative start time, i.e. minus t0
 % Output: avp - =[att,vn,pos,t]
 %
+% Examples:
+%   avp = avpidx(dd, [1:3,4:6,7:9,10], 1, 1);
+%
 % See also: subavp, avpcvt, yawcvt, imuidx, gpsidx, ddidx, insplot.
 
 % Copyright(c) 2009-2020, by Gongmin Yan, All rights reserved.

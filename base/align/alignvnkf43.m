@@ -4,20 +4,21 @@ function [av, xkpk] = alignvnkf43(imu, avp0, imuerr, phi0, wvn)
 %
 % Prototype: [av, xkpk] = alignvnkf43(imu, avp0, imuerr, phi0, wvn)
 % Inputs: imu - SIMU data
-%         avp0 - intital [att0,pos0]
+%         avp0 - initial [att0,pos0]
 %         imuerr - IMU error struct, 0-element for no corresponding state esitmated
 %         phi0 - initial misalignment angles
 %         wvn - velocity measure noise
 % Outputs: av - att & vn out:
 %          xkpk - KF xk & Pk
 %
-% See also  alignvn, sysclbt, imuerrset, alignscat.
+% See also  alignvn, sysclbt, imuerrset, alignscat, alignsarkf10.
 
 % Copyright(c) 2009-2025, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 26/10/2025
 global glv
-    if nargin<5, wvn=[1;1;1]*0.001; end
+    if nargin<5, wvn=0.001; end
+    if length(wvn)==1; wvn=[wvn;wvn;wvn]; end
     if nargin<4, phi0=[0.1;0.1;1]*glv.deg; end
     if nargin<3, imuerr=imuerrset(0.01,100,0.001,10, 0.001,1000,10,1000, 10,10,10,10, 10, 10, 10); end
     qnb = a2qua(avp0(1:3)); vn=zeros(3,1); pos0 = avp0(end-2:end);
@@ -27,7 +28,7 @@ global glv
     dotwf = imudot(imu, 5.0);
     kf = alnkfinit(nts,imuerr,phi0,wvn);
     t1s = 0;
-    av = zeros(fix(len*ts),7); xkpk = zeros(fix(len*ts), kf.n*2+1);  kk = 1;
+    av = zeros(len,7); xkpk = zeros(len, kf.n*2+1);  kk = 1;
     timebar(nn, len, sprintf('Initial alignment KF 43-states'));
     for k=1:nn:len-nn
         k1 = k+nn-1;
@@ -42,7 +43,7 @@ global glv
         t1s = t1s + nts;
         kf.Phikk_1 = eye(kf.n)+getFt(fb, wb, q2mat(qnb), wnie, SS)*nts;
         kf = kfupdate(kf);
-        if t1s>(0.2-ts/2)  % kf measurement update every 1 second
+        if t1s>(0.2-ts/2)  % kf measurement update every 0.2 second
             t1s = 0;
             kf = kfupdate(kf, vn);
             qnb = qdelphi(qnb, 0.5*kf.xk(1:3));   kf.xk(1:3) = 0.5*kf.xk(1:3);

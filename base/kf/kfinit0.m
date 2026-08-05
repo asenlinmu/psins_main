@@ -12,7 +12,10 @@ function kf = kfinit0(kf, nts)
     kf.measlog = 0;              % measurement log flag
     if ~isfield(kf, 'xk'),  kf.xk = zeros(kf.n, 1);  end
     if ~isfield(kf, 'Qk'),  kf.Qk = kf.Qt*kf.nts;  end
-    if ~isfield(kf, 'Gammak'),  kf.Gammak = 1; kf.l = kf.n;  else, kf.l=size(kf.Gammak,2);  end
+    if ~isfield(kf, 'Gammak')
+        kf.l=length(kf.Qk);
+        if kf.l==kf.n, kf.Gammak=1; else, kf.Gammak=eye(kf.n,kf.l); end
+    else, kf.l=size(kf.Gammak,2);  end
     if ~isfield(kf, 'fading'),  kf.fading = 1;  end
     if ~isfield(kf, 'adaptive'),  kf.adaptive = 0;  end
 %     if kf.adaptive==1
@@ -29,7 +32,7 @@ function kf = kfinit0(kf, nts)
     if ~isfield(kf, 'xconstrain'),  kf.xconstrain = 0;  end
     if ~isfield(kf, 'pconstrain'),  kf.pconstrain = 0;  end
     kf.Pmax = (diag(kf.Pxk)+1)*1.0e10;
-    kf.Pmin = kf.Pmax*0;
+    kf.Pmin = kf.Pmax*0;  kf.Pmini = kf.Pmin;  kf.Pmaxi = kf.Pmin;
 %     kf.Pykk_1 = kf.Hk*kf.Pxk*kf.Hk'+kf.Rk;
     kf.Pykk_1 = kf.Hk*kf.Pxk*kf.Hk'+0;
     kf.xfb = zeros(kf.n, 1);

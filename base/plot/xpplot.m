@@ -7,6 +7,9 @@ function xpplot(x, p, clm, unt, untstr, clm1, unt1, untstr1)
 %         unt - unit
 %         untstr = unit string to show in ylabel
 %
+% Examples:
+%   xpplot(xk,pk,16:18,'kappa');
+%
 % See also  kfplot, xpclm, pplot, inserrplot, insserrplot, kffile, rvpplot.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
@@ -23,7 +26,8 @@ global glv
     end
     if nargin<5, untstr = '*'; end
     if nargin<4, unt = 1; end
-    if nargin<3, clm = 1:length(x)-1; end
+    if nargin<3, clm = 1:size(x,2)-1; end  % xpplot(x, p)
+    if nargin<2, n=(size(x,2)-1)/2; clm=1:n; p=x(:,n+1:end); x=x(:,[1:n,end]); end  % xpplot(xp)
     if ischar(clm), untstr=clm; clm=1; end   % xpplot(x, p, untstr)
     if ischar(unt), untstr=unt; unt=1; end   % xpplot(x, p, clm, untstr)
     if strcmp(untstr,'phi')

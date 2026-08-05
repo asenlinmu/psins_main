@@ -81,13 +81,13 @@ global glv
     att = attk(end,1:3)';
     res = varpack(lat, nts, vib0k, pib0k, fib0k, vi0k, pi0k, fi0k, attk, attkv, att0, att); 
     resdisp('Initial align attitudes (arcdeg)', att0/glv.deg);
-    if isfig, ai0plot(attk, attkv); end
+    if isfig, ai0plot(attk, attkv, pos); end
     
-function ai0plot(attk, attkv)
+function ai0plot(attk, attkv, pos)
 global glv
     t = attk(:,end);
     myfigure;
     subplot(211), plot(t, attk(:,1:2)/glv.deg), xygo('pr');
-        hold on,  plot(t, attkv(:,1:2)/glv.deg, 'm:'),
+        hold on,  plot(t, attkv(:,1:2)/glv.deg, 'm:'); title(sprintf('pos0=%.6f,%.6f,%.3f',pos(1)/glv.deg,pos(2)/glv.deg,pos(3)));
     subplot(212), plot(t, attk(:,3)/glv.deg), xygo('y');
         hold on,  plot(t, attkv(:,3)/glv.deg, 'm:'), legend('i0 pos', 'i0 vel'); title(sprintf('\\psi=%.4f \\circ', attk(end,3)/glv.deg));

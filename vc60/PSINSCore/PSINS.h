@@ -4,7 +4,7 @@
 Copyright(c) 2015-2024, by YanGongmin, All rights reserved.
 Northwestern Polytechnical University, Xi'an, P.R.China.
 Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 22/11/2021, 17/10/2022, 23/09/2023
-      16/09/2024, 21/11/2025
+      16/09/2024, 21/11/2025, 12/06/2026
 */
 
 #ifndef _PSINS_H
@@ -186,6 +186,7 @@ typedef unsigned int uint;
 #define fDPHXXZ(X,Z)	fXXZU(X,Z,DPH)
 #define fDPSH3(X)		fXXX(X*DPSH)
 #define fDPSHXXZ(X,Z)	fXXZU(X,Z,DPSH)
+#define fMU3(X)			fXXX(X*MIN)
 #define fMG3(X)			fXXX(X*MG)
 #define fMGXXZ(X,Z)		fXXZU(X,Z,MG)
 #define fUG3(X)			fXXX(X*UG)
@@ -1220,6 +1221,7 @@ public:
 	virtual void SetHk(int nnq);
 	virtual void Feedback(int nnq, double fbts);
 	virtual void SetMeas(void) {};
+	void SetFBTauH(double hTau=10.0, double vUTau=INF);  // vertical-channel feedback
 	void SetMeasGNSS(const CVect3 &posgnss=O31, const CVect3 &vngnss=O31, double yawgnss=0.0);
 	void MeasGNSSZvStop(CVect3 &dvnth, double stop=5.0);
 	void MeasGNSSZpStop(CVect3 &dposth, double stop=5.0);
@@ -1295,8 +1297,24 @@ public:
 	void Init(const CSINS &sins0, int grade=-1);
 	virtual void SetHk(int nnq);
 	virtual void Feedback(int nnq, double fbts);
-	void SetMeasCNS(CQuat &qCis);
+	void SetMeasCNS(CQuat &qis);
 	void SetMeasCNS(CVect3 &vqis);
+};
+
+class CGyroCNS:public CSINSGNSS	// Gyro/CNS
+{
+public:
+	double tk;
+	CVect3 eb, mu;
+	CQuat qib;
+	CGyroCNS(void);
+	CGyroCNS(double ts);
+	void Init(const CQuat &qib0, double t0);
+	virtual void SetFt(int nnq);
+	virtual void SetHk(int nnq);
+	virtual void Feedback(int nnq, double fbts);
+	void Update(const CVect3 *pwm, int nSamples, double ts);
+	void SetMeas(CQuat &qis);
 };
 
 class CAlignkf:public CSINSGNSS
@@ -1371,6 +1389,7 @@ public:
 	CSINSGNSSDR(void);
 	CSINSGNSSDR(double ts);
 	void Init(const CSINS &sins0, int grade=-1);
+	CVect3 ODKappa(const CVect3 &kpp);
 	virtual void SetFt(int nnq);
 	virtual void SetHk(int nnq) {};
 	virtual void Feedback(int nnq, double fbts);
@@ -1406,7 +1425,7 @@ class CAutoDrive:public CSINSGNSSOD	// automatic drive low-accuracy SINS/GNSS/OD
 {
 public:
 	double *pPkPhiu, *pPkVu, *pPkHgt, *odLost, *zuptLost, gnssYawRMS, gnssLostdist, gnssLostnofixdist;
-	double nofixYaw0;
+	double nofixYaw0, odWzMax;
 	CWzhold wzhd;
 	int satNum, fixMode, fixLast, fixLost, nofixLost, nofixLast, gnssLast;
 	CVect3 gnssDOP, posStd; 
@@ -1556,8 +1575,9 @@ public:
 	static char dirIn[256], dirOut[256];
 	FILE *rwf;
 	char fname[256], line[512], sstr[64*4];
-	double buff[64];
+	double buff[64], sf[64];
 	float buff32[64];
+	short buff16[64];
 	int columns, linek, items[3];
 	long totsize, remsize, svpos[3];
 
@@ -1570,6 +1590,7 @@ public:
 	void Init(const char *fname0, int columns0=0);
 	int load(int lines=1, BOOL txtDelComma=1);
 	int loadf32(int lines=1);
+	int loadi16(int lines=1);
 	long load(BYTE *buf, long bufsize);
 	void bwseek(int lines, int mod=SEEK_CUR);
 	long filesize(int opt=1);
@@ -1589,6 +1610,7 @@ public:
 	CFileRdWt& operator<<(const CPolyfit3 &pfit);
 	CFileRdWt& operator<<(const CAlignsb &aln);
 	CFileRdWt& operator<<(const CAligni0 &aln);
+	CFileRdWt& operator<<(const CAligni0fit &aln);
 	CFileRdWt& operator<<(const CIMU &imu);
 	CFileRdWt& operator<<(const CSINS &sins);
 	CFileRdWt& operator<<(const CToLCEF &lcef);

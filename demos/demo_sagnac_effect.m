@@ -3,8 +3,8 @@
 % Copyright(c) 2009-2015, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 01/10/2015
-function demo_sagnac_effect(typ)
-    if nargin<1, typ=-1; end
+function demo_Sagnac_effect(typ)
+    if nargin<1, typ=1; end
     hfig = figure;
     for k=0:11
         if ~ishandle(hfig),  break;  end

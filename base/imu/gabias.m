@@ -6,7 +6,7 @@ function bias = gabias(gbias, abias)
 %         abias - acc bias, in ug
 % Output: bias - = [gbias; abias]
 % 
-% See also  imuerrset, avpset, insupdate.
+% See also  imuerrset, avpset, insupdate, dkg9, dka6.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

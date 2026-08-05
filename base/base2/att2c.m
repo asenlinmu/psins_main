@@ -13,6 +13,10 @@ function attc = att2c(att)
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 15/10/2013, 15/03/2014
+    for k=1:3  % 2026-05-29
+        x = cos(att(:,k));  y = sin(att(:,k));
+        att(:,k) = atan2(y, x);
+    end
     attc = [angle2c(att(:,1)), angle2c(att(:,2)), angle2c(att(:,3)), att(:,4:end)];
 
 function ang = angle2c(ang)

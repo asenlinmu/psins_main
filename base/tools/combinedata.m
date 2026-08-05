@@ -1,6 +1,7 @@
 function  [data, dataO] = combinedata(data1, data2)
 % Combine data between data1 & data2, where data1 = [data11, t1], data2 = [data22, t2]
 % such that: data = [data11, t1, data22, dt], where dt = t1-t2.
+%            data0 = [data11, data22, t1];
 % Note: data1 should be higher frequency, and data2 lower frequency.
 %
 % Example:

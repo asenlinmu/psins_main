@@ -1,4 +1,4 @@
-function idx = closest(data, val, UpDown)
+function idx = closest(data, val, UpDown, isfig)
 % Find data index closest to val.
 %
 % Prototype: idx = closest(data, val)
@@ -6,6 +6,7 @@ function idx = closest(data, val, UpDown)
 %         val - bound values
 %         UpDown - increase or descend close flag
 %                  1 for increase close, -1 for descend close, 2 for both
+%         isfig - figure flag
 % Outputs: idx - data index or time tag
 %
 % See also  alignsars, alignvn, aligni0, alignsbtp, insupdate.
@@ -13,6 +14,7 @@ function idx = closest(data, val, UpDown)
 % Copyright(c) 2009-2026, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 08/02/2026
+    if nargin<4, isfig=0; end
     if nargin<3, UpDown=2; end
     idx = [];
     for k=1:length(val)
@@ -27,4 +29,7 @@ function idx = closest(data, val, UpDown)
     idx = sort(idx);
     if size(data,2)>1
         idx = data(idx,end);  % the last column is time tag
+    end
+    if isfig==1
+        myfig;  plot(data); hold on; plot(idx, data(idx), 'o');  xygo('k','val');
     end

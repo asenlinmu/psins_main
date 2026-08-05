@@ -13,7 +13,7 @@ function Hk = kfhk(ins, varargin)
 % 27/03/2014, 02/02/2015
 global psinsdef
     switch(psinsdef.kfhk)
-        case 153,
+        case 153
             Hk = [zeros(3,6), eye(3), zeros(3,6)];
         case 156
             Hk = [zeros(6,3), eye(6), zeros(6,6)];
@@ -27,6 +27,8 @@ global psinsdef
             Hk = [zeros(6,3), eye(6), zeros(6,6), [-ins.CW,-ins.an;-ins.MpvCnb,-ins.Mpvvn]];
         case 246
             Hk = [zeros(6,3), eye(6), zeros(6,15)];
+        case 303
+            Hk = [zeros(3,6), eye(3), zeros(3,21)];
         case 331
             Hk = zeros(1,33);
         case 333

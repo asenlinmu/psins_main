@@ -16,4 +16,4 @@ phi = [.02;.02;.1]*glv.deg;  att0 = q2att(qaddphi(a2qua(att0),phi));
 wvn = [0.01;0.01;0.01];
 [att00, attk] = alignvn(imu, att0, pos0, phi*10, imuerr, wvn);
 %% error comparison
-avpcmpplot(attk, avp(:,[1:3,end]), 'phi');
+avpcmpplot(attk, avp(:,[1:6,end]), 'av');

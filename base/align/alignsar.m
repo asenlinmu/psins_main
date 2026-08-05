@@ -1,20 +1,21 @@
 function [att, att0, res, phi, vnerr] = alignsar(av, pos, isppm, isfig)
 % Single-axis rotation SIMU alignment from AV from open-loop INS update.
+% NOTE: to find and start from the first 0-yaw time.
 %
-% Prototype: [att, attk, eb, db] = alignsb(imu, pos, yaw0, isfig)
-% Inputs: imu - SIMU data
+% Prototype: [att, att0, res, phi, vnerr] = alignsar1(av, pos, isppm, isfig)
+% Inputs: av - att & vel & t array
 %         pos - initial position
-%         ywo0 - initial yaw
+%         isppm - up/z-axis gyro scale factor estimation flag, =0 for no
 %         isfig - figure flag
-% Outputs: att, att0 - attitude align results Euler angles
-%          res, phi - 
+% Outputs: att, att0 - attitude align results, Euler angles & t = [pitch, roll, yaw, t]
+%          res, phi, vnerr -  other results
 %
 % Example
 %   [att, att0] = aligni0(datacut(imu,t0,t1),pos);
 %   avp = inspure(datacut(imu,t1,t2),[att;pos], 'O');
 %   [att1, att01] = alignsar(datacut(avp,t1,t2), pos, 0, 1);
 %
-% See also  alignsars, alignvn, aligni0, alignsbtp, insupdate.
+% See also  alignsars, alignsar1, alignsarkf, alignvn, aligni0, alignsbtp, insupdate.
 
 % Copyright(c) 2009-2025, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -1,15 +1,19 @@
-function Ft = etm(ins)
+function [Ft, Fk] = etm(ins, n, ts)
 % SINS Error Transition Matrix (see my PhD dissertation p39)
 %
-% Prototype: Ft = etm(ins)
-% Input: ins - SINS structrue array
-% Output: Ft - 15x15 error transition matrix
+% Prototype: Ft = etm(ins, n, ts)
+% Inputs: ins - SINS structrue array
+%         n - state dimension
+%         ts = discrete time interval
+% Outputs: Ft - nxn error transition matrix
+%          Fk - discrete-time transition matrix
 %
 % See also  kffk, kfc2d, kfupdate, insupdate.
 
-% Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
+% Copyright(c) 2009-2026, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
-% 27/08/2011, 02/02/2015
+% 27/08/2011, 02/02/2015, 26/04/2026
+    if nargin<2, n=15; end
 	tl = ins.eth.tl; secl = 1/ins.eth.cl;
     f_RMh = 1/ins.eth.RMh; f_RNh = 1/ins.eth.RNh; f_clRNh = 1/ins.eth.clRNh;
     f_RMh2 = f_RMh*f_RMh;  f_RNh2 = f_RNh*f_RNh;
@@ -64,3 +68,5 @@ function Ft = etm(ins)
            Mva    Mvv    Mvp     O33      ins.Cnb 
            O33    Mpv    Mpp     O33      O33
            zeros(6,9)  diag(-1./[ins.tauG;ins.tauA]) ];
+    if n>15, Ft(n,n)=0; end  % 2026-4-26
+    if nargin>2, Fk = eye(n)+Ft*ts; end

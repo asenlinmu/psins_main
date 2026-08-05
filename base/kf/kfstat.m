@@ -3,7 +3,7 @@ function kfs = kfstat(kfs, kf, flag)
 % Ref. 'Yan G. Error Distribution Method and Analysis of Observability Degree 
 %      Based on the Covariances in Kalman Filter, CCC2018'.
 %
-% See also  alignvn_kfs, tbinseval, kfupdate, sinsgps.
+% See also  alignvn_kfs, tbinseval, kfupdate, inserrcov.
 
 % Copyright(c) 2009-2018, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -30,7 +30,7 @@ global glv
             kfs.Pk1 = kfs.Pk1 + kfs.Rsk{s};
         end
         kfs.Pk = IKH*(Phikk_1*kfs.Pk*Phikk_1'+kf.Gammak*Qk*kf.Gammak')*IKH'+Kk*kf.Rk*Kk'; % real Pk
-    else   %  plot,   kfs = kfstat(kfs)
+    else   %  statistics,   kfs = kfstat(kfs)
         n = length(kfs.P0); kfl = length(kfs.Qjk); m = length(kfs.Rsk);
         p = zeros(n); q = zeros(n,kfl); r = zeros(n,m);
         kfs.Pk0 = kfs.Ak0*kfs.P0*kfs.Ak0';
@@ -50,6 +50,7 @@ global glv
         kfs.p = p; kfs.q = q; kfs.r = r;  % p,q,r in Percentage
         s = sum([p, q, r],2);
         for k=1:n, kfs.p(k,:)=kfs.p(k,:)/s(k); kfs.q(k,:)=kfs.q(k,:)/s(k); kfs.r(k,:)=kfs.r(k,:)/s(k); end  % normalize
+        kfs.pqr = [kfs.p, kfs.q, kfs.r];
         kfs.err = sqrt(s) - 1;
     end
         

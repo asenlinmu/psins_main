@@ -1,4 +1,4 @@
-function h = myfig(namestr, ylb)
+function h = myfig(namestr, y_label)
 % Short for myfigure.
 %
 % See also  myfigure, nextlinestyle.
@@ -13,8 +13,12 @@ function h = myfig(namestr, ylb)
             if numel(namestr)==1
                 myfig; subplot(namestr); return;  % myfig, subplot(ijk);
             end
-            if nargin<2, ylb='val'; end
-            myfig; plot(namestr); xygo(ylb);  % myfig, plot(data);
+            if nargin<2, y_label='val'; end
+            if ~ischar(y_label)
+                myfig, plot(namestr,y_label); xygo('val');  % myfig, plot(t,data);
+                return;
+            end
+            myfig; plot(namestr); xygo(y_label);  % myfig, plot(data);
             return;
         end
         h = myfigure(namestr);

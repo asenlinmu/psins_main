@@ -6,7 +6,7 @@ function roll = vn2roll(vn, isfig)
 %         isfig - figure flag
 % Output: roll - roll angle
 %
-% See also  vn2att, pp2vn.
+% See also  vn2att, pp2vn, aoa, aos.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

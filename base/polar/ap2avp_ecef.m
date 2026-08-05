@@ -17,7 +17,7 @@ function  avp = ap2avp_ecef(ap, ts)
     if nargin<2,  ts = ts0;  end
     t = (ap(1,7):ts:ap(end,7))';
     qeb = a2quaBatch(ap(:,1:3));
-    [rv, qeb0] = qq2rvBatch(qeb);  ap(:,1:3) = [[0,0,0];rv];
+    [rv, qeb0] = q2rvBatch(qeb);  ap(:,1:3) = [[0,0,0];rv];
     avp = zeros(length(t), 10);
     for k=1:3  % rv spline interpolation
         avp(:,k) = spline(ap(:,7), ap(:,k)*ts/ts0, t);

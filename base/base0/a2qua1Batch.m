@@ -21,6 +21,7 @@ function qnb = a2qua1Batch(att)
             cp.*sr.*cy - sp.*cr.*sy, ...
             sp.*sr.*cy + cp.*cr.*sy, ...
             sp.*cr.*cy - cp.*sr.*sy ];
+    if size(att,2)>3, qnb(:,5) = att(:,end); end
 
 % syms sp cp sr cr sy cy
 % q = qmul([cp;0;0;sp],[cy;0;sy;0],[cr;sr;0;0])

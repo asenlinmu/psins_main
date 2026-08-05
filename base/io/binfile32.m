@@ -8,10 +8,10 @@ function data1 = binfile32(fname, data, row0, row1)
 %                is the column number of the data saved.
 % Output: data1 - data array read from the binary file
 % Usages: 
-%    Save: binfile(fname, data)
-%    Read: data1 = binfile(fname, column)
+%    Save: binfile32(fname, data)
+%    Read: data1 = binfile32(fname, column)
 %
-% See also  binfile.
+% See also  binfile, binfile16.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -22,7 +22,7 @@ function data1 = binfile32(fname, data, row0, row1)
         if nargin==3, row1=row0; row0=0; end
         columns = data;
         fid = fopen(fname, 'rb');
-        if row0>0, fseek(fid, columns*row0*8, 'bof'); end
+        if row0>0, fseek(fid, columns*row0*4, 'bof'); end
         data1 = fread(fid, [columns,row1-row0], 'float32')';
         data1 = double(data1);
     else               % save: binfile(fname, data)

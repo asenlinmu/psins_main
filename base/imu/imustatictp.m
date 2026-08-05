@@ -1,10 +1,11 @@
-function [imu, att, T1T2] = imustatictp(avp0, ts, T, wz, az, imuerr)
+function [imu, att, T1T2, avp] = imustatictp(avp0, ts, T, wz, az, imuerr)
 % SIMU sensor incremental outputs on static base, for two-position
 % alignment simulation, or can be for single-axis rotation simulation.
 %
 % Prototype: imu = imustatictp(avp0, ts, T, wz, az, imuerr)
 % Inputs: avp0 - initial avp0=[att0,vn0,pos0]
 %         ts - SIMU sampling interval
+%         T - simulation time length
 %         wz - positive rotation angular rate, in rad/s
 %         az - rotation angle, in rad
 %         imuerr - SIMU error setting structure array from imuerrset

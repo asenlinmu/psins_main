@@ -14,6 +14,7 @@ function att1 = adelphi(att, phi)
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 17/11/2021
+    if length(phi)==1, phi=[0;0;phi]; end % azimuth only, 2026-5-8
     if size(att,2)==1
         att1 = q2att(qdelphi(a2qua(att),phi));
     else  % batch processing

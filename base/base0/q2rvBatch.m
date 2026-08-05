@@ -1,12 +1,12 @@
-function [rv, qnb0] = qq2rvBatch(qnb)
+function [rv, qnb0] = q2rvBatch(qnb)
 % Calculate rotation vector from attitude quaternions.
 %
-% Prototype: [rv, qnb0] = qq2rvBatch(qnb)
+% Prototype: [rv, qnb0] = q2rvBatch(qnb)
 % Input: qnb - attitude quaternion serial
 % Output: rv - rotation vector serial between [qnbk_1; qnbk]
-%         qnb0 - intital attitude quaternion
+%         qnb0 - initial attitude quaternion
 %
-% See also  qq2rv, qq2phi, qq2afa.
+% See also  rv2qBatch, qq2rv, qq2phi, qq2afa.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -20,6 +20,7 @@ global glv
             vn(k,1:3) = pp2vn(pos0(k-1,1:3), pos0(k,1:3), ts);
             if size(vn,2)>3, vn(k,4)=vn(k,4)-ts/2; end
         end
+        vn(1,:) = [];
         return;
     end
     if nargin<3
