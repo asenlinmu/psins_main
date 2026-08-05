@@ -134,7 +134,7 @@ Microsoft Windows 7 (SP1) + Matlab 8.2.0 (R2013b) + CPU 2.1GHz + RAM 2.0GB.
 16. avp/avp0: avp = [att, vn, pos, t], t -- time tag. Usually, avp0 specifies the initial navigation parameters, i.e. avp0 = [att0,
     vn0, pos0].
 17. eb/web/db/wdb: eb -- gyro constant drift error; web -- gyro angular random walk coefficient; db -- accelerometer constant bias; wdb -- accelerometer velocity random walk coefficient.
-18. taug/taua: correlation time for gyro/accelerometer $`1^{st}`$ order Markov process.
+18. taug/taua: correlation time for gyro/accelerometer <var>1<sup>st</sup></var> order Markov process.
 19. dKg/dKa: scale factor errors and misalignment errors for gyro/accelerometer triad.
 20. imuerr: structure array including eb, web, db, wdb, taug, taua, dKg and dKa.
 21. wm/vm: the increment of gyro angular/accelerometer velocity sampling data within ts. Sometimes, symbols wib/fb are used for gyro angular rate / accelerometer specific force.
@@ -163,7 +163,7 @@ psinsenvi: PSINS toolbox environment setting.
 
 askew/iaskew: conversion between 3x1 vector and its askew matrix.
 
-If $`\mathbf{V} = [x, y, z]^T`$ and $`\mathbf{M}`$ is its askew matrix, then $`\text{askew}(\mathbf{V}) = \mathbf{M}`$, $`\text{iaskew}(\mathbf{M}) = \mathbf{V}`$.
+If <var>V = [x, y, z]<sup>T</sup></var> and <var>M</var> is its askew matrix, then <var>askew(V) = M</var>, <var>iaskew(M) = V</var>.
 
 ```math
 \mathbf{M} =
@@ -768,7 +768,7 @@ R_{M} = \frac{R_{N}(1 - e^{2})}{1 - e^{2}\sin^{2}L}, \quad R_{N} = \frac{R_{e}}{
 
 and where:
 
-$`\mathbf{C}_{b}^{n}`$ : transformation DCM (Direct Cosine Matrix) from 'right-forward-up' body b-frame to 'east-north-up' navigation n-frame
+<var>C<sub>b</sub><sup>n</sup></var> : transformation DCM (Direct Cosine Matrix) from 'right-forward-up' body b-frame to 'east-north-up' navigation n-frame
 
 ```math
 \boldsymbol{\omega}_{ib}^{b} =
@@ -799,17 +799,17 @@ v_{E}^{n} & v_{N}^{n} & v_{U}^{n}
 L & \lambda & h
 \end{bmatrix}^{T}
 ```
- , $`L,\lambda,h`$ latitude, longitude and altitude above sea level
+ , <var>L,λ,h</var> latitude, longitude and altitude above sea level
 
-$`R_{e}`$: the Earth's semi-major axis, $`R_{e}= 6378137m`$
+<var>R<sub>e</sub></var>: the Earth's semi-major axis, <var>R<sub>e</sub>= 6378137m</var>
 
-$`f`$: the Earth's flattening, $`f= 1/298.257`$
+<var>f</var>: the Earth's flattening, <var>f= 1/298.257</var>
 
-$`\omega_{ie}`$: the Earth's angular rate, $`\omega_{ie}=7.2921151467E-5rad/s`$
+<var>ω<sub>ie</sub></var>: the Earth's angular rate, <var>ω<sub>ie</sub>=7.2921151467E-5rad/s</var>
 
-$`g_{0}`$: gravity magnitude at the equatorial sea-surface, $`g_{0}=9.7803267714m/s^{2}`$
+<var>g<sub>0</sub></var>: gravity magnitude at the equatorial sea-surface, <var>g<sub>0</sub>=9.7803267714m/s<sup>2</sup></var>
 
-$`\beta_{1},\beta_{2},\beta_{3}`$:
+<var>β<sub>1</sub>,β<sub>2</sub>,β<sub>3</sub></var>:
 ```math
 \beta_{1} = 5.27094 \times 10^{-3},\beta_{2} = 2.32718 \times 10^{-5},
 ```
@@ -822,7 +822,7 @@ $`\beta_{1},\beta_{2},\beta_{3}`$:
 
 #### A) Attitude Updating
 
-Using the chain rule of DCM production, $`\mathbf{C}_{b}^{n}`$ at time $`t_{m}`$, i.e. $`\mathbf{C}_{b_{m}}^{n_{m}}`$, is constructed as
+Using the chain rule of DCM production, <var>C<sub>b</sub><sup>n</sup></var> at time <var>t<sub>m</sub></var>, i.e. <var>C<sub>b<sub>m</sub></sub><sup>n<sub>m</sub></sup></var>, is constructed as
 
 ```math
 \mathbf{C}_{b_{m}}^{n_{m}} = \mathbf{C}_{n_{m - 1}}^{n_{m}}\mathbf{C}_{b_{m - 1}}^{n_{m - 1}}\mathbf{C}_{b_{m}}^{b_{m - 1}}\qquad(10.2-1)
@@ -830,17 +830,17 @@ Using the chain rule of DCM production, $`\mathbf{C}_{b}^{n}`$ at time $`t_{m}`$
 
 where
 
-$`\mathbf{C}_{b_{m - 1}}^{n_{m - 1}}`$ is the DCM at time $`t_{m - 1}`$.
+<var>C<sub>b<sub>m - 1</sub></sub><sup>n<sub>m - 1</sub></sup></var> is the DCM at time <var>t<sub>m - 1</sub></var>.
 
-$`\mathbf{C}_{n_{m - 1}}^{n_{m}}`$ is determined by rotation vector $`\boldsymbol{\varsigma}_{m}`$ and
+<var>C<sub>n<sub>m - 1</sub></sub><sup>n<sub>m</sub></sup></var> is determined by rotation vector <var>ς<sub>m</sub></var> and
 ```math
 \boldsymbol{\varsigma}_{m} = - \boldsymbol{\omega}_{in,m - 1/2}^{n}T_{m}
 ```
-. The attitude updating interval is $`T_{m} = t_{m} - t_{m - 1}`$.
+. The attitude updating interval is <var>T<sub>m</sub> = t<sub>m</sub> - t<sub>m - 1</sub></var>.
 
-$`\mathbf{C}_{b_{m}}^{b_{m - 1}}`$ is determined by rotation vector $`\boldsymbol{\Phi}_{m}`$. If 2-sample coning compensation algorithm is applied, then we have $`\boldsymbol{\Phi}_{m} = \boldsymbol{\Delta}\boldsymbol{\theta}_{m} + 2/3 \cdot \boldsymbol{\Delta}\boldsymbol{\theta}_{m}(1) \times \boldsymbol{\Delta}\boldsymbol{\theta}_{m}(2)`$. Here, $`\boldsymbol{\Delta}\boldsymbol{\theta}_{m}(1),\boldsymbol{\Delta}\boldsymbol{\theta}_{m}(2)`$ are gyro angular increments within time intervals $`[t_{m - 1}, t_{m - 1/2}]`$ and $`[t_{m - 1/2}, t_{m}]`$, and the total increment is $`\boldsymbol{\Delta}\boldsymbol{\theta}_{m} = \boldsymbol{\Delta}\boldsymbol{\theta}_{m}(1) + \boldsymbol{\Delta}\boldsymbol{\theta}_{m}(2)`$.
+<var>C<sub>b<sub>m</sub></sub><sup>b<sub>m - 1</sub></sup></var> is determined by rotation vector <var>Φ<sub>m</sub></var>. If 2-sample coning compensation algorithm is applied, then we have <var>Φ<sub>m</sub> = Δθ<sub>m</sub> + 2/3 ·Δθ<sub>m</sub>(1) ×Δθ<sub>m</sub>(2)</var>. Here, <var>Δθ<sub>m</sub>(1),Δθ<sub>m</sub>(2)</var> are gyro angular increments within time intervals <var>[t<sub>m - 1</sub>, t<sub>m - 1/2</sub>]</var> and <var>[t<sub>m - 1/2</sub>, t<sub>m</sub>]</var>, and the total increment is <var>Δθ<sub>m</sub> = Δθ<sub>m</sub>(1) + Δθ<sub>m</sub>(2)</var>.
 
-The relationship between DCM $`\mathbf{C}`$ and rotation vector $`\mathbf{V}`$ is given by
+The relationship between DCM <var>C</var> and rotation vector <var>V</var> is given by
 
 ```math
 \mathbf{C} = \mathbf{I} + \frac{\sin\lvert\mathbf{V}\rvert}{\lvert\mathbf{V}\rvert}(\mathbf{V} \times ) + \frac{1 - \cos^{2}\lvert\mathbf{V}\rvert}{\lvert\mathbf{V}\rvert^{2}}(\mathbf{V} \times )^{2}
@@ -869,11 +869,11 @@ The relationship between DCM $`\mathbf{C}`$ and rotation vector $`\mathbf{V}`$ i
 
 where
 
-$`\mathbf{C}_{n_{m - 1}}^{n_{m - 1/2}}`$ is determined by rotation vector $`\boldsymbol{\varsigma}_{m}/2`$.
+<var>C<sub>n<sub>m - 1</sub></sub><sup>n<sub>m - 1/2</sub></sup></var> is determined by rotation vector <var>ς<sub>m</sub>/2</var>.
 
 If the 2-sample sculling compensation algorithm is applied, then we have
 
-$`\boldsymbol{\Delta}\mathbf{v}_{m} = \boldsymbol{\Delta}\mathbf{v}_{m}(1) + \boldsymbol{\Delta}\mathbf{v}_{m}(2)`$,
+<var>Δv<sub>m</sub> = Δv<sub>m</sub>(1) + Δv<sub>m</sub>(2)</var>,
 ```math
 \boldsymbol{\Delta}\mathbf{v}_{rot,m} = 1/2 \cdot \boldsymbol{\Delta}\boldsymbol{\theta}_{m} \times \boldsymbol{\Delta}\mathbf{v}_{m}
 ```
@@ -885,9 +885,9 @@ and
 
 and where:
 
-$`\boldsymbol{\Delta}\mathbf{v}_{m}(1),\boldsymbol{\Delta}\mathbf{v}_{m}(2)`$ are accelerometer specific force increments within time intervals $`[t_{m - 1}, t_{m - 1/2}]`$ and $`[t_{m - 1/2}, t_{m}]`$.
+<var>Δv<sub>m</sub>(1),Δv<sub>m</sub>(2)</var> are accelerometer specific force increments within time intervals <var>[t<sub>m - 1</sub>, t<sub>m - 1/2</sub>]</var> and <var>[t<sub>m - 1/2</sub>, t<sub>m</sub>]</var>.
 
-$`\mathbf{v}_{m - 1/2}^{n}`$ is obtained by extrapolation method:
+<var>v<sub>m - 1/2</sub><sup>n</sup></var> is obtained by extrapolation method:
 
 ```math
 \mathbf{v}_{m - 1/2}^{n} = \mathbf{v}_{m - 1}^{n} + \mathbf{a}_{m - 1}^{n}T_{m}/2
@@ -903,7 +903,7 @@ $`\mathbf{v}_{m - 1/2}^{n}`$ is obtained by extrapolation method:
 {\bar{\mathbf{v}}}_{m - 1/2}^{n} = (\mathbf{v}_{m - 1}^{n} + \mathbf{v}_{m}^{n})/2\qquad(10.2-7)
 ```
 
-The position information $`\mathbf{p}_{m - 1/2}`$ implied in the above notations $`\mathbf{g}_{m - 1/2}^{n}`$, $`\boldsymbol{\omega}_{in,m - 1/2}^{n}`$, $`\boldsymbol{\omega}_{ie,m - 1/2}^{n}`$, $`\boldsymbol{\omega}_{en,m - 1/2}^{n}`$ and $`\mathbf{M}_{pv,m - 1/2}`$ can also be calculated by extrapolation method:
+The position information <var>p<sub>m - 1/2</sub></var> implied in the above notations <var>g<sub>m - 1/2</sub><sup>n</sup></var>, <var>ω<sub>in,m - 1/2</sub><sup>n</sup></var>, <var>ω<sub>ie,m - 1/2</sub><sup>n</sup></var>, <var>ω<sub>en,m - 1/2</sub><sup>n</sup></var> and <var>M<sub>pv,m - 1/2</sub></var> can also be calculated by extrapolation method:
 
 ```math
 \mathbf{p}_{m - 1/2} = \mathbf{p}_{m - 1} + \mathbf{M}_{pv,m - 1}\mathbf{v}_{m - 1}^{n}T_{m}/2 \approx \mathbf{p}_{m - 1} + \mathbf{M}_{pv,m - 3/2}\mathbf{v}_{m - 1}^{n}T_{m}/2
@@ -933,7 +933,7 @@ Under small disturbance assumption, the SINS error propagation satisfies the fol
 \delta\dot{h} = \delta v_{U}^{n}\qquad(10.3-5)
 ```
 
-Assume the gyro- and accelerometer-outputs are $`{\widetilde{\boldsymbol{\omega}}}_{ib}^{b}`$ and $`{\widetilde{\mathbf{f}}}_{sf}^{b}`$, then their corresponding errors are
+Assume the gyro- and accelerometer-outputs are <var>ω<sub>ib</sub><sup>b</sup></var> and <var>f<sub>sf</sub><sup>b</sup></var>, then their corresponding errors are
 
 ```math
 \boldsymbol{\delta}\boldsymbol{\omega}_{ib}^{b} = {\widetilde{\boldsymbol{\omega}}}_{ib}^{b} - \boldsymbol{\omega}_{ib}^{b} = \boldsymbol{\delta}\mathbf{K}_{g}\boldsymbol{\omega}_{ib}^{b} + \boldsymbol{\varepsilon}^{b}
@@ -963,11 +963,11 @@ where
 ```
 . And where
 
-$`\delta k_{gii},(i = x,y,z)`$ are gyro scale factor errors;
+<var>δk<sub>gii</sub>,(i = x,y,z)</var> are gyro scale factor errors;
 ```math
 \delta k_{gij},(i,j = x,y,z,i \ne j)
 ```
- are gyro actual axis misalignment angles with respect to ideal body frame axis; $`\delta k_{aii},(i = x,y,z)`$ are accelerometer scale factor errors;
+ are gyro actual axis misalignment angles with respect to ideal body frame axis; <var>δk<sub>aii</sub>,(i = x,y,z)</var> are accelerometer scale factor errors;
 ```math
 \delta k_{aij},(i,j = x,y,z,i \neq j)
 ```
@@ -1017,7 +1017,7 @@ where
 \delta L & \delta\lambda & \delta h
 \end{bmatrix}^{T}
 ```
-: $`\delta L,\delta\lambda,\delta h`$ represent latitude, longitude and altitude errors respectively
+: <var>δL,δλ,δh</var> represent latitude, longitude and altitude errors respectively
 
 ```math
 \boldsymbol{\varepsilon}^{b} =
@@ -1051,7 +1051,7 @@ where
 
 and where
 
-$`\mathbf{M}_{aa} = ( - \boldsymbol{\omega}_{in}^{n} \times )`$ ,
+<var>M<sub>aa</sub> = ( - ω<sub>in</sub><sup>n</sup> ×)</var> ,
 ```math
 \mathbf{M}_{av} =
 \begin{bmatrix}
@@ -1060,7 +1060,7 @@ $`\mathbf{M}_{aa} = ( - \boldsymbol{\omega}_{in}^{n} \times )`$ ,
 \tan L/R_{Nh} & 0 & 0
 \end{bmatrix}
 ```
- , $`\mathbf{M}_{ap} = \mathbf{M}_{1} + \mathbf{M}_{2}`$
+ , <var>M<sub>ap</sub> = M<sub>1</sub> + M<sub>2</sub></var>
 
 ```math
 \mathbf{M}_{ag} =
@@ -1071,7 +1071,7 @@ $`\mathbf{M}_{aa} = ( - \boldsymbol{\omega}_{in}^{n} \times )`$ ,
 \end{bmatrix}
 ```
 
-$`\mathbf{M}_{va} = (\mathbf{f}_{sf}^{n} \times )`$, $`\mathbf{M}_{vv} = (\mathbf{v}^{n} \times )\mathbf{M}_{av} - ((2\boldsymbol{\omega}_{ie}^{n} + \boldsymbol{\omega}_{en}^{n}) \times )`$, $`\mathbf{M}_{vp} = (\mathbf{v}^{n} \times )(2\mathbf{M}_{1} + \mathbf{M}_{2}) + \mathbf{M}_{3}`$
+<var>M<sub>va</sub> = (f<sub>sf</sub><sup>n</sup> ×)</var>, <var>M<sub>vv</sub> = (v<sup>n</sup> ×)M<sub>av</sub> - ((2ω<sub>ie</sub><sup>n</sup> + ω<sub>en</sub><sup>n</sup>) ×)</var>, <var>M<sub>vp</sub> = (v<sup>n</sup> ×)(2M<sub>1</sub> + M<sub>2</sub>) + M<sub>3</sub></var>
 
 ```math
 \mathbf{M}_{vf} =
@@ -1082,7 +1082,7 @@ f_{sfy}^{b}\mathbf{C}_{b}^{n}(:,3) &
 f_{sfz}^{b}\mathbf{C}_{b}^{n}(:,3)
 \end{bmatrix}
 ```
-where $`\mathbf{C}_{b}^{n}(:,i)`$ is the $`i`$-th column of $`\mathbf{C}_{b}^{n}`$
+where <var>C<sub>b</sub><sup>n</sup>(:,i)</var> is the <var>i</var>-th column of <var>C<sub>b</sub><sup>n</sup></var>
 
 ```math
 \mathbf{M}_{pv} =
@@ -1152,7 +1152,7 @@ where
 \end{bmatrix}
 ```
 
-The state components  $`\boldsymbol{\varepsilon}^{b},\nabla^{b},\boldsymbol{\delta}{\bar{\mathbf{K}}}_{g},\boldsymbol{\delta}{\bar{\mathbf{K}}}_{a}`$  are all assumed to be constant vectors.
+The state components  <var>ε<sup>b</sup>,∇<sup>b</sup>,δK<sub>g</sub>,δK<sub>a</sub></var>  are all assumed to be constant vectors.
 
 ### 10.4 SINS Initial Align State-space Models on Pseudo-static Base
 
@@ -1168,7 +1168,7 @@ On pseudo-static base, the SINS's position keeps constant and there is no veloci
 {\dot{\mathbf{v}}}^{n} = \mathbf{C}_{b}^{n}\mathbf{f}_{sf}^{b} + \mathbf{g}^{n}\qquad(10.4-2)
 ```
 
-where $`\boldsymbol{\omega}_{nb}^{b} = \boldsymbol{\omega}_{ib}^{b} - (\mathbf{C}_{b}^{n})^{T}\boldsymbol{\omega}_{ie}^{n}`$  ,
+where <var>ω<sub>nb</sub><sup>b</sup> = ω<sub>ib</sub><sup>b</sup> - (C<sub>b</sub><sup>n</sup>)<sup>T</sup>ω<sub>ie</sub><sup>n</sup></var>  ,
 ```math
 \boldsymbol{\omega}_{ie}^{n} =
 \begin{bmatrix}
@@ -1251,7 +1251,7 @@ where
 \end{bmatrix}
 ```
 
-where $`\boldsymbol{\varepsilon}_{w}^{b}`$, $`\nabla_{w}^{n}`$, and $`\mathbf{v}`$ are gyro output noise, accelerometer output noise and velocity measurement noise respectively.
+where <var>ε<sub>w</sub><sup>b</sup></var>, <var>∇<sub>w</sub><sup>n</sup></var>, and <var>v</var> are gyro output noise, accelerometer output noise and velocity measurement noise respectively.
 
 #### B) Large Header Misalignment Angle EKF Model
 
@@ -1305,7 +1305,7 @@ where
 \end{bmatrix}
 ```
 
-For convenience, we give the Jacobian matrix of $`\mathbf{f}(\mathbf{x})`$ as follows
+For convenience, we give the Jacobian matrix of <var>f(x)</var> as follows
 
 ```math
 \frac{\partial\mathbf{f}(\mathbf{x})}{\partial\mathbf{x}} = \begin{bmatrix}
@@ -1405,7 +1405,7 @@ where
 
 ### 10.5 SINS/GPS Integrated Models
 
-Define the lever arm vector from SIMU calibration centre to GPS antenna centre as $`\mathbf{l}^{b}`$, which is expressed in SIMU b-frame, then the velocities/positions between SINS and GPS are given by
+Define the lever arm vector from SIMU calibration centre to GPS antenna centre as <var>l<sup>b</sup></var>, which is expressed in SIMU b-frame, then the velocities/positions between SINS and GPS are given by
 
 ```math
 \mathbf{v}_{GPS}^{n} = \mathbf{v}_{SINS}^{n} + \mathbf{C}_{b}^{n}(\boldsymbol{\omega}_{eb}^{b} \times \mathbf{l}^{b}) = \mathbf{v}_{SINS}^{n} + \mathbf{C}_{b}^{n}(\boldsymbol{\omega}_{eb}^{b} \times )\mathbf{l}^{b}\qquad(10.5-1)
@@ -1415,7 +1415,7 @@ Define the lever arm vector from SIMU calibration centre to GPS antenna centre a
 \mathbf{p}_{GPS} = \mathbf{p}_{SINS} + \mathbf{M}_{pv}\mathbf{C}_{b}^{n}\mathbf{l}^{b}\qquad(10.5-2)
 ```
 
-On the other hand, if $`\tau`$ is denoted as the sampling time delay from SIMU to GPS, it satisfies
+On the other hand, if <var>τ</var> is denoted as the sampling time delay from SIMU to GPS, it satisfies
 
 ```math
 \mathbf{v}_{GPS}^{n} = \mathbf{v}_{SINS}^{n} + \mathbf{a}_{SINS}^{n}\tau\qquad(10.5-3)
@@ -1483,13 +1483,13 @@ where
 \end{bmatrix}
 ```
 
-The state components $`\mathbf{l}^{b},\tau`$ are also assumed to be constant. Note that the processing noise and measurement noise are both neglected in model Eq. (10.5-7).
+The state components <var>l<sup>b</sup>,τ</var> are also assumed to be constant. Note that the processing noise and measurement noise are both neglected in model Eq. (10.5-7).
 
 ### 10.6 SINS/DR Integrated Models
 
 #### A) DR Algorithm
 
-The output of odometer is the distance increment $`\Delta S_{m}`$ at time interval $`[t_{m - 1}, t_{m}]`$ along the car/vehicle forward direction. We define the average velocity as $`v_{OD} = \Delta S_{m}/T_{m}`$, which can be seen as a continuous variable without loss of generality. Assume that $`\alpha_{\theta},\alpha_{\psi}`$ are, respectively, pitch and yaw misalignment angles from odometer/vehicle frame (o-frame) to SIMU b-frame. The odometer measured velocity expressed in b-frame is then written as
+The output of odometer is the distance increment <var>ΔS<sub>m</sub></var> at time interval <var>[t<sub>m - 1</sub>, t<sub>m</sub>]</var> along the car/vehicle forward direction. We define the average velocity as <var>v<sub>OD</sub> = ΔS<sub>m</sub>/T<sub>m</sub></var>, which can be seen as a continuous variable without loss of generality. Assume that <var>α<sub>θ</sub>,α<sub>ψ</sub></var> are, respectively, pitch and yaw misalignment angles from odometer/vehicle frame (o-frame) to SIMU b-frame. The odometer measured velocity expressed in b-frame is then written as
 
 ```math
 \mathbf{v}_{OD}^{b} = \mathbf{C}_{o}^{b}\begin{bmatrix}
@@ -1503,7 +1503,7 @@ v_{OD} \\
 \end{bmatrix}v_{OD}\qquad(10.6-1)
 ```
 
-Using the SINS Attitude DCM $`\mathbf{C}_{b}^{n}`$ to decompose velocity $`\mathbf{v}_{OD}^{b}`$, we will get the following DR position update algorithm
+Using the SINS Attitude DCM <var>C<sub>b</sub><sup>n</sup></var> to decompose velocity <var>v<sub>OD</sub><sup>b</sup></var>, we will get the following DR position update algorithm
 
 ```math
 {\dot{\mathbf{p}}}_{DR} = \begin{bmatrix}
@@ -1567,7 +1567,7 @@ v_{EOD}^{n} & v_{NOD}^{n} & v_{UOD}^{n}
 
 #### B) DR Error Models
 
-The error contained odometer velocity  $`{\widetilde{\mathbf{v}}}_{OD}^{n}`$ in actual DR system is expanded as
+The error contained odometer velocity  <var>v<sub>OD</sub><sup>n</sup></var> in actual DR system is expanded as
 
 ```math
 \begin{aligned}
@@ -1605,7 +1605,7 @@ and
 \delta\alpha_{\psi}
 \end{bmatrix}
 ```
-are the residual errors of misalignment angles, and $`\delta K_{OD}`$ is odometer scale factor error.
+are the residual errors of misalignment angles, and <var>δK<sub>OD</sub></var> is odometer scale factor error.
 
 We rewrite Eq. (10.6-6) as
 
@@ -1623,7 +1623,7 @@ Now, by comparing with Eqs. (10.1-3b) and (10.3-8) and then considering Eqs. (10
 \end{aligned}\qquad(10.6-8)
 ```
 
-where $`\mathbf{M}_{Dpa} = \mathbf{M}_{Dpv}(\mathbf{v}_{OD}^{n} \times )`$, $`\mathbf{M}_{Dpi} = v_{OD}\mathbf{M}_{Dpv}\mathbf{C}_{b}^{n}\mathbf{M}_{\alpha}`$, and $`\mathbf{M}_{Dpk} = \mathbf{M}_{Dpv}\mathbf{v}_{OD}^{n}`$.
+where <var>M<sub>Dpa</sub> = M<sub>Dpv</sub>(v<sub>OD</sub><sup>n</sup> ×)</var>, <var>M<sub>Dpi</sub> = v<sub>OD</sub>M<sub>Dpv</sub>C<sub>b</sub><sup>n</sup>M<sub>α</sub></var>, and <var>M<sub>Dpk</sub> = M<sub>Dpv</sub>v<sub>OD</sub><sup>n</sup></var>.
 
 #### C) SINS/DR Integrated State-space Model
 
@@ -1667,7 +1667,7 @@ where:
 \end{bmatrix}
 ```
 
-The state components $`\boldsymbol{\delta\alpha},\delta K_{OD},\tau_{OD}`$ are also assumed to be constant, where $`\tau_{OD}`$ denotes the time asynchrony delay from odometer measured output to SIMU outputs.
+The state components <var>δα,δK<sub>OD</sub>,τ<sub>OD</sub></var> are also assumed to be constant, where <var>τ<sub>OD</sub></var> denotes the time asynchrony delay from odometer measured output to SIMU outputs.
 
 ### 10.7 Coning/Sculling Motion and the Error Compensation Algorithm
 
@@ -1688,9 +1688,9 @@ Coning motion of b-frame with respect to some reference frame (i-frame) around x
   \end{bmatrix}^{T}\qquad(10.7-2)
 ```
 
-where $`\alpha`$ is the half-apex angle and $`\Omega`$ is the coning frequency.
+where <var>α</var> is the half-apex angle and <var>Ω</var> is the coning frequency.
 
-Integrating Eq. (10.7-2) over the sampling interval $`[t_{m - 1} + (i - 1)h, t_{m - 1} + ih]`$, gives angular increment vector as
+Integrating Eq. (10.7-2) over the sampling interval <var>[t<sub>m - 1</sub> + (i - 1)h, t<sub>m - 1</sub> + ih]</var>, gives angular increment vector as
 
 ```math
 \Delta\boldsymbol{\theta}_{m}(i) = \int_{ t_{m - 1} + (i - 1)h}^{ t_{m - 1} + ih}{\boldsymbol{\omega}_{ib}^{b}(t)dt} = \begin{bmatrix}
@@ -1701,7 +1701,7 @@ Integrating Eq. (10.7-2) over the sampling interval $`[t_{m - 1} + (i - 1)h, t_{
   \end{bmatrix}\qquad(10.7-3)
 ```
 
-Using $`N`$-subsample algorithm over the period $`T_{m} = t_{m} - t_{m - 1} = Nh`$, a general rotation vector updating formula for coning compensation is:
+Using <var>N</var>-subsample algorithm over the period <var>T<sub>m</sub> = t<sub>m</sub> - t<sub>m - 1</sub> = Nh</var>, a general rotation vector updating formula for coning compensation is:
 
 ```math
 {\widehat{\boldsymbol{\Phi}}}_{m}
@@ -1709,11 +1709,11 @@ Using $`N`$-subsample algorithm over the period $`T_{m} = t_{m} - t_{m - 1} = Nh
 + \left[\sum_{i = 1}^{N - 1} k_{i}\Delta\boldsymbol{\theta}_{m}(i)\right] \times \Delta\boldsymbol{\theta}_{m}(N)\qquad(10.7-4)
 ```
 
-where $`k_{i}`$ are coning error compensation coefficients and are listed in Tab. 10-1 for $`N = 2\sim6`$.
+where <var>k<sub>i</sub></var> are coning error compensation coefficients and are listed in Tab. 10-1 for <var>N = 2∼6</var>.
 
 <p align="center">Tab. 10-1 Coning error compensation coefficients</p>
 
-| $`N`$ | $`k_{1}`$ | $`k_{2}`$ | $`k_{3}`$ | $`k_{4}`$ | $`k_{5}`$ |
+| <var>N</var> | <var>k<sub>1</sub></var> | <var>k<sub>2</sub></var> | <var>k<sub>3</sub></var> | <var>k<sub>4</sub></var> | <var>k<sub>5</sub></var> |
 | :---: | :-------: | :-------: | :-------: | :-------: | :--------: |
 |   2   |    2/3    |     -     |     -     |     -     |     -     |
 |   3   |   9/20   |   27/20   |     -     |     -     |     -     |
@@ -1721,7 +1721,7 @@ where $`k_{i}`$ are coning error compensation coefficients and are listed in Tab
 |   5   |  250/504  |  525/504  |  650/504  | 1375/504 |     -     |
 |   6   | 2135/4620 | 4558/4620 | 7296/4620 | 7834/4620 | 15797/4620 |
 
-In $`N`$-subsample coning compensation algorithm, the un-compensated residual coning drift angle within the period $`T_{m}`$ is
+In <var>N</var>-subsample coning compensation algorithm, the un-compensated residual coning drift angle within the period <var>T<sub>m</sub></var> is
 
 ```math
 \varepsilon_{N} = \frac{N \times N!}{2^{N + 1}\prod_{i = 1}^{N + 1}(2i - 1)}\alpha^{2}(\Omega h)^{2N + 1}(rad)\qquad(10.7-5)
@@ -1729,7 +1729,7 @@ In $`N`$-subsample coning compensation algorithm, the un-compensated residual co
 
 #### B) Sculling Algorithm
 
-In sculling motion environment, the angular velocity $`\boldsymbol{\omega}_{ib}^{b}(t)`$ and acceleration $`\mathbf{a}_{ib}^{b}(t)`$ of b-frame with respect to reference i-frame are respectively described as
+In sculling motion environment, the angular velocity <var>ω<sub>ib</sub><sup>b</sup>(t)</var> and acceleration <var>a<sub>ib</sub><sup>b</sup>(t)</var> of b-frame with respect to reference i-frame are respectively described as
 
 ```math
 \boldsymbol{\omega}_{ib}^{b}(t) = \begin{bmatrix}
@@ -1743,7 +1743,7 @@ In sculling motion environment, the angular velocity $`\boldsymbol{\omega}_{ib}^
   \end{bmatrix} \qquad(10.7-6)
 ```
 
-where $`A_{\theta},A_{p}`$ are angular/linear displacement amplitudes.
+where <var>A<sub>θ</sub>,A<sub>p</sub></var> are angular/linear displacement amplitudes.
 
 The corresponding velocity/position references expressed in i-frame are
 
@@ -1775,7 +1775,7 @@ While in b-frame, Eq. (10.7-7) comes to
   \end{bmatrix} \quad \text{(obscure?)} \qquad(10.7-8)
 ```
 
-Integrating Eq. (10.7-6), it leads to incremental information within sampling interval $`[t_{m - 1} + (i - 1)h, t_{m - 1} + ih]`$, as
+Integrating Eq. (10.7-6), it leads to incremental information within sampling interval <var>[t<sub>m - 1</sub> + (i - 1)h, t<sub>m - 1</sub> + ih]</var>, as
 
 ```math
 \Delta\boldsymbol{\theta}_{m}(i) = \int_{ t_{m - 1} + (i - 1)h}^{ t_{m - 1} + ih}{\boldsymbol{\omega}_{ib}^{b}(t)dt} = \begin{bmatrix}
@@ -1793,7 +1793,7 @@ Integrating Eq. (10.7-6), it leads to incremental information within sampling in
 \end{bmatrix} \qquad(10.7-9)
 ```
 
-Over the velocity updating period $`T_{m} = t_{m} - t_{m - 1} = Nh`$, the $`N`$-subsample velocity increment is constructed as
+Over the velocity updating period <var>T<sub>m</sub> = t<sub>m</sub> - t<sub>m - 1</sub> = Nh</var>, the <var>N</var>-subsample velocity increment is constructed as
 
 ```math
 \Delta{\mathbf{v}_{ib}^{b_{m - 1}}}_{scull,m} = \Delta\mathbf{v}_{m} + \Delta\mathbf{v}_{rot,m} + \Delta\mathbf{v}_{scull,m}\qquad(10.7-10)
@@ -1801,7 +1801,7 @@ Over the velocity updating period $`T_{m} = t_{m} - t_{m - 1} = Nh`$, the $`N`$-
 
 where
 
-$`\Delta\boldsymbol{\theta}_{m} = \sum_{i = 1}^{N}{k_{i}\Delta\boldsymbol{\theta}_{m}(i)}`$, $`\Delta\mathbf{v}_{m} = \sum_{i = 1}^{N}{k_{i}\Delta\mathbf{v}_{m}(i)}`$
+<var>Δθ<sub>m</sub> = ∑<sub>i = 1</sub><sup>N</sup>k<sub>i</sub>Δθ<sub>m</sub>(i)</var>, <var>Δv<sub>m</sub> = ∑<sub>i = 1</sub><sup>N</sup>k<sub>i</sub>Δv<sub>m</sub>(i)</var>
 
 ```math
 \Delta\mathbf{v}_{rot,m} = \frac{1}{2}\Delta\boldsymbol{\theta}_{m} \times \Delta\mathbf{v}_{m}
@@ -1815,9 +1815,9 @@ $`\Delta\boldsymbol{\theta}_{m} = \sum_{i = 1}^{N}{k_{i}\Delta\boldsymbol{\theta
 \right\}\qquad(10.7-11)
 ```
 
-In Eq. (10.7-11) the sculling compensation coefficients $`k_{i}`$ are exactly the same as those listed in Tab. 10-1.
+In Eq. (10.7-11) the sculling compensation coefficients <var>k<sub>i</sub></var> are exactly the same as those listed in Tab. 10-1.
 
-Similarly, in $`N`$-subsample sculling compensation algorithm, the un-compensated residual sculling drift velocity within the period $`T_{m}`$ is
+Similarly, in <var>N</var>-subsample sculling compensation algorithm, the un-compensated residual sculling drift velocity within the period <var>T<sub>m</sub></var> is
 
 ```math
 \nabla_{N} = \frac{N \times N!}{2^{N + 1}\prod_{i = 1}^{N + 1}(2i - 1)}(A_{\theta}A_{p}\Omega)(\Omega h)^{2N + 1}(m/s)\qquad(10.7-12)
@@ -1825,11 +1825,11 @@ Similarly, in $`N`$-subsample sculling compensation algorithm, the un-compensate
 
 ### 10.8 Trajectory Profile & SIMU Sensor Simulation
 
-The SIMU sensor simulation can be seen as an inverse data processing problem of traditional SINS updating algorithm. The first step is to obtain an appropriate trajectory profile, including the vehicle's angular/linear displacement information, i.e. attitude function $`\mathbf{A} = [\theta(t),\,\gamma(t),\,\psi(t)]^{T}`$ and position function $`\mathbf{p} = [L(t),\,\lambda(t),\,h(t)]^{T}`$ with respect to time.
+The SIMU sensor simulation can be seen as an inverse data processing problem of traditional SINS updating algorithm. The first step is to obtain an appropriate trajectory profile, including the vehicle's angular/linear displacement information, i.e. attitude function <var>A = [θ(t), γ(t), ψ(t)]<sup>T</sup></var> and position function <var>p = [L(t), λ(t), h(t)]<sup>T</sup></var> with respect to time.
 
 #### A) Trajectory Profile Simulation
 
-For description convenience, a new frame (t-frame) is defined, whose y-axis is along the trajectory forward direction, while x-axis is in the local level plane and points to the trajectory right direction, together with z-axis being a right-hand coordinate system. By contrast with $`\mathbf{C}_{b}^{n}`$, it easy to obtain the transformation matrix from n-frame to t-frame, as
+For description convenience, a new frame (t-frame) is defined, whose y-axis is along the trajectory forward direction, while x-axis is in the local level plane and points to the trajectory right direction, together with z-axis being a right-hand coordinate system. By contrast with <var>C<sub>b</sub><sup>n</sup></var>, it easy to obtain the transformation matrix from n-frame to t-frame, as
 
 ```math
 \mathbf{C}_{t}^{n} = \begin{bmatrix}
@@ -1839,7 +1839,7 @@ For description convenience, a new frame (t-frame) is defined, whose y-axis is a
 \end{bmatrix}
 ```
 
-In our trajectory simulation scenario, the Euler angular rate $`\mathbf{w} = [\dot{\theta},\,\dot{\gamma},\,\dot{\psi}]^{T} = [\omega_{\theta},\,\omega_{\gamma},\,\omega_{\psi}]^{T}`$ and trajectory acceleration $`\mathbf{a}^{t} = [a_{x}^{t},\,a_{x}^{t},\,a_{x}^{t}]^{T}`$ are taken as original inputs to generate the profile [$`\mathbf{A}`$, $`\mathbf{p}`$], with the whole set of differential equations listed as follows.
+In our trajectory simulation scenario, the Euler angular rate <var>w = [θ&#775;, γ&#775;, ψ&#775;]<sup>T</sup> = [ω<sub>θ</sub>, ω<sub>γ</sub>, ω<sub>ψ</sub>]<sup>T</sup></var> and trajectory acceleration <var>a<sup>t</sup> = [a<sub>x</sub><sup>t</sup>, a<sub>x</sub><sup>t</sup>, a<sub>x</sub><sup>t</sup>]<sup>T</sup></var> are taken as original inputs to generate the profile [<var>A</var>, <var>p</var>], with the whole set of differential equations listed as follows.
 
 ```math
 \left\{ \begin{aligned}
@@ -1853,19 +1853,19 @@ Note that sideslip angle and attack angle are both not considered, or always equ
 
 A trajectory profile is typically consists of several segments, such as uniform velocity, uniform acceleration, pitching, rolling and turning. The input parameters for each segment are described in brief as follows.
 
-(1) Uniform velocity (including static): $`\mathbf{w} = [0,\,0,\,0]^{T}`$, $`\mathbf{a}^{t} = [0,\,0,\,0]^{T}`$.
+(1) Uniform velocity (including static): <var>w = [0, 0, 0]<sup>T</sup></var>, <var>a<sup>t</sup> = [0, 0, 0]<sup>T</sup></var>.
 
-(2) Uniform acceleration: $`\mathbf{w} = [0,\,0,\,0]^{T}`$, $`\mathbf{a}^{t} = [0,\,a_{y}^{t},\,0]^{T}`$, where $`a_{y}^{t}`$ is the acceleration along forward direction.
+(2) Uniform acceleration: <var>w = [0, 0, 0]<sup>T</sup></var>, <var>a<sup>t</sup> = [0, a<sub>y</sub><sup>t</sup>, 0]<sup>T</sup></var>, where <var>a<sub>y</sub><sup>t</sup></var> is the acceleration along forward direction.
 
-(3) Pitching: $`\mathbf{w} = [\omega_{\theta},\,0,\,0]^{T}`$, $`\mathbf{a}^{t} = [0,\,0,\,0]^{T}`$, where $`\omega_{\theta}`$ is the pitching angular rate.
+(3) Pitching: <var>w = [ω<sub>θ</sub>, 0, 0]<sup>T</sup></var>, <var>a<sup>t</sup> = [0, 0, 0]<sup>T</sup></var>, where <var>ω<sub>θ</sub></var> is the pitching angular rate.
 
-(4) Rolling: $`\mathbf{w} = [0,\,\omega_{\gamma},\,0]^{T}`$, $`\mathbf{a}^{t} = [0,\,0,\,0]^{T}`$, where $`\omega_{\gamma}`$ is the rolling angular rate.
+(4) Rolling: <var>w = [0, ω<sub>γ</sub>, 0]<sup>T</sup></var>, <var>a<sup>t</sup> = [0, 0, 0]<sup>T</sup></var>, where <var>ω<sub>γ</sub></var> is the rolling angular rate.
 
-(5) Turning: $`\mathbf{w} = [0,\,0,\,\omega_{\psi}]^{T}`$, $`\mathbf{a}^{t} = [a_{x}^{t},\,0,\,0]^{T}`$. If for coordinated flight, the constraints $`a_{x}^{t} = \omega_{\psi}v_{y}^{b}`$ and $`a_{x}^{t}/g = \tan\gamma`$ should be satisfied.
+(5) Turning: <var>w = [0, 0, ω<sub>ψ</sub>]<sup>T</sup></var>, <var>a<sup>t</sup> = [a<sub>x</sub><sup>t</sup>, 0, 0]<sup>T</sup></var>. If for coordinated flight, the constraints <var>a<sub>x</sub><sup>t</sup> = ω<sub>ψ</sub>v<sub>y</sub><sup>b</sup></var> and <var>a<sub>x</sub><sup>t</sup>/g = tanγ</var> should be satisfied.
 
 #### B) SIMU Sensor Simulation
 
-Beside the previous simulated method to generate the trajectory profile data [$`\mathbf{A}`$, $`\mathbf{p}`$], a high-precision SINS/GPS post-processing attitude and position results can also be applied to produce the profile, which may greatly improve the sense of reality, while this idea won't be discussed in detail here.
+Beside the previous simulated method to generate the trajectory profile data [<var>A</var>, <var>p</var>], a high-precision SINS/GPS post-processing attitude and position results can also be applied to produce the profile, which may greatly improve the sense of reality, while this idea won't be discussed in detail here.
 
 Based on section A), the formulae to generate SIMU sensor output are
 
@@ -1884,7 +1884,7 @@ where
 \sin\gamma & 0 & \cos\gamma\cos\theta
 \end{bmatrix}
 ```
-$`\boldsymbol{\omega}_{ib}^{b},\mathbf{f}_{sf}^{b}`$ are gyro angular rate and accelerometer specific force outputs respectively.
+<var>ω<sub>ib</sub><sup>b</sup>,f<sub>sf</sub><sup>b</sup></var> are gyro angular rate and accelerometer specific force outputs respectively.
 
 Using the inverse concept of SINS algorithm, the discrete solution to obtain rotation vector and velocity increment for Eq. (10.8-2) is
 
@@ -1895,7 +1895,7 @@ Using the inverse concept of SINS algorithm, the discrete solution to obtain rot
 \end{aligned} \right.\qquad(10.8-3)
 ```
 
-where $`\boldsymbol{\varsigma}_{m} = \boldsymbol{\omega}_{in,m - 1/2}^{n}T_{m}`$, $`\boldsymbol{\Phi}_{nb,m}^{b} = [(\mathbf{C}_{b,m - 1}^{n})^{T}\mathbf{C}_{b,m}^{n}]_{M \rightarrow RV}`$, $`\mathbf{v}_{m}^{n} = \mathbf{M}_{pv,m - 1/2}^{-1}(\mathbf{p}_{m} - \mathbf{p}_{m - 1})`$, and $`[\bullet]_{M \rightarrow RV}`$ denotes the transformation from DCM to rotation vector, $`T_{m} = t_{m} - t_{m - 1}`$ is the discrete time interval.
+where <var>ς<sub>m</sub> = ω<sub>in,m - 1/2</sub><sup>n</sup>T<sub>m</sub></var>, <var>Φ<sub>nb,m</sub><sup>b</sup> = [(C<sub>b,m - 1</sub><sup>n</sup>)<sup>T</sup>C<sub>b,m</sub><sup>n</sup>]<sub>M →RV</sub></var>, <var>v<sub>m</sub><sup>n</sup> = M<sub>pv,m - 1/2</sub><sup>-1</sup>(p<sub>m</sub> - p<sub>m - 1</sub>)</var>, and <var>[•]<sub>M →RV</sub></var> denotes the transformation from DCM to rotation vector, <var>T<sub>m</sub> = t<sub>m</sub> - t<sub>m - 1</sub></var> is the discrete time interval.
 
 Considering the following attitude coning and velocity rotation effects
 
