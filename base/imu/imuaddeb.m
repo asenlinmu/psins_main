@@ -1,7 +1,7 @@
-function imu = imuaddeb(imu, eb)
+function imu = imuaddeb(imu, eb, db)
 % Add gyro bias for IMU.
 %
-% Prototype: imu = imuaddeb(imu, eb)
+% Prototype: imu = imuaddeb(imu, eb, db)
 % Inputs: imu - raw SIMU data
 %         eb - gyro bias, in deg/h
 % Output: imu - new SIMU data with gyro bias added
@@ -16,5 +16,8 @@ global glv
     ts = diff(imu(1:2,end));
     for k=1:3
         imu(:,k) = imu(:,k)+eb(k)*glv.dph*ts;
+    end
+    if nargin>3
+        imu = imuadddb(imu, db);
     end
     

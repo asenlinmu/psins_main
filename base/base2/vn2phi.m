@@ -15,9 +15,9 @@ function [phi, eN, dU] = vn2phi(vn, lti, ts, isfig)
 %   ap0 = [[0;0;1]*glv.deg;glv.pos0];
 %   imu = imustatic(ap0, 0.1, 300, imuerrset(0, 0, 0.0001, .1));
 %   avp = inspure(imu, [q2att(qaddphi(a2qua(ap0(1:3)),[.1;.1;10]*glv.min));glv.pos0], 'f');
-%   phi = vn2phi(avp(:,[4:6,end]), glv.pos0);
+%   phi = vn2phi(avp(:,[4:6,end]), glv.pos0);  % phi = vn2phi(avp);
 %
-% See also  vn2phiu, vn2phistd, vn2phil, vn2philo, phiu2vn, aa2phi, vn2att.
+% See also  vn2phiu, vn2phistd, vn2phil, vn2philo, phiu2vn, aa2phi, vn2att, fn2phi.
 
 % Copyright(c) 2009-2016, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -26,6 +26,7 @@ global glv
     if nargin<4, isfig = 1; end
     if nargin<3, ts = diff(vn(1:2,end)); end
     if isempty(ts), ts = diff(vn(1:2,end)); end
+    if size(vn,2)>9, lti=vn(1,7); vn=vn(:,[4:6,end]); end  % [phi, eN, dU] = vn2phi(avp);
     if length(lti)>1, lti=lti(1); end  % lti = pos;
     phi = vn;  phi(:,1:3)=0;
     ki = timebar(1, length(vn)-fix(10/ts), 'vn2phi processing.');

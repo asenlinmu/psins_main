@@ -13,6 +13,7 @@ function att1 = aaddmu(att0, mu)
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 03/11/2013
+    if length(mu)==1, mu=[0;0;mu]; end % azimuth only, 2026-5-8
     [m, n] = size(att0);
     if n==1  % no batch processing
         att1 = m2att(mupdt(a2mat(att0),mu));

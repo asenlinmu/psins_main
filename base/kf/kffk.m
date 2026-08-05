@@ -17,30 +17,32 @@ global psinsdef
     if isstruct(ins),    nts = ins.nts;
     else                 nts = ins;
     end
+    Ft = etm(ins,psinsdef.kffk);
     switch(psinsdef.kffk)
-        case 15,
-            Ft = etm(ins);
+        case {15}
+            % phi(3)+dvn(3)+dpos(3)+eb(3)+db(3)=15
         case {18,19} % psinsdef.kffkxx, xx=18,19
-            Ft = etm(ins);
-            Ft(psinsdef.kffk, psinsdef.kffk) = 0;
+            % 15+lv(3)+tGA(1)
         case {24}
-            Ft = etm(ins);
-            Ft(psinsdef.kffk,psinsdef.kffk) = 0;
             % 15+dKg(9)
             Ft(1:3,16:24) = [-ins.wib(1)*ins.Cnb, -ins.wib(2)*ins.Cnb, -ins.wib(3)*ins.Cnb];
+        case {30}
+            % 15+dKg(9)+dKa(6)
+            Ft(1:3,16:24) = [-ins.wib(1)*ins.Cnb, -ins.wib(2)*ins.Cnb, -ins.wib(3)*ins.Cnb];
+            Ft(4:6,25:30) = [  ins.fb(1)*ins.Cnb,  ins.fb(2)*ins.Cnb(:,2:3), ins.fb(3)*ins.Cnb(:,3)];
         case {33}
-            Ft = etm(ins);
-            Ft(psinsdef.kffk,psinsdef.kffk) = 0;
             % 15+dKg(9)+dKa(6)+Ka2(3)
             Ft(1:3,16:24) = [-ins.wib(1)*ins.Cnb, -ins.wib(2)*ins.Cnb, -ins.wib(3)*ins.Cnb];
-            Ft(4:6,25:33) = [ins.fb(1)*ins.Cnb, ins.fb(2)*ins.Cnb(:,2:3), ins.fb(3)*ins.Cnb(:,3), ins.Cnb*diag(ins.fb.^2)];
+            Ft(4:6,25:33) = [  ins.fb(1)*ins.Cnb,  ins.fb(2)*ins.Cnb(:,2:3), ins.fb(3)*ins.Cnb(:,3), ins.Cnb*diag(ins.fb.^2)];
         case {34, 37}
-            Ft = etm(ins);
-            Ft(psinsdef.kffk,psinsdef.kffk) = 0;
             % 19+dKg(9)+dKa(6)
             Ft(1:3,20:28) = [-ins.wib(1)*ins.Cnb, -ins.wib(2)*ins.Cnb, -ins.wib(3)*ins.Cnb];
-            Ft(4:6,29:34) = [ins.fb(1)*ins.Cnb, ins.fb(2)*ins.Cnb(:,2:3), ins.fb(3)*ins.Cnb(:,3)];
-        otherwise,
+            Ft(4:6,29:34) = [  ins.fb(1)*ins.Cnb,  ins.fb(2)*ins.Cnb(:,2:3), ins.fb(3)*ins.Cnb(:,3)];
+        case {36}
+            % 15+dKg(9)+dKa(9)+Ka2(3)
+            Ft(1:3,16:24) = [-ins.wib(1)*ins.Cnb, -ins.wib(2)*ins.Cnb, -ins.wib(3)*ins.Cnb];
+            Ft(4:6,25:36) = [  ins.fb(1)*ins.Cnb,   ins.fb(2)*ins.Cnb,   ins.fb(3)*ins.Cnb, ins.Cnb*diag(ins.fb.^2)];
+        otherwise
 %             Ft = feval(psinsdef.typestr, psinsdef.kffktag, {ins, varargin});
             Ft = feval(psinsdef.typestr, psinsdef.kffktag, [{ins},varargin]);
     end

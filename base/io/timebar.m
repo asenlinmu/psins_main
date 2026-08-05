@@ -43,6 +43,9 @@ global tb_arg
             'CreateCancelBtn', 'delete(gcbf);');
         return;
     end
+    if nargin==1  % force to close
+        if tStep==-1 && ishandle(tb_arg.handle), close(tb_arg.handle); return; end  % 2026-06-26
+    end
     tb_arg.tk = tb_arg.tk + 1; tk = tb_arg.tk;
     tb_arg.tCur = tb_arg.tCur + tb_arg.tStep;
     if tb_arg.on==0, r=tb_arg.tCur/tb_arg.tTotal; return; end

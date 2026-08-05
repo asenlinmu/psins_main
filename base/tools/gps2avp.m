@@ -15,7 +15,7 @@ function avp = gps2avp(gps, isfig)
     n = size(gps,2);
     if n==4 || n==5 % gps=[pos,t]
         vn = pp2vn(gps);
-        avp = gps2avp([vn(:,1:3), gps(:,[1:3,end])]);
+        avp = gps2avp([vn(:,1:3), gps(2:end,[1:3,end])]);
         if isfig, insplot(avp); subplot(321); title('GNSS pos to AVP'); end
     elseif n==7 || n==8  % gps=[vn,pos,t]
         att = vn2att(gps(:,[1:3,end]),0.3);

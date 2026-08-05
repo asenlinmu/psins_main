@@ -24,7 +24,7 @@ function [att0, res] = aligni0fitp(imu, pos, isfig)
 % 28/01/2023
 global glv
     if nargin<3,  isfig = 1; end
-    [nn, ts, nts] = nnts(1, diff(imu(1:2,end)));
+    [nn, ts, nts] = nnts(2, diff(imu(1:2,end)));
     ratio = 1.0;  phiEN = [0;0;0]; afa = nts/100;
     len = fix(length(imu)/nn)*nn;
     eth = earth(pos);  lat = pos(1);
@@ -86,13 +86,13 @@ global glv
     res = varpack(lat, nts, vib0k, pib0k, fib0k, vi0k, pi0k, fi0k, attk, attkp, att0, vn0, vnk, posk, phik); 
     att0 = attkp(end,1:3)';
     resdisp('Initial align attitudes (arcdeg)', att0/glv.deg);
-    if isfig, ai0plot(timu, attk, attkp, vn0, vnk, posk); end
+    if isfig, ai0plot(timu, attk, attkp, vn0, vnk, posk, pos); end
     
-function ai0plot(t, attk, attkp, vn0, vnk, posk)
+function ai0plot(t, attk, attkp, vn0, vnk, posk, pos)
 global glv
     myfigure;
     subplot(221), plot(t, attk(:,1:2)/glv.deg), xygo('pr');
-        hold on,  plot(t, attkp(:,1:2)/glv.deg, 'm:'),
+        hold on,  plot(t, attkp(:,1:2)/glv.deg, 'm:'), title(sprintf('pos0=%.6f,%.6f,%.3f',pos(1)/glv.deg,pos(2)/glv.deg,pos(3)));
     subplot(223), plot(t, attk(:,3)/glv.deg), xygo('y');  title(sprintf('%.4f',attkp(end,3)/glv.deg));
         hold on,  plot(t, attkp(:,3)/glv.deg, 'm:'), legend('i0 pos', 'i0fit pos');
     subplot(322), plot(t, vn0), xygo('vn0 / m/s');

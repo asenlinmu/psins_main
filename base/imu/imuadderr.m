@@ -46,15 +46,15 @@ function imu = imuadderr(imu, imuerr, db, web, wdb)
               ts*imuerr.db(1) + sts*imuerr.wdb(1)*randn(m,1), ...
               ts*imuerr.db(2) + sts*imuerr.wdb(2)*randn(m,1), ...
               ts*imuerr.db(3) + sts*imuerr.wdb(3)*randn(m,1) ];
-    if min(abs(imuerr.sqg))>0
+    if max(abs(imuerr.sqg))>0
         mvg = markov1(imuerr.sqg.*sqrt(imuerr.taug/2), imuerr.taug, ts, m);   % q = 2*sigma.^2.*beta
         drift(:,1:3) = drift(:,1:3) + mvg*ts;
     end
-    if min(abs(imuerr.sqa))>0
+    if max(abs(imuerr.sqa))>0
         mva = markov1(imuerr.sqa.*sqrt(imuerr.taua/2), imuerr.taua, ts, m);
         drift(:,4:6) = drift(:,4:6) + mva*ts;
     end
-    if min(abs(imuerr.Ka2))>0
+    if max(abs(imuerr.Ka2))>0
         imu(:,4:6) = [ imu(:,4)+imuerr.Ka2(1)/ts*imu(:,4).^2, ...
                        imu(:,5)+imuerr.Ka2(2)/ts*imu(:,5).^2, ...
                        imu(:,6)+imuerr.Ka2(3)/ts*imu(:,6).^2 ];

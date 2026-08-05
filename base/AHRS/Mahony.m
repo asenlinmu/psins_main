@@ -18,8 +18,8 @@ global glv
             mag = mean(imu(k:k+nn-1,7:9),1)';
             ahrs = MahonyUpdate(ahrs, [phim;dvbm]', mag, nts);  % use mag
         end
-%         attebfn(ki,:) = [m2att(ahrs.Cnb); ahrs.exyzInt; ahrs.Cnb*dvbm/nts+[0;0;-glv.g0]; imu(k+nn-1,end)]';
-        attebfn(ki,:) = [m2att(ahrs.Cnb); ahrs.Cnb*phim/nts; ahrs.Cnb*dvbm/nts+[0;0;-glv.g0]; imu(k+nn-1,end)]';
+          attebfn(ki,:) = [m2att(ahrs.Cnb); ahrs.exyzInt; ahrs.Cnb*dvbm/nts+[0;0;-glv.g0]; imu(k+nn-1,end)]';
+       % attebfn(ki,:) = [m2att(ahrs.Cnb); ahrs.Cnb*phim/nts; ahrs.Cnb*dvbm/nts+[0;0;-glv.g0]; imu(k+nn-1,end)]';
         ki = timebar;
     end
     attebfn(ki:end,:) = [];  t = attebfn(:,end);

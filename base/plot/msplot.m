@@ -1,5 +1,5 @@
 function msplot(mnp, x, y, xstr, ystr)
-% my sub plot
+% my sub plot, m-row,n-column,p^th-subplot
 global msplot_mn
     if mnp>=10, msplot_mn=fix(mnp/10)*10;
     else,       mnp=msplot_mn+mnp;       end

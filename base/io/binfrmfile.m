@@ -21,7 +21,7 @@ function [data, skip] = binfrmfile(binfile, header, fmt, scale, nfrm, littleEndi
 %     t = cnt2t(data(:,end-1),ts);  myfig, plot(t, data(:,6));  
 %     avar(data(:,5)*3600, ts);
 %
-% See also  checkfrmfile, byte2num, hexbinfile, binfile, matbinfile, frm2num.
+% See also  checkfrmfile, byte2num, hexbinfile, binfile, matbinfile, frm2num, bytefrmload.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -12,7 +12,7 @@ function varargout = interp1n(x1t1, varargin)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 02/08/2020
     method = 'linear';
-    if ischar(varargin{end}), method = varargin{end}; varargin = varargin{1:end-1}; end
+    if ischar(varargin{end}), method = varargin{end}; varargin = varargin(1:end-1); end
     t = varargin{end};
     varargin = {x1t1, varargin{1:end-1}};  % varargin = {x1t1, x2t2, x3t3, ..., xktk}
     tmin = zeros(length(varargin),1); tmax = tmin;
@@ -30,5 +30,5 @@ function varargout = interp1n(x1t1, varargin)
     end
     if isempty(t), error('time tag t error!'); end
     for k=1:length(varargin)
-        varargout{k} = [interp1(varargin{k}(:,end), varargin{k}(:,1:end-1), t, method), t];
+        varargout{k} = [interp1(varargin{k}(:,end), varargin{k}(:,1:end-1), t, method, 'extrap'), t];
     end

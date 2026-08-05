@@ -22,7 +22,8 @@ global glv
     if nargin<4,  ctl0 = [10,100];    end
     if nargin<5,  ctl1 = [100,1000];  end
     if nargin<6,  isfig = 1;  end
-    if length(qnb)==3, qnb=a2qua(qnb); end  %if input qnb is Eular angles.
+    if length(ctl0)==1, ctl0=[ctl0,100]; end
+    if length(qnb)==3 || abs(qnb'*qnb-1.0)>0.01, qnb=a2qua(qnb(1:3)); end  %if input qnb is Eular angles.
     [nn, ts, nts] = nnts(2, diff(imu(1:2,end)));
     len = fix(length(imu)/nn)*nn;
     eth = earth(pos);

@@ -41,7 +41,7 @@ global glv
     % so we calucate and save them.
     ins.wib = ins.Cnb'*ins.eth.wnin;
     ins.fn = -ins.eth.gn;  ins.fb = ins.Cnb'*ins.fn;
-	[ins.wnb, ins.web, ins.an] = setvals(zeros(3,1));
+	[ins.wnb, ins.web, ins.an] = setvals(zeros(3,1));  ins.wbar = zeros(3,1);
 	ins.Mpv = [0, 1/ins.eth.RMh, 0; 1/ins.eth.clRNh, 0, 0; 0, 0, 1];
     ins.MpvCnb = ins.Mpv*ins.Cnb;  ins.Mpvvn = ins.Mpv*ins.vn; 
 	[ins.Kg, ins.Ka] = setvals(eye(3)); % calibration parameters

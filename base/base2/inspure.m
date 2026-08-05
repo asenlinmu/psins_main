@@ -25,6 +25,10 @@ function [avp, ins] = inspure(imu, avp0, href, isfig)
 %     att0 = aligni0(datacut(imu,t0,t1), getat(gps(:,4:end),t0));
 %     avp = inspure(datacut(imu,t1,t2), [att0;getat(gps(:,4:end),t1)], 'f');
 %
+%     t0=0; t1=300; t2=inf;
+%     att0 = aligni0(datacut(imu,t0,t1), pos0);
+%     avp = inspure(datacut(imu,t1,t2), [att0;pos0], 'f');
+%
 % See also  insinstant, attpure, inspurest, insupdate, drpure, nhcpure, insopenav, inspurervs.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
@@ -32,8 +36,9 @@ function [avp, ins] = inspure(imu, avp0, href, isfig)
 % 12/01/2013, 04/09/2014
 global glv
     [nn, ts, nts] = nnts(glv.ns, imu(:,end));
-    if avp0(1)>pi, aT=fix(avp0(1)/ts); pos=avp0(2:4);
-        avp0=[alignsb(imu(1:aT,:),pos);pos]; imu(1:aT,:)=[]; end % avp0=[alignT;pos]
+    if avp0(1)>pi, aT=fix(avp0(1)/ts); pos=avp0(2:4);  % avp0=[alignT;pos]
+        avp0=[alignsb(imu(1:aT,:),pos);pos]; imu(1:aT,:)=[];
+    end
     if abs(norm(avp0(1:4))-1)<1e-6, avp0(1:3)=q2att(avp0(1:4)); avp0(4)=[]; end % avp0=[qnb; ...]
     if length(avp0)<9, avp0=[avp0(1:3);zeros(3,1);avp0(4:end)]; end  % avp0=[att;pos]
     ins = insinit(avp0, ts);  vn0 = avp0(4:6); pos0 = avp0(7:9);

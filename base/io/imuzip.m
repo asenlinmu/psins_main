@@ -25,7 +25,7 @@ function [imu, ts, t0, bias, scale, mami_pos0] = imuzip(imu, sg, sa, ts, t0, pos
 %    [imu2, ts, t0, bias, scale, pos0] = imuzip(imu1);
 %    imuplot(adddt(imu0,t0-ts),imu2); plotn(cumsum(imu2-adddt(imu0,t0-ts)));
 %
-% See also  imufile, mat2binfile, binfile.
+% See also  imu2int16, imufile, mat2binfile, binfile.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

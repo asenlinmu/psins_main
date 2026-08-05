@@ -6,7 +6,7 @@ function [sigma, tau, m] = avarimu(imu, meanT)
 %         meanT - mean time
 % Outputs: sigma - Allan std variance
 %          tau - cluster time
-%          m - sensor mean value
+%          m - sensor mean value, in dph / mg
 %
 % Example
 %     imu = imustatic(zeros(9,1), 0.01, 3600, imuerrset(0.01,100,0.01,1)); avarimu(imu);

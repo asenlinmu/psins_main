@@ -34,7 +34,7 @@ function [att, phi] = attpure(imu, avp, t0, t1, att0)
     ki = timebar(nn, len, 'Pure attitude update processing.');
     for k=1:nn:len-nn+1
         k1 = k+nn-1;
-        wvm = imu(k:k1, 1:6);  t = imu(k1,end);
+        wvm = imu(k:k1, 1:3);  t = imu(k1,end);
         ins = insupdate(ins, wvm); 
         if k1<lavp,
             ins.vn = avp(k1,4:6)';  ins.pos = avp(k1,7:9)';

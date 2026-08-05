@@ -9,7 +9,7 @@ function avp = avpadderr(avp0, davp, israd, phimu)
 %         phimu - att err is phi or mu
 % Output: avp - avp=[att; vn; pos], avp with errors
 % 
-% See also  avperrset, imuadderr, qaddphi, avpcmp, avpinterp, insupdate.
+% See also  avperrset, imuadderr, qaddphi, avpcmp, avpinterp, avpdelxkBatch.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -9,7 +9,7 @@ function dkg = dkg9(dkgii, dkgij)
 %         dkgij - cross installation angle error, in arcsec
 % Output: dkg - installation error matrix, expressed as 9x1 vector
 %
-% See also  dkg1, dkg3, dka6.
+% See also  dkg1, dkg3, dka6, dkga15.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

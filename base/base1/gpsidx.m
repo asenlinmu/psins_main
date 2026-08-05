@@ -1,4 +1,4 @@
-function gps = gpsidx(data, idx, isdeg, isnorep)
+function [gps, pos0] = gpsidx(data, idx, isdeg, isnorep)
 % Extract GPS([vn,pos,t]) from a data array.
 %
 % Prototype: gps = gpsidx(data, idx, isdeg, isnorep)
@@ -6,7 +6,11 @@ function gps = gpsidx(data, idx, isdeg, isnorep)
 %         idx - column index of [vn,pos,t]
 %         isdeg - [lat,lon] is in degree
 %         isnorep - remove repeated data
-% Output: gps - =[vn,pos,t] or [pos,t] 
+% Outputs: gps - =[vn,pos,t] or [pos,t] 
+%          pos0 - initial position
+%
+% Examples:
+%   gps = gpsidx(dd, [1:3,4:6,7], 1);
 %
 % See also: imuidx, avpidx, ddidx, gpsplot.
 
@@ -22,4 +26,6 @@ global glv
     for k=1:length(idx)
         if(idx(k))<0, gps(:,k)=-gps(:,k); end
     end
-    
+    if nargout>1  % 20260522
+        pos0 = gps(1,end-3:end-1);
+    end

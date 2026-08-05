@@ -1,9 +1,12 @@
-function [clbt, av, obsd] = sysclbt(imu, pos0, g0, Cba, itertion, pk0, pkf)
-% SIMU systemtic calibration processing under specific rotating operation.
+function [clbt, av, obsd, sPk] = sysclbt(imu, pos0, g0, Cba, itertion, pk0, pkf, yaw0)
+% SIMU systemtic calibration processing under specific rotating operation, with states:
+%   1   4     7    10    13       16       19       22       25       28       31    34  37  40   43    
+%   fi  dvn   eb   db    dKg(:,1) dKg(:,2) dKg(:,3) dKa(:,1) dKa(:,2) dKa(:,3) dKa2  rx  ry  rz   tGA.
 %
 % Prototype: [clbt, av, obsd] = sysclbt(imu, pos0, g0, Cba, itertion, pk0)
 % Inputs: imu - SIMU data after coarse calibration
 %         pos0 - geographical position = [latitude; longitude; height]
+%                or, pos0 = [initial_time; pos0]
 %         g0  - local gravity magnitude
 %         Cba - accelerometer installation direction matrix, always I3x3.
 %         itertion - calibration processing itertion times.
@@ -26,6 +29,7 @@ function [clbt, av, obsd] = sysclbt(imu, pos0, g0, Cba, itertion, pk0, pkf)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 17/08/2016
 global glv
+    if nargin<8, yaw0=0; end
     if nargin<7, pkf=[[1;1;10]*glv.min; [1;1;1]*1.1; 5;5;5; [10;10;10]*glv.ug; ...
             ones(9,1)*2; ones(9,1)*2; [2;2;2]*glv.ugpg2; ones(9,1)*0.01; 0.01]; end
     if nargin<6, pk0=[]; end
@@ -34,12 +38,16 @@ global glv
     if isempty(Cba), Cba=eye(3); end
     if nargin<3, g0=[]; end
     if isempty(g0), eth=earth(pos0); g0=eth.g; end
+    wStatic = 220*glv.dph;
     [nn,ts,nts] = nnts(2, diff(imu(1:2,end)));  frq2 = fix(1/ts/2)-1;
     for k=(frq2+1):(2*frq2):(5*60*2*frq2)
         ww = mean(imu(k-frq2:k+frq2,1:3),1); ww = norm(ww)/ts;
-        if ww>20*glv.dph, break; end
+        if ww>wStatic, break; end
     end
-    % k = 600*frq2; % force to this length
+    if pos0(1)>10
+        k = pos0(1)*frq2; % force to this time length for static align
+        pos0 = pos0(2:end);
+    end
     if k<10*frq2,  error('Not find static state in the first 10 second to make valid INS alignment.'); end
     kstatic = k-3*frq2;
     wnie = glv.wie*[0;cos(pos0(1));sin(pos0(1))]; gn = [0;0;-g0];
@@ -50,7 +58,9 @@ global glv
         imu1(:,1:6) = [imu(:,1:3)*clbt.Kg', imu(:,4:6)*clbt.Ka'];    % IMU calibration for alignment
         imu1(:,1:6) = [imu1(:,1)-clbt.eb(1)*ts,imu1(:,2)-clbt.eb(2)*ts,imu1(:,3)-clbt.eb(3)*ts, ...  % 20181102
                        imu1(:,4)-clbt.db(1)*ts,imu1(:,5)-clbt.db(2)*ts,imu1(:,6)-clbt.db(3)*ts];
-        qnb = a2qua(alignsb(imu1(frq2:kstatic,:), pos0)); vn = zeros(3,1);  % qnb=setyaw(qnb,0); % align
+%        att = alignsb(imu1(frq2:kstatic,:), pos0);
+        [att, res] = aligni0fitp(imu1(2*frq2-1:kstatic,:), pos0, 0);  att=res.att0;
+        qnb = a2qua(att); vn = zeros(3,1);  if yaw0~=0, qnb=setyaw(qnb,yaw0); end % align
 %         if iter==1, qnb0 = qnb;  else, qnb0 = qdelphi(qnb0, kf.xk(1:3)); end
 %         att = q2att(qnb); att0 = q2att(qnb0); qnb = a2qua([att(1:2);att0(3)]);
         dotwf = imudot(imu1, 5.0);
@@ -88,7 +98,7 @@ global glv
             if t1s>(0.2-ts/2)  % kf measurement update every 1 second
                 t1s = 0;
                 ww = mean(imu(k-frq2:k+frq2,1:3),1); ww = norm(ww)/ts;
-                if ww<20*glv.dph   % if IMU is static
+                if ww<wStatic   % if IMU is static
                     kf = kfupdate(kf, vn, 'M');  % 2016-1-30
                     vn1s(kkv,:) = [vn; t]';  kkv = kkv+1;
                 end
@@ -103,11 +113,16 @@ global glv
     end
     clbtkfplot(av, xkpk, vn1s, imu, dotwf, 100);
     obsd = sqrt(diag(P0)./(diag(kf.Pxk)+eps));
+    s = [ [1;1;1]*glv.min; [1;1;1]; [1;1;1]*glv.dph; [1;1;1]*glv.ug; ...
+        [1*glv.ppm;1*glv.sec;1*glv.sec]; [1*glv.sec;1*glv.ppm;1*glv.sec]; [1*glv.sec;1*glv.sec;1*glv.ppm]; ...
+        [1*glv.ppm;1*glv.sec;1*glv.sec]; [1*glv.sec;1*glv.ppm;1*glv.sec]; [1*glv.sec;1*glv.sec;1*glv.ppm]; [1;1;1]*glv.ugpg2; ...
+        [1;1;1]*0.01; [1;1;1]*0.01; [1;1;1]*0.01; 0.001 ];
+    sPk = sqrt(diag(kf.Pxk))./s;
     
 function kf = clbtkfinit(ts)
 global glv
     kf.Qt = diag([ [1;1;1]*0.01*glv.dpsh; [1;1;1]*100*glv.ugpsHz; zeros(37,1) ])^2;
-    kf.Rk = diag([1;1;1]*0.001)^2;
+    kf.Rk = diag([1;1;1]*0.01)^2;
     kf.Pxk = diag([ [0.1;0.1;1]*glv.deg; [1;1;1]; [1;1;1]*0.1*glv.dph; [1;1;1]*glv.mg; ...
         [100*glv.ppm;100*glv.sec;100*glv.sec]; [100*glv.sec;100*glv.ppm;100*glv.sec]; [100*glv.sec;100*glv.sec;100*glv.ppm]; ...
         [100*glv.ppm;100*glv.sec;100*glv.sec]; [  0*glv.sec;100*glv.ppm;100*glv.sec]; [  0*glv.sec;  0*glv.sec;100*glv.ppm]; [1;1;1]*100*glv.ugpg2; ...
@@ -144,7 +159,7 @@ function SS = lvS(Cba, wb, dotwb) % Ref: Yan G, Inner lever arm compensation and
 function clbtkfplot(av, xkpk, vn1s, imu, dotwf, iter)
 global glv
     if iter==1
-        myfigure
+        myfig;
         subplot(221), plot(av(:,end), av(:,1:3)/glv.deg); xygo('att');
         subplot(223), plot(av(:,end), av(:,4:6), vn1s(:,end),vn1s(:,1:3),'*'); xygo('V');
         subplot(2,2,[2,4]), plot(dotwf(:,end), dotwf(:,1:3)/glv.deg, ':'), xygo('\omega / \circ/s, d\omega/dt / \circ/s^2');
@@ -161,7 +176,7 @@ global glv
     myfigure
     t = xk(:,end);
     subplot(331), plot(t, xk(:,1:3)/glv.min); xygo('phi');
-    subplot(332), plot(t, xk(:,4:6)); xygo('dV')
+    subplot(332), plot(t, xk(:,4:6)); xygo('dv')
     subplot(333), plot(t, xk(:,7:9)/glv.dph); xygo('eb');
     subplot(334), plot(t, xk(:,10:12)/glv.ug); xygo('db');
     subplot(335), plot(t, xk(:,13:4:21)/glv.ppm); xygo('dKii');

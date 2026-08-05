@@ -3,7 +3,7 @@ function avp1 = insinstant(imu, avp, t0, t1, avperr, phimu)
 %
 % Prototype: avp = insinstant(imu, avp, t0, t1, avperr, phimu)
 % Inputs: imu - SIMU data array
-%         avp - AVP parameters, avp = [att,vn,pos,t]
+%         avp - AVP parameters, avp = [att,vn,pos,eb,db,t]
 %         t0 - start time in second.
 %         t1 - end time in second.
 %         avperr - = [phi; dvn; dpos].
@@ -28,8 +28,9 @@ global glv
     idx0 = find(imu(:,end)>avp(idx0,end),1);
     idx1 = find(imu(:,end)<=t1,1,'last'); 
     if length(avp0)<9, avp0 = [avp0(1:3); zeros(6,1)]; end
-    if size(avp,2)>15, imu=imudeldrift(imu,avp,t0); end
-    avp1 = inspure(imu(idx0:idx1,:), avp0, 'f');   % imuplot(imu(idx0:idx1,:),1)
+    if size(avp,2)>15, imu=imudeldrift(imu,avp,t0); end  % delete eb&db @ t0
+    if t1-t0>1200, fH='H'; else, fH='f'; end
+    avp1 = inspure(imu(idx0:idx1,:), avp0, fH);   % imuplot(imu(idx0:idx1,:),1)
     idx0 = find(avp(:,end)>=t0,1);
     idx1 = find(avp(:,end)<=t1,1,'last');
     avp = avp(idx0:idx1,:);

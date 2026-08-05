@@ -6,7 +6,7 @@ function ins = inslever(ins, lever)
 %         lever - lever arms, each column stands for a monitoring point
 % Output: ins - SINS structure array with lever arm parameters
 %
-% See also  insinit, insupdate, insextrap.
+% See also  insinit, insupdate, insextrap, avplever.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

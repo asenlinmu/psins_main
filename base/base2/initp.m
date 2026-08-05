@@ -22,6 +22,12 @@ global glv
     if nargin<2, lat=glv.pos0(1); lon=glv.pos0(2); hgt=glv.pos0(3);  end 
     if tsfs>1,  tsfs=1/tsfs;  end
     ts = tsfs;
-    pos = [lat*glv.deg; lon*glv.deg; hgt];
+    if abs(lat)>10000||abs(lon)>18000
+        pos = [dms2r(lat); dms2r(lon); hgt];
+    elseif abs(lat)>100||abs(lon)>180
+        pos = [dm2r(lat); dm2r(lon); hgt];
+    else
+        pos = [lat*glv.deg; lon*glv.deg; hgt];
+    end
     [wnie, g] = wnieg(pos);
     if ~isempty(g0), g=g0; end  % 2025-12-04

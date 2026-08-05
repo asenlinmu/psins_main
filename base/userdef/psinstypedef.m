@@ -31,10 +31,12 @@ global psinsdef
     psinsdef.kfinit193 = 193;
     psinsdef.kfinit196 = 196;
     psinsdef.kfinit246 = 246;
+    psinsdef.kfinit303 = 303;
     psinsdef.kfinit331 = 331;
     psinsdef.kfinit333 = 333;
     psinsdef.kfinit343 = 343;
     psinsdef.kfinit346 = 346;
+    psinsdef.kfinit363 = 363;
     psinsdef.kfinit373 = 373;
     psinsdef.kfinit376 = 376;
     %% kffk
@@ -43,8 +45,10 @@ global psinsdef
     psinsdef.kffk18 = 18;
     psinsdef.kffk19 = 19;
     psinsdef.kffk24 = 24;
+    psinsdef.kffk30 = 30;
     psinsdef.kffk33 = 33;
     psinsdef.kffk34 = 34;
+    psinsdef.kffk34 = 36;
     psinsdef.kffk37 = 37;
     %% kfhk
     psinsdef.kfhk93 = 93;
@@ -56,10 +60,12 @@ global psinsdef
     psinsdef.kfhk193 = 193;
     psinsdef.kfhk196 = 196;
     psinsdef.kfhk246 = 246;
+    psinsdef.kfhk303 = 303;
     psinsdef.kfhk331 = 331;
     psinsdef.kfhk333 = 333;
     psinsdef.kfhk343 = 343;
     psinsdef.kfhk346 = 346;
+    psinsdef.kfhk363 = 363;
     psinsdef.kfhk373 = 373;
     psinsdef.kfhk376 = 376;
     %% kfplot
@@ -67,8 +73,10 @@ global psinsdef
     psinsdef.kfplot15 = 15;
     psinsdef.kfplot18 = 18;
     psinsdef.kfplot19 = 19;
+    psinsdef.kfplot30 = 30;
     psinsdef.kfplot33 = 33;
     psinsdef.kfplot34 = 34;
+    psinsdef.kfplot36 = 36;
     psinsdef.kfplot37 = 37;
     %%
     psinsdef.kfinit = 0;

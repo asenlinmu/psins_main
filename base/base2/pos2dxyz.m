@@ -14,6 +14,11 @@ function [dxyz,ddxyz,od,dis] = pos2dxyz(pos, pos0)
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 19/06/2017, 26/01/2021
+    if size(pos,2)==1
+        dxyz = pos2dxyz([pos,pos]',pos0);
+        dxyz = dxyz(1,:)';
+        return;
+    end
     if size(pos,2)>=4, pos = pos(:,end-3:end); end
     if nargin<2, pos0 = pos(1,1:3)'; end
     dpos = diff([pos0';pos(:,1:3)]);

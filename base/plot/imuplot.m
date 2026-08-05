@@ -54,11 +54,11 @@ global glv
                 type = imumeanplot(type, nn(2)); close(gcf);
             end
         end
-        imuplot(imu);
+        imuplot(imu, glv.dph);
         imu2 = type;   t = imu2(:,end);  ts = diff(imu2(1:2,end));
-        subplot(321), plot(t, imu2(:,1)/ts/dps, 'r'); legend('IMU1','IMU2');  title('X_R Y_F Z_U');
-        subplot(323), plot(t, imu2(:,2)/ts/dps, 'r');
-        subplot(325), plot(t, imu2(:,3)/ts/dps, 'r');
+        subplot(321), plot(t, imu2(:,1)/ts/glv.dph, 'r'); legend('IMU1','IMU2');  title('X_R Y_F Z_U');
+        subplot(323), plot(t, imu2(:,2)/ts/glv.dph, 'r');
+        subplot(325), plot(t, imu2(:,3)/ts/glv.dph, 'r');
         subplot(322), plot(t, imu2(:,4)/ts/g0, 'r');
         subplot(324), plot(t, imu2(:,5)/ts/g0, 'r');
         subplot(326), plot(t, imu2(:,6)/ts/g0, 'r');
@@ -87,11 +87,11 @@ global glv
 %     end
     myfig;
     if type==1 || type==11
-        subplot(121), plot(t, [imu(:,1:3)]/dps); xygo('w');  title('X_R Y_F Z_U');
-        subplot(122), plot(t, [imu(:,4:6)]/g0);  xygo('f');
+        subplot(211), plot(t, [imu(:,1:3)]/dps); xygo('w');  title('X_R Y_F Z_U');
+        subplot(212), plot(t, [imu(:,4:6)]/g0);  xygo('f');
         if type==11
-            subplot(121), plot(t, [imu(:,1:3),normv(imu(:,1:3))]/dps); xygo('w'); legend('Wx','Wy','Wz','|W|');  title('X_R Y_F Z_U');
-            subplot(122), plot(t, [imu(:,4:6),normv(imu(:,4:6))]/g0);  xygo('f'); legend('Ax','Ay','Az','|A|');
+            subplot(211), plot(t, [imu(:,1:3),normv(imu(:,1:3))]/dps); xygo('w'); legend('Wx','Wy','Wz','|W|');  title('X_R Y_F Z_U');
+            subplot(212), plot(t, [imu(:,4:6),normv(imu(:,4:6))]/g0);  xygo('f'); legend('Ax','Ay','Az','|A|');
         end
     elseif type==2
         ax = plotyy(t, imu(:,1:3)/dps, t, imu(:,4:6)/g0); xyygo(ax, 'w', 'f');
@@ -152,8 +152,11 @@ global glv
         end
     elseif type==-2 || type==-21 % HRG standing wave angle
         if type==-21, imu(:,1:3)=cumsum(imu(:,1:3)); end
-        subplot(211), plot(t, [imu(:,1:3)]*ts/glv.deg,'linewidth',2); xygo('\theta / \circ');  legend('\theta_x','\theta_y','\theta_z'); title('( a )')
-        subplot(212), plot(t, [imu(:,4:6)]/g0,'linewidth',2);  xygo('f');  legend('f_x','f_y','f_z'); title('( b )')
+        subplot(211), plot(t, [imu(:,1:3)]*ts/glv.deg,'linewidth',2); xygo('\theta / \circ');  mylegend('Ax','Ay','Az'); title('( a )')
+        subplot(212), plot(t, [imu(:,4:6)]/g0,'linewidth',2);  xygo('f');  mylegend('fx','fy','fz'); title('( b )')
+    elseif type>1 && mod(type,10)==0  % extract to lower frequency for fast plot
+        close(gcf);
+        imuplot([imu(type:type:end,1:end-1)*ts*type,imu(type:type:end,end)]);
     else % type==0
         dt = diff(t);
         lost = abs(dt)>mean(dt)*1.5; tlost = t(lost)+dt(1);

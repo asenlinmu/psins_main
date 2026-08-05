@@ -80,17 +80,25 @@ global glv
     if exist('dKGij', 'var')
         if length(dKGij)==3, dKGij=[dKGij; 0;0;0]; end  % 2025-10-26
         dKGij = ones(6,1).*dKGij*glv.sec;
-        imuerr.dKg(2,1) = dKGij(1); imuerr.dKg(3,1) = dKGij(2); imuerr.dKg(3,2) = dKGij(3); 
-        imuerr.dKg(1,2) = dKGij(4); imuerr.dKg(1,3) = dKGij(5); imuerr.dKg(2,3) = dKGij(6);
+                                 0; imuerr.dKg(1,2) = dKGij(4); imuerr.dKg(1,3) = dKGij(5);
+        imuerr.dKg(2,1) = dKGij(1);                          0; imuerr.dKg(2,3) = dKGij(6);
+        imuerr.dKg(3,1) = dKGij(2); imuerr.dKg(3,2) = dKGij(3);                          0;
     end
     if exist('dKAij', 'var')
+        if length(dKAij)==1, dKAij=[dKAij;dKAij;dKAij; 0;0;0]; end  % 2026-6-27
+        if length(dKAij)==2, dKAij=[dKAij(1);dKAij(1);dKAij(1); dKAij(2);dKAij(2);dKAij(2)]; end  % 2026-6-27
         if length(dKAij)==3, dKAij=[dKAij; 0;0;0]; end  % 2025-10-26
         dKAij = ones(6,1).*dKAij*glv.sec;
-        imuerr.dKa(2,1) = dKAij(1); imuerr.dKa(3,1) = dKAij(2); imuerr.dKa(3,2) = dKAij(3); 
-        imuerr.dKa(1,2) = dKAij(4); imuerr.dKa(1,3) = dKAij(5); imuerr.dKa(2,3) = dKAij(6);
+                                 0; imuerr.dKa(1,2) = dKAij(4); imuerr.dKa(1,3) = dKAij(5);                                  
+        imuerr.dKa(2,1) = dKAij(1);                          0; imuerr.dKa(2,3) = dKAij(6);
+        imuerr.dKa(3,1) = dKAij(2); imuerr.dKa(3,2) = dKAij(3);                          0;
     end
-    imuerr.dKga = [imuerr.dKg(:,1); imuerr.dKg(:,2);   imuerr.dKg(:,3);
+    imuerr.dKga = [imuerr.dKg(:,1); imuerr.dKg(:,2);   imuerr.dKg(:,3);   % 15*1
                    imuerr.dKa(:,1); imuerr.dKa(2:3,2); imuerr.dKa(3,3)];
+    if max(abs([imuerr.dKa(1,2),imuerr.dKa(1,3),imuerr.dKa(2,3)]))>0   % 2026-04-18
+        imuerr.dKga = [imuerr.dKg(:,1); imuerr.dKg(:,2); imuerr.dKg(:,3);  % 18*1
+                       imuerr.dKa(:,1); imuerr.dKa(:,2); imuerr.dKa(:,3)];
+    end
     %% acc 2nd scale factor error
     if exist('Ka2', 'var')
         imuerr.Ka2(1:3) = Ka2*glv.ugpg2; 

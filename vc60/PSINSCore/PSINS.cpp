@@ -4,7 +4,7 @@
 Copyright(c) 2015-2024, by YanGongmin, All rights reserved.
 Northwestern Polytechnical University, Xi'an, P.R.China.
 Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 22/11/2021, 17/10/2022, 23/08/2023
-      16/09/2024, 21/11/2025
+      16/09/2024, 21/11/2025, 12/06/2026
 */
 
 #include "PSINS.h"
@@ -3925,6 +3925,11 @@ void CSINSGNSS::Feedback(int nnq, double fbts)
 	}
 }
 
+void CSINSGNSS::SetFBTauH(double hTau, double vUTau)
+{
+	FBTau.dd[8] = hTau;   FBTau.dd[8] = vUTau;  
+}
+
 void CSINSGNSS::SetMeasGNSS(const CVect3 &posgnss, const CVect3 &vngnss, double yawgnss)
 {
 	if(!IsZero(posgnss) && avpi.Interp(posGNSSdelay+dtGNSSdelay,0x4))
@@ -4388,6 +4393,65 @@ void CSINSGNSSCNS::SetMeasCNS(CVect3 &vqis)
 	SetMeasCNS(qtmp);
 }
 
+//***************************  class CGyroCNS  *********************************/
+CGyroCNS::CGyroCNS(void)
+{
+}
+
+CGyroCNS::CGyroCNS(double ts):CSINSGNSS(9, 3, ts)
+{
+	// 0-9: phi,eb,mu^s_b
+	Ft = 0.0;  Hk = 0.0;
+	Hk.SetMat3(0, 0, I33);
+	SetMeasMask(007);
+}
+
+void CGyroCNS::Init(const CQuat &qib0, double t0)
+{
+	qib = qib0;  tk = t0;
+	eb = mu = O31;
+	CSINSTDKF::Init(CSINS(0, O31, t0));
+	Pmin.Set2(fPHI(0.01,0.01),  fDPH3(0.01),  fMU3(0.01));
+	Pk.SetDiag2(fPHI(10,10),  fDPH3(10.0),  fMU3(10.0));
+	Qt.Set2(fDPSH3(0.1),  fOO6);
+	Rt.Set2(fXYZU(30,30,30,SEC));  Rt0 = Rt;
+	Rmax = Rt*100;  Rmin = Rt*0.01;  //Rb = 0.6;
+	FBTau.Set(fXYZ(0.1,0.1,0.1),  fXX6(0.1));
+}
+
+void CGyroCNS::Update(const CVect3 *pwm, int nSamples, double ts)
+{
+	CVect3 wm(0.0);
+	for(int i=0; i<nSamples; i++)  wm+=pwm[i];
+	qib = qib*rv2q(wm-eb*nSamples*ts);
+	tk += nSamples*ts;
+	TDUpdate(NULL, NULL, nSamples, ts, 5);
+}
+
+void CGyroCNS::SetFt(int nnq)
+{
+	Ft.SetMat3(0, 3, -q2mat(qib));
+}
+
+void CGyroCNS::SetHk(int nnq)
+{
+	Hk.SetMat3(0, 6, -q2mat(qib));
+}
+
+void CGyroCNS::SetMeas(CQuat &qis)
+{
+	*(CVect3*)&Zk.dd[0] = qq2phi(qib, qis*rv2q(mu));
+	SetMeasFlag(007);
+}
+
+void CGyroCNS::Feedback(int nnq, double fbts)
+{
+	CKalman::Feedback(9, fbts);
+	qib -= *(CVect3*)&FBXk.dd[0];
+	eb += *(CVect3*)&FBXk.dd[3];
+	mu += *(CVect3*)&FBXk.dd[6];
+}
+
 //***************************  class CSINSGNSSDR  *********************************/
 CSINSGNSSDR::CSINSGNSSDR(void)
 {
@@ -4419,6 +4483,20 @@ void CSINSGNSSDR::Init(const CSINS &sins0, int grade)
 	Rt.Set2(fXXZ(0.2,0.6), fdLLH(10.0,30.0), fdLLH(1.1,1.0), fdLLH(10,10), 1.0*DEG);  Rt0 = Rt;
 	Rmax = Rt*100;  Rmin = Rt*0.01;  Rb = 0.5;
 	FBTau.Set(fIII, fIII, fIII, fIII, fIII, fIII, fIII);
+}
+
+CVect3 CSINSGNSSDR::ODKappa(const CVect3 &kpp)
+{
+	CVect3 res;
+	if(&kpp==&O31) {		// get
+		res = m2att(Cbo);  res.j = Kod;  // Kappa = [dPitch; Kod; dYaw]
+	}
+	else {					// set
+		Kod = kpp.j;
+		Cbo = a2mat(CVect3(kpp.i,0.0,kpp.k));
+		res = O31;
+	}
+	return res;
 }
 
 void CSINSGNSSDR::SetFt(int nnq)
@@ -4580,7 +4658,7 @@ CAutoDrive::CAutoDrive(void)
 CAutoDrive::CAutoDrive(double ts):CSINSGNSSOD(18, 17, ts, 15)
 {
 	// 0-14: phi,dvn,dpos,eb,db; 15-17: Kappa;
-	gnssLostdist = gnssLostnofixdist = nofixYaw0 = 0.0;
+	gnssLostdist = gnssLostnofixdist = nofixYaw0 = 0.0;  odWzMax = 5.0*DPS;
 	odLost = &measlost.dd[6];  zuptLost = &measlost.dd[9];
 	// Hk(0:5,:) ...		// 0-5: SINS/GNSS-dvn,dpos
 	Hk.SetMat3(6, 3, I33);  // 6-8: SINS/OD-dvn
@@ -4676,7 +4754,7 @@ void CAutoDrive::SetGNSSFixMode(int mode)
 int CAutoDrive::Update(const CVect3 *pwm, const CVect3 *pvm, double dS, int nn, double ts, int nSteps)
 {
 	int res = CSINSGNSSOD::Update(pwm, pvm, dS, nn, ts, nSteps);
-	if(odmeasOK) {
+	if(odmeasOK && (sins.wnb.k<odWzMax&&sins.wnb.k>-odWzMax)) {
 		Hk.SetMat3(6, 0, odMphi, odMvn); Hk.SetMat3(6, 15, odMkappa);
 //		*(CVect3*)&Zk.dd[6] = odZk;  // SINS/OD-dvn
 //		SetMeasFlag(0700);
@@ -5538,6 +5616,7 @@ void CSINS::SetTauGA(const CVect3 &tauG, const CVect3 &tauA)
 void CSINS::Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts)
 {
 	this->ts = ts;  nts = nSamples*ts;	tk += nts;
+	if(pwm==NULL) return;  // do null
 	double nts2 = nts/2, _nts=1.0/nts;
 	if(isMemsgrade) {
 		imu.Update(pwm, pvm, nSamples, ts);
@@ -6272,6 +6351,7 @@ CFileRdWt::CFileRdWt(const char *fname0, int columns0)
 	rwf = 0;
 	Init(fname0, columns0);
 	memset(buff, 0, sizeof(buff));
+	for(int i=0; i<sizeof(sf)/sizeof(double); i++) sf[i]=1.0;
 }
 
 CFileRdWt::~CFileRdWt()
@@ -6382,6 +6462,17 @@ int CFileRdWt::loadf32(int lines)	// float32 bin file read
 		fseek(rwf, (lines-1)*(-columns)*sizeof(float), SEEK_CUR);
 	fread(buff32, -columns, sizeof(float), rwf);
 	for(int i=0; i<-columns; i++) buff[i]=buff32[i];	// float->double copy
+	linek += lines;
+	if(feof(rwf))  return 0;
+	else return 1;
+}
+
+int CFileRdWt::loadi16(int lines)	// float32 bin file read
+{
+	if(lines>1)
+		fseek(rwf, (lines-1)*(-columns)*sizeof(short), SEEK_CUR);
+	fread(buff16, -columns, sizeof(short), rwf);
+	for(int i=0; i<-columns; i++) buff[i]=buff16[i]*sf[i];	// int16->double copy
 	linek += lines;
 	if(feof(rwf))  return 0;
 	else return 1;
@@ -6507,6 +6598,11 @@ CFileRdWt& CFileRdWt::operator<<(const CAlignsb &aln)
 CFileRdWt& CFileRdWt::operator<<(const CAligni0 &aln)
 {
 	return *this<<q2att(aln.qnb)<<aln.vib0<<aln.Pi02<<aln.tk;
+}
+
+CFileRdWt& CFileRdWt::operator<<(const CAligni0fit &aln)
+{
+	return *this<<q2att(aln.qnb)<<aln.vib0<<aln.pib0<<aln.tk;
 }
 
 CFileRdWt& CFileRdWt::operator<<(const CPolyfit &pfit)

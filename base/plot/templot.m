@@ -2,7 +2,8 @@ function templot(temp, tm)
 % Temperature plot.
 %
 % Prototype: templot(temp)
-% Input: temp - temperature
+% Inputs: temp - temperature
+%         tm - time tag
 %
 % See also  od, imuplot, gpsplot, magplot.
 

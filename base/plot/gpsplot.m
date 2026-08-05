@@ -1,4 +1,4 @@
-function gpsplot(vpGPS, ts)
+function pos0 = gpsplot(vpGPS, ts)
 % GPS plot.
 %
 % Prototype: gpsplot(vpGPS, ts)
@@ -39,7 +39,7 @@ global glv
         hold on, plot(t(idx), vnS(idx,:), 'c*');
         subplot(223), plot(t, [[posS(:,1)-posS(1,1),(posS(:,2)-posS(1,2))*cos(posS(1,1))]*glv.Re,posS(:,3)-posS(1,3)]); xygo('DP');
             hold on, plot(t(idx), [[posS(idx,1)-posS(1,1),(posS(idx,2)-posS(1,2))*cos(posS(1,1))]*glv.Re,posS(idx,3)-posS(1,3)], 'c*');
-        subplot(2,2,[2,4]), plot3(r2d(posS(:,2)), r2d(posS(:,1)), posS(:,3)); xygo('lon', 'lat');
+        subplot(2,2,[2,4]), plot3(r2d(posS(:,2)), r2d(posS(:,1)), posS(:,3)); xygo('lon', 'lat'); zlabel(labeldef('H'));
             hold on, plot3(r2d(posS(idx,2)), r2d(posS(idx,1)), posS(idx,3), 'c*'), plot3(r2d(posS(1,2)), r2d(posS(1,1)), posS(1,3), 'rp');
     else  % position only
         posS = vpGPS(:,1:3);
@@ -49,3 +49,4 @@ global glv
         subplot(122), plot3(r2d(posS(:,2)), r2d(posS(:,1)), posS(:,3)); xygo('lon', 'lat'); zlabel(labeldef('H'));
             hold on, plot3(r2d(posS(idx,2)), r2d(posS(idx,1)), posS(idx,3), 'c*'), plot3(r2d(posS(1,2)), r2d(posS(1,1)), posS(1,3), 'rp');
     end
+    pos0=posS(1,:)';

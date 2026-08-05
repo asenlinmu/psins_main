@@ -1,12 +1,12 @@
 function [wnie, g, gn, wN, wU] = wnieg(pos)
 % Calculate the Earth related parameters, wnie & g_Lh.
 %
-% Prototype: [wnie, g, gn] = wnieg(pos)
+% Prototype: [wnie, g, gn, wN, wU] = wnieg(pos)
 % Input: pos - geographic position [lat;lon;hgt]
 % Outputs: wnie - [0; wN; wU]
 %          g,gn - gravity
 %
-% See also  earth.
+% See also  earth, wbief.
 
 % Copyright(c) 2009-2023, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -4,7 +4,7 @@ function [kf, ins, xfb] = kffeedback(kf, ins, T_fb, fbstr)
 % Prototype: [kf, ins] = kffeedback(kf, ins, T_fb)
 % Inputs: kf - Kalman filter structure array
 %         ins - SINS structure array
-%         T_fb - feedback time interval
+%         T_fb - feedback time interval, =0 for no feedback; >xtau for all feedback
 %         fbstr - feedback string
 % Outputs: kf, ins - Kalman filter & SINS structure array after feedback
 %          xfb - feedback state value

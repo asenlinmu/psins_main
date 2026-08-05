@@ -12,7 +12,7 @@ function [data, idx, m, s] = datacut(data0, t1, t2, co)
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 17/09/2014, 12/11/2021, 25/07/2024
-    if nargin<4, co='['; end
+    if nargin<4, co='[)'; end
     if length(co)==1,
         if co=='[', co='[]'; else, co='()'; end
     end

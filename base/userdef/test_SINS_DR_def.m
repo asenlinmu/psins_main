@@ -12,12 +12,17 @@ switch tag
     case psinsdef.kffktag,
         % SINS/DR: INS(15)+dposD(3)+dpitch/dyaw(2)+dKod(1)+dT(1)=22
         ins = varargin{1}{1};
-        Ft = etm(ins);   Ft(22,22) = 0;
-        Mpp = Ft(7:9,7:9);
-        Mpvvn = ins.Mpv*ins.vn;
-        Mpvvnx = ins.Mpv*askew(ins.vn);
-        MpvvnxCnb = Mpvvnx*ins.Cnb;
-        Ft(16:18,[1:3,16:18,19:20,21]) = [Mpvvnx,Mpp,MpvvnxCnb(:,[1,3]),Mpvvn];
+        Ft = etm(ins,22);
+        % Mpp = Ft(7:9,7:9);
+        % Mpvvn = ins.Mpv*ins.vn;
+        % Mpvvnx = ins.Mpv*askew(ins.vn);
+        % MpvvnxCnb = Mpvvnx*ins.Cnb;
+        % Ft(16:18,[1:3,16:18,19:20,21]) = [Mpvvnx,Mpp,MpvvnxCnb(:,[1,3]),Mpvvn];
+        MpvD = Ft(7:9,4:6);  MppD = Ft(7:9,7:9);
+        MvkD = norm(ins.vn)*[-ins.Cnb(:,3),ins.Cnb(:,[2,1])];
+        MpaD = MpvD*askew(ins.vn);
+        MpkD = MpvD*MvkD;
+        Ft(16:18,[1:3,16:18,19:20,21]) = [MpaD,MppD,MpkD(:,[1,3,2])];
         out = Ft;
     case psinsdef.kfhktag,
     case psinsdef.kfplottag,

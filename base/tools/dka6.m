@@ -9,7 +9,7 @@ function dka = dka6(dkaii, dkaij)
 %         dkaij - cross installation angle error, in arcsec
 % Output: dka - installation error matrix, expressed as 6x1 vector
 %
-% See also  dkg1, dkg3, dkg9.
+% See also  dkg1, dkg3, dkg9, dkga15.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

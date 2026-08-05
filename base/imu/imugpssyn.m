@@ -62,8 +62,8 @@ global igaln
         if t0<=tg && tg<t1
             kgps = igaln.kgps; dt = tg - t0;
         end
-    elseif ForB=='f'  % Forward re-intialization, set to the first one
+    elseif ForB=='f'  % Forward re-initialization, set to the first one
         igaln.kgps = 1;
-    elseif ForB=='b'  % Backward re-intialization, set to the last one
+    elseif ForB=='b'  % Backward re-initialization, set to the last one
         igaln.kgps = igaln.glen;
     end

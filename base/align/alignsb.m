@@ -17,6 +17,13 @@ function [att, attk, eb, db] = alignsb(imu, pos, yaw0, isfig)
 global glv
     if nargin<4, isfig=1; end
     if nargin<3, yaw0=[]; end
+    if yaw0==360  % alignsb & leveling
+        att = alignsb(imu,glv.pos0);
+        avp = inspure(imu,[att;glv.pos0],'f',0);
+        phi = vn2phi(avp(1:10:end,[4:6,end]),glv.pos0,[],0);
+        att = adelphi(avp(end,1:3)',[phi(end,1:2),0]);  att(3)=0;
+        return;
+    end
     ts = diff(imu(1:2,end));
     wbib = mean(imu(:,1:3),1)'/ts; fbsf = mean(imu(:,4:6),1)'/ts;
     if norm(wbib)<glv.wie/10, wbib(3)=glv.wie; end
@@ -48,8 +55,9 @@ global glv
         attk(k1:end,:) = [];
         if isfig==1
             myfig;
-            subplot(211); plot(attk(:,end), attk(:,1:2)/glv.deg); xygo('pr')
-            subplot(212); plot(attk(:,end), attk(:,3)/glv.deg); xygo('y');
+            subplot(311); plot(attk(:,end), attk(:,1)/glv.deg); xygo('p')
+            subplot(312); plot(attk(:,end), attk(:,2)/glv.deg); xygo('r')
+            subplot(313); plot(attk(:,end), attk(:,3)/glv.deg); xygo('y');
         end
     end
 % 17/05/2017
@@ -60,6 +68,6 @@ global glv
     wb0 = Cnb'*eth.wnie; gb0 = Cnb'*eth.gn;
     eb = wbib - wb0;  db = fbsf + gb0;
     if nargout>1 && isfig==1
-        subplot(211); ptitle('eb', eb/glv.dph);
-        subplot(212); ptitle('db', db/glv.ug);
+        subplot(311); ptitle('eb', eb/glv.dph);
+        subplot(312); ptitle('db', db/glv.ug);
     end

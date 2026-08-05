@@ -8,7 +8,7 @@ function [idx, err] = checkfrmfile(binfile, header, frmlen, isfig)
 % Outputs: idx - correct header index
 %          err - error header index
 %
-% See also  binfrmfile, byte2num, hexbinfile, binfile, matbinfile.
+% See also  binfrmfile, byte2num, hexbinfile, binfile, matbinfile, bytefrmload.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
