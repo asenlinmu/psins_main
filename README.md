@@ -689,9 +689,9 @@ SINS attitude, velocity and position differential equations are given, respectiv
 ```math
 \begin{aligned}
 & {\dot{\mathbf{C}}}_{b}^{n} = \mathbf{C}_{b}^{n}(\boldsymbol{\omega}_{nb}^{b} \times )\qquad(10.1-1)
-\\[0.75em]
+\\
 & {\dot{\mathbf{v}}}^{n} = \mathbf{f}_{sf}^{n} - (2\boldsymbol{\omega}_{ie}^{n} + \boldsymbol{\omega}_{en}^{n}) \times \mathbf{v}^{n} + \mathbf{g}^{n}\qquad(10.1-2)
-\\[0.75em]
+\\
 & \dot{L} = \frac{v_{N}^{n}}{R_{Mh}}, \quad \dot{\lambda} = \frac{v_{E}^{n}\sec L}{R_{Nh}}, \quad \dot{h} = v_{U}^{n}\qquad(10.1-3a)
 \end{aligned}
 ```
@@ -719,11 +719,11 @@ where:
 ```math
 \begin{aligned}
 & \mathbf{f}_{sf}^{n} = \mathbf{C}_{b}^{n}\mathbf{f}_{sf}^{b}
-\\[0.75em]
+\\
 & \boldsymbol{\omega}_{nb}^{b} = \boldsymbol{\omega}_{ib}^{b} - (\mathbf{C}_{b}^{n})^{T}\boldsymbol{\omega}_{in}^{n}
-\\[0.75em]
+\\
 & \boldsymbol{\omega}_{in}^{n} = \boldsymbol{\omega}_{ie}^{n} + \boldsymbol{\omega}_{en}^{n}
-\\[0.75em]
+\\
 & \boldsymbol{\omega}_{ie}^{n} =
 \begin{bmatrix}
 0 & \omega_{N} & \omega_{U}
@@ -732,18 +732,18 @@ where:
 \begin{bmatrix}
 0 & \omega_{ie}\cos L & \omega_{ie}\sin L
 \end{bmatrix}^{T}
-\\[0.75em]
+\\
 & \boldsymbol{\omega}_{en}^{n} =
 \begin{bmatrix}
 \frac{v_{N}^{n}}{R_{Mh}} &
 \frac{v_{E}^{n}}{R_{Nh}} &
 \frac{v_{E}^{n}}{R_{Nh}}\tan L
 \end{bmatrix}^{T}
-\\[0.75em]
+\\
 & R_{Mh} = R_{M} + h, \quad R_{Nh} = R_{N} + h
-\\[0.75em]
+\\
 & R_{M} = \frac{R_{N}(1 - e^{2})}{1 - e^{2}\sin^{2}L}, \quad R_{N} = \frac{R_{e}}{\sqrt{1 - e^{2}\sin^{2}L}}, \quad e = \sqrt{2f - f^{2}}
-\\[0.75em]
+\\
 & \mathbf{g}^{n} =
 \begin{bmatrix}
 0 & 0 & -g
@@ -762,7 +762,7 @@ and where:
 \begin{bmatrix}
 \omega_{ibx}^{b} & \omega_{iby}^{b} & \omega_{ibz}^{b}
 \end{bmatrix}^{T}
-\\[0.75em]
+\\
 & \mathbf{f}_{sf}^{b} =
 \begin{bmatrix}
 f_{sfx}^{b} & f_{sfy}^{b} & f_{sfz}^{b}
@@ -799,7 +799,7 @@ L & \lambda & h
 ```math
 \begin{aligned}
 & \beta_{1} = 5.27094 \times 10^{-3},\beta_{2} = 2.32718 \times 10^{-5},
-\\[0.75em]
+\\
 & \beta_{3} = 2g_{0}/R_{e} = 3.086 \times 10^{- 6}(1/s^{2})
 \end{aligned}
 ```
@@ -848,7 +848,7 @@ The relationship between DCM <var>C</var> and rotation vector <var>V</var> is gi
 ```math
 \begin{aligned}
 & \boldsymbol{\Delta}\mathbf{v}_{sf,m}^{b_{m - 1}} = \boldsymbol{\Delta}\mathbf{v}_{m} + \boldsymbol{\Delta}\mathbf{v}_{rot,m} + \boldsymbol{\Delta}\mathbf{v}_{scull,m}\qquad(10.2-4)
-\\[0.75em]
+\\
 & \boldsymbol{\Delta}\mathbf{v}_{g/cor,m - 1/2}^{n} = \left[ \mathbf{g}_{m - 1/2}^{n} - (2\boldsymbol{\omega}_{ie,m - 1/2}^{n} + \boldsymbol{\omega}_{en,m - 1/2}^{n}) \times \mathbf{v}_{m - 1/2}^{n} \right] T_{m}\qquad(10.2-5)
 \end{aligned}
 ```
@@ -884,7 +884,7 @@ and where:
 ```math
 \begin{aligned}
 & \mathbf{p}_{m} = \mathbf{p}_{m - 1} + \mathbf{M}_{pv,m - 1/2}{\bar{\mathbf{v}}}_{m - 1/2}^{n}T_{m}\qquad(10.2-6)
-\\[0.75em]
+\\
 & {\bar{\mathbf{v}}}_{m - 1/2}^{n} = (\mathbf{v}_{m - 1}^{n} + \mathbf{v}_{m}^{n})/2\qquad(10.2-7)
 \end{aligned}
 ```
@@ -902,13 +902,13 @@ Under small disturbance assumption, the SINS error propagation satisfies the fol
 ```math
 \begin{aligned}
 & \dot{\boldsymbol{\varphi}} = - \boldsymbol{\omega}_{in}^{n} \times \boldsymbol{\varphi} + \delta\boldsymbol{\omega}_{in}^{n} - \mathbf{C}_{b}^{n}\delta\boldsymbol{\omega}_{ib}^{b}\qquad(10.3-1)
-\\[0.75em]
+\\
 & \boldsymbol{\delta}{\dot{\mathbf{v}}}^{n} = \mathbf{f}_{sf}^{n} \times \boldsymbol{\varphi} - (2\boldsymbol{\omega}_{ie}^{n} + \boldsymbol{\omega}_{en}^{n}) \times \boldsymbol{\delta}\mathbf{v}^{n} + \mathbf{v}^{n} \times (2\boldsymbol{\delta}\boldsymbol{\omega}_{ie}^{n} + \boldsymbol{\delta}\boldsymbol{\omega}_{en}^{n}) + \mathbf{C}_{b}^{n}\boldsymbol{\delta}\mathbf{f}_{sf}^{b}\qquad(10.3-2)
-\\[0.75em]
+\\
 & \delta\dot{L} = \frac{1}{R_{Mh}}\delta v_{N}^{n} - \frac{v_{N}^{n}}{R_{Mh}^{2}}\delta h\qquad(10.3-3)
-\\[0.75em]
+\\
 & \delta\dot{\lambda} = \frac{\sec L}{R_{Nh}}\delta v_{E}^{n} + \frac{v_{E}^{n}\sec L\tan L}{R_{Nh}}\delta L - \frac{v_{E}^{n}\sec L}{R_{Nh}^{2}}\delta h\qquad(10.3-4)
-\\[0.75em]
+\\
 & \delta\dot{h} = \delta v_{U}^{n}\qquad(10.3-5)
 \end{aligned}
 ```
@@ -961,12 +961,12 @@ where
 \dot{\boldsymbol{\varphi}} & = - \boldsymbol{\omega}_{in}^{n} \times \boldsymbol{\varphi} + \mathbf{M}_{av}\boldsymbol{\delta}\mathbf{v}^{n} + \mathbf{M}_{ap}\boldsymbol{\delta} \mathbf{p} - \mathbf{C}_{b}^{n}\boldsymbol{\delta}\mathbf{K}_{g}\boldsymbol{\omega}_{ib}^{b} - \mathbf{C}_{b}^{n}\boldsymbol{\varepsilon}^{b} \\
  & = \mathbf{M}_{aa}\boldsymbol{\varphi} + \mathbf{M}_{av}\boldsymbol{\delta}\mathbf{v}^{n} + \mathbf{M}_{ap}\boldsymbol{\delta} \mathbf{p} + \mathbf{M}_{ag}\boldsymbol{\delta}{\bar{\mathbf{K}}}_{g} - \mathbf{C}_{b}^{n}\boldsymbol{\varepsilon}^{b}
 \end{matrix}\qquad(10.3-6)
-\\[0.75em]
+\\
 & \begin{matrix}
 \boldsymbol{\delta}{\dot{\mathbf{v}}}^{n} & = \mathbf{f}_{sf}^{n} \times \boldsymbol{\varphi} + \mathbf{M}_{vv}\boldsymbol{\delta}\mathbf{v}^{n} + \mathbf{M}_{vp}\boldsymbol{\delta} \mathbf{p} + \mathbf{C}_{b}^{n}\boldsymbol{\delta}\mathbf{K}_{a}\mathbf{f}_{sf}^{b} + \mathbf{C}_{b}^{n}\nabla^{b} \\
  & = \mathbf{M}_{va}\boldsymbol{\varphi} + \mathbf{M}_{vv}\boldsymbol{\delta}\mathbf{v}^{n} + \mathbf{M}_{vp}\boldsymbol{\delta} \mathbf{p} + \mathbf{M}_{vf}\boldsymbol{\delta}{\bar{\mathbf{K}}}_{a} + \mathbf{C}_{b}^{n}\nabla^{b}
 \end{matrix}\qquad(10.3-7)
-\\[0.75em]
+\\
 & \boldsymbol{\delta}\dot{\mathbf{p}} = \mathbf{M}_{pv}\boldsymbol{\delta}\mathbf{v}^{n} + \mathbf{M}_{pp}\boldsymbol{\delta} \mathbf{p}\qquad(10.3-8)
 \end{aligned}
 ```
@@ -1019,7 +1019,7 @@ where
 \begin{bmatrix}
 \delta k_{gxx} & \delta k_{gyx} & \delta k_{gzx} & \delta k_{gxy} & \delta k_{gyy} & \delta k_{gzy} & \delta k_{gxz} & \delta k_{gyz} & \delta k_{gzz}
 \end{bmatrix}^{T}
-\\[0.75em]
+\\
 & \boldsymbol{\delta}{\bar{\mathbf{K}}}_{a} =
 \begin{bmatrix}
 \delta k_{axx} & \delta k_{ayx} & \delta k_{azx} & \delta k_{ayy} & \delta k_{azy} & \delta k_{azz}
@@ -1079,7 +1079,7 @@ where <var>C<sub>b</sub><sup>n</sup>(:,i)</var> is the <var>i</var>-th column of
 v_{E}^{n}\sec L\tan L/R_{Nh} & 0 & - v_{E}^{n}\sec L/R_{Nh}^{2} \\
 0 & 0 & 0
 \end{bmatrix}
-\\[0.75em]
+\\
 & \mathbf{M}_{1} =
 \begin{bmatrix}
 0 & 0 & 0 \\
@@ -1097,7 +1097,7 @@ v_{E}^{n}\sec L\tan L/R_{Nh} & 0 & - v_{E}^{n}\sec L/R_{Nh}^{2} \\
 0 & 0 & - v_{E}^{n}/R_{Nh}^{2} \\
 v_{E}^{n}\sec^{2}L/R_{Nh} & 0 & - v_{E}^{n}\tan L/R_{Nh}^{2}
 \end{bmatrix}
-\\[0.75em]
+\\
 & \mathbf{M}_{3} =
 \begin{bmatrix}
 0 & 0 & 0 \\
@@ -1120,7 +1120,7 @@ where
 & \mathbf{x} = \begin{bmatrix}
 (\boldsymbol{\varphi})^{T} & (\boldsymbol{\delta}\mathbf{v}^{n})^{T} & (\boldsymbol{\delta} \mathbf{p})^{T} & (\boldsymbol{\varepsilon}^{b})^{T} & (\nabla^{b})^{T} & (\boldsymbol{\delta}{\bar{\mathbf{K}}}_{g})^{T} & (\boldsymbol{\delta}{\bar{\mathbf{K}}}_{a})^{T}
 \end{bmatrix}^{T}
-\\[0.75em]
+\\
 & \mathbf{F}_{SINS} = \begin{bmatrix}
 \mathbf{M}_{aa} & \mathbf{M}_{av} & \mathbf{M}_{ap} & - \mathbf{C}_{b}^{n} & \mathbf{0}_{3 \times 3} & \mathbf{M}_{ag} & \mathbf{0}_{3 \times 6} \\
 \mathbf{M}_{va} & \mathbf{M}_{vv} & \mathbf{M}_{vp} & \mathbf{0}_{3 \times 3} & \mathbf{C}_{b}^{n} & \mathbf{0}_{3 \times 9} & \mathbf{M}_{vf} \\
@@ -1141,7 +1141,7 @@ On pseudo-static base, the SINS's position keeps constant and there is no veloci
 ```math
 \begin{aligned}
 & {\dot{\mathbf{C}}}_{b}^{n} = \mathbf{C}_{b}^{n}(\boldsymbol{\omega}_{nb}^{b} \times )\qquad(10.4-1)
-\\[0.75em]
+\\
 & {\dot{\mathbf{v}}}^{n} = \mathbf{C}_{b}^{n}\mathbf{f}_{sf}^{b} + \mathbf{g}^{n}\qquad(10.4-2)
 \end{aligned}
 ```
@@ -1167,7 +1167,7 @@ The corresponding error propagation models are
 ```math
 \begin{aligned}
 & \dot{\boldsymbol{\varphi}} = - \boldsymbol{\omega}_{ie}^{n} \times \boldsymbol{\varphi} - \mathbf{C}_{b}^{n}\boldsymbol{\varepsilon}^{b}\qquad(10.4-3)
-\\[0.75em]
+\\
 & \boldsymbol{\delta}{\dot{\mathbf{v}}}^{n} = {\dot{\mathbf{v}}}^{n} = \mathbf{f}_{sf}^{n} \times \boldsymbol{\varphi} + \mathbf{C}_{b}^{n}\nabla^{b}\qquad(10.4-4)
 \end{aligned}
 ```
@@ -1200,7 +1200,7 @@ where
 (\boldsymbol{\varepsilon}_{w}^{b})^{T} &
 (\nabla_{w}^{n})^{T}
 \end{bmatrix}^{T}
-\\[0.75em]
+\\
 & \mathbf{F} =
 \begin{bmatrix}
 - \boldsymbol{\omega}_{ie}^{n} \times & \mathbf{0}_{3 \times 3} & - \mathbf{C}_{b}^{n} & \mathbf{0}_{3 \times 3} \\
@@ -1218,7 +1218,7 @@ where
 \mathbf{0}_{3 \times 3} & \mathbf{C}_{b}^{n} \\
 \mathbf{0}_{6 \times 3} & \mathbf{0}_{6 \times 3}
 \end{bmatrix}
-\\[0.75em]
+\\
 & \mathbf{H} =
 \begin{bmatrix}
 \mathbf{0}_{3 \times 3} &
@@ -1275,7 +1275,7 @@ where
 \nabla_{w,x}^{b} &
 \nabla_{w,y}^{b}
 \end{bmatrix}^{T}
-\\[0.75em]
+\\
 & \mathbf{H} =
 \begin{bmatrix}
 \mathbf{0}_{2 \times 3} & \mathbf{I}_{2 \times 2}
@@ -1294,9 +1294,9 @@ For convenience, we give the Jacobian matrix of <var>f(x)</var> as follows
 - f_{sf,U}^{n}\sin\varphi_{U} & - f_{sf,U}^{n}\cos\varphi_{U} & J_{43} & \\
   f_{sf,U}^{n}\cos\varphi_{U} & - f_{sf,U}^{n}\sin\varphi_{U} & J_{53} &
   \end{bmatrix}\qquad(10.4-8)
-\\[0.75em]
+\\
 & {J_{43} = f_{sf,E}^{n}\sin\varphi_{U} + f_{sf,N}^{n}\cos\varphi_{U} - f_{sf,U}^{n}( - \varphi_{N}\sin\varphi_{U} + \varphi_{E}\cos\varphi_{U})}
-\\[0.75em]
+\\
 & {J_{53} = - f_{sf,E}^{n}\cos\varphi_{U} + f_{sf,N}^{n}\sin\varphi_{U} - f_{sf,U}^{n}(\varphi_{N}\cos\varphi_{U} + \varphi_{E}\sin\varphi_{U})}
 \end{aligned}
 ```
@@ -1323,13 +1323,13 @@ c\alpha_{y} & 0 & - s\alpha_{y}c\alpha_{x} \\
 0 & 1 & s\alpha_{x} \\
 s\alpha_{y} & 0 & c\alpha_{y}c\alpha_{x}
 \end{bmatrix}
-\\[0.75em]
+\\
 & \mathbf{C}_{n}^{n'} = \begin{bmatrix}
 c\alpha_{y}c\alpha_{z} - s\alpha_{y}s\alpha_{x}s\alpha_{z} & c\alpha_{y}s\alpha_{z} + s\alpha_{y}s\alpha_{x}c\alpha_{z} & - s\alpha_{y}c\alpha_{x} \\
  - c\alpha_{x}s\alpha_{z} & c\alpha_{x}c\alpha_{z} & s\alpha_{x} \\
 s\alpha_{y}c\alpha_{z} + c\alpha_{y}s\alpha_{x}s\alpha_{z} & s\alpha_{y}s\alpha_{z} - c\alpha_{y}s\alpha_{x}c\alpha_{z} & c\alpha_{y}c\alpha_{x}
 \end{bmatrix}
-\\[0.75em]
+\\
 & \boldsymbol{\alpha} =
 \begin{bmatrix}
 \alpha_{x} & \alpha_{y} & \alpha_{z}
@@ -1384,7 +1384,7 @@ Define the lever arm vector from SIMU calibration centre to GPS antenna centre a
 ```math
 \begin{aligned}
 & \mathbf{v}_{GPS}^{n} = \mathbf{v}_{SINS}^{n} + \mathbf{C}_{b}^{n}(\boldsymbol{\omega}_{eb}^{b} \times \mathbf{l}^{b}) = \mathbf{v}_{SINS}^{n} + \mathbf{C}_{b}^{n}(\boldsymbol{\omega}_{eb}^{b} \times )\mathbf{l}^{b}\qquad(10.5-1)
-\\[0.75em]
+\\
 & \mathbf{p}_{GPS} = \mathbf{p}_{SINS} + \mathbf{M}_{pv}\mathbf{C}_{b}^{n}\mathbf{l}^{b}\qquad(10.5-2)
 \end{aligned}
 ```
@@ -1394,7 +1394,7 @@ On the other hand, if <var>τ</var> is denoted as the sampling time delay from S
 ```math
 \begin{aligned}
 & \mathbf{v}_{GPS}^{n} = \mathbf{v}_{SINS}^{n} + \mathbf{a}_{SINS}^{n}\tau\qquad(10.5-3)
-\\[0.75em]
+\\
 & \mathbf{p}_{GPS} = \mathbf{p}_{SINS} + \mathbf{M}_{pv}\mathbf{v}_{SINS}^{n}\tau\qquad(10.4-4)
 \end{aligned}
 ```
@@ -1434,18 +1434,18 @@ where
 & \mathbf{x} = \begin{bmatrix}
 (\boldsymbol{\varphi})^{T} & (\boldsymbol{\delta}\mathbf{v}^{n})^{T} & (\boldsymbol{\delta} \mathbf{p})^{T} & (\boldsymbol{\varepsilon}^{b})^{T} & (\nabla^{b})^{T} & (\mathbf{l}^{b})^{T} & \tau & (\boldsymbol{\delta}{\bar{\mathbf{K}}}_{g})^{T} & (\boldsymbol{\delta}{\bar{\mathbf{K}}}_{a})^{T}
 \end{bmatrix}^{T}
-\\[0.75em]
+\\
 & \mathbf{z} = \begin{bmatrix}
 (\mathbf{z}_{v})^{T} & (\mathbf{z}_{p})^{T}
 \end{bmatrix}^{T}
-\\[0.75em]
+\\
 & \mathbf{F}_{SINS/GPS} = \begin{bmatrix}
 \mathbf{M}_{aa} & \mathbf{M}_{av} & \mathbf{M}_{ap} & - \mathbf{C}_{b}^{n} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 4} & \mathbf{M}_{ag} & \mathbf{0}_{3 \times 6} \\
 \mathbf{M}_{va} & \mathbf{M}_{vv} & \mathbf{M}_{vp} & \mathbf{0}_{3 \times 3} & \mathbf{C}_{b}^{n} & \mathbf{0}_{3 \times 4} & \mathbf{0}_{3 \times 9} & \mathbf{M}_{vf} \\
 \mathbf{0}_{3 \times 3} & \mathbf{M}_{pv} & \mathbf{M}_{pp} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 4} & \mathbf{0}_{3 \times 9} & \mathbf{0}_{3 \times 6} \\
  & & & \mathbf{0}_{25 \times 34} & & & &
 \end{bmatrix}
-\\[0.75em]
+\\
 & \mathbf{H}_{SINS/GPS} = \begin{bmatrix}
 \mathbf{0}_{3 \times 3} & \mathbf{I}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 6} & - \mathbf{C}_{b}^{n}(\boldsymbol{\omega}_{eb}^{b} \times ) & - \mathbf{a}_{SINS}^{n} & \mathbf{0}_{3 \times 15} \\
 \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{I}_{3 \times 3} & \mathbf{0}_{3 \times 6} & - \mathbf{M}_{pv}\mathbf{C}_{b}^{n} & - \mathbf{M}_{pv}\mathbf{v}_{SINS}^{n} & \mathbf{0}_{3 \times 15}
@@ -1496,9 +1496,9 @@ The corresponding discrete DR algorithm of Eq. (10.6-2) is
 ```math
 \begin{aligned}
 & L_{DR,m} = L_{DR,m - 1} + \frac{v_{NOD,m}^{n}T_{m}}{R_{Mh,m - 1}} = L_{DR,m - 1} + \frac{\Delta S_{N,m}^{n}}{R_{Mh,m - 1}}\qquad(10.6-3)
-\\[0.75em]
+\\
 & \lambda_{DR,m} = \lambda_{DR,m - 1} + \frac{v_{EOD,m}^{n}T_{m}\sec L_{DR,m - 1}}{R_{Nh,m - 1}} = \lambda_{DR,m - 1} + \frac{\Delta S_{E,m}^{n}\sec L_{DR,m - 1}}{R_{Nh,m - 1}}\qquad(10.6-4)
-\\[0.75em]
+\\
 & h_{DR,m} = h_{DR,m - 1} + v_{UOD,m}^{n}T_{m} = h_{DR,m - 1} + \Delta S_{U,m}^{n}\qquad(10.6-5)
 \end{aligned}
 ```
@@ -1628,7 +1628,7 @@ where:
 \mathbf{M}_{Dpa} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{M}_{Dpp} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{M}_{Dpi} & \mathbf{M}_{Dpk} & \mathbf{0}_{3 \times 1} \\
  & & & & \mathbf{0}_{10 \times 22} & & & &
 \end{bmatrix}
-\\[0.75em]
+\\
 & \mathbf{H}_{SINS/DR} = \begin{bmatrix}
 \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{I}_{3 \times 3} & - \mathbf{I}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 2} & \mathbf{0}_{3 \times 1} & - \mathbf{M}_{Dpk}
 \end{bmatrix}
@@ -1648,7 +1648,7 @@ Coning motion of b-frame with respect to some reference frame (i-frame) around x
 & \mathbf{q}_{i}^{b}(t) = \begin{bmatrix}
 \cos\frac{\alpha}{2} & 0 & \sin\frac{\alpha}{2}\cos\Omega t & \sin\frac{\alpha}{2}\sin\Omega t
 \end{bmatrix}^{T}\qquad(10.7-1)
-\\[0.75em]
+\\
 & \boldsymbol{\omega}_{ib}^{b}(t) = \begin{bmatrix}
 
 - 2\Omega\sin^{2}\frac{\alpha}{2} & - \Omega\sin\alpha\sin\Omega t & \Omega\sin\alpha\cos\Omega t
@@ -1752,7 +1752,7 @@ Integrating Eq. (10.7-6), it leads to incremental information within sampling in
 0 \\
 0
 \end{bmatrix}
-\\[0.75em]
+\\
 & \Delta\mathbf{v}_{m}(i) = \int_{ t_{m - 1} + (i - 1)h}^{ t_{m - 1} + ih}{\mathbf{a}_{ib}^{b}(t)dt} = \begin{bmatrix}
 0 \\
 - 2A_{p}\Omega\sin\Omega\frac{h}{2}\cos\Omega(t_{m - 1} + (i - \frac{1}{2})h) \\
@@ -1774,7 +1774,7 @@ where
 ```math
 \begin{aligned}
 & \Delta\mathbf{v}_{rot,m} = \frac{1}{2}\Delta\boldsymbol{\theta}_{m} \times \Delta\mathbf{v}_{m}
-\\[0.75em]
+\\
 & \Delta\mathbf{v}_{scull,m}
 = \frac{2}{3}\left\{
 \left[\sum_{i = 1}^{N - 1} k_{i}\Delta\boldsymbol{\theta}_{m}(i)\right] \times \Delta\mathbf{v}_{m}(N)
