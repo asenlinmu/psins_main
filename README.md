@@ -1370,88 +1370,31 @@ where
 \end{bmatrix}
 ```
  ,
-```math
-\mathbf{H} =
-\begin{bmatrix}
-\mathbf{0}_{3 \times 3} & \mathbf{I}_{3 \times 3}
-\end{bmatrix}
-```
+<p align="center"><img src="docs/readme-equations/formula-061.svg" alt="PSINS formula 61"></p>
 
 ### 10.5 SINS/GPS Integrated Models
 
 Define the lever arm vector from SIMU calibration centre to GPS antenna centre as <var>l<sup>b</sup></var>, which is expressed in SIMU b-frame, then the velocities/positions between SINS and GPS are given by
 
-```math
-\begin{aligned}
-& \mathbf{v}_{GPS}^{n} = \mathbf{v}_{SINS}^{n} + \mathbf{C}_{b}^{n}(\boldsymbol{\omega}_{eb}^{b} \times \mathbf{l}^{b}) = \mathbf{v}_{SINS}^{n} + \mathbf{C}_{b}^{n}(\boldsymbol{\omega}_{eb}^{b} \times )\mathbf{l}^{b}\qquad(10.5-1)
-\\
-& \mathbf{p}_{GPS} = \mathbf{p}_{SINS} + \mathbf{M}_{pv}\mathbf{C}_{b}^{n}\mathbf{l}^{b}\qquad(10.5-2)
-\end{aligned}
-```
+<p align="center"><img src="docs/readme-equations/formula-062.svg" alt="Equation 10.5-1, 10.5-2"></p>
 
 On the other hand, if <var>τ</var> is denoted as the sampling time delay from SIMU to GPS, it satisfies
 
-```math
-\begin{aligned}
-& \mathbf{v}_{GPS}^{n} = \mathbf{v}_{SINS}^{n} + \mathbf{a}_{SINS}^{n}\tau\qquad(10.5-3)
-\\
-& \mathbf{p}_{GPS} = \mathbf{p}_{SINS} + \mathbf{M}_{pv}\mathbf{v}_{SINS}^{n}\tau\qquad(10.4-4)
-\end{aligned}
-```
+<p align="center"><img src="docs/readme-equations/formula-063.svg" alt="Equation 10.5-3, 10.4-4"></p>
 
 Then, we construct the SINS/GPS velocity/position measurements as
 
-```math
-\begin{aligned}
-\mathbf{z}_{v} = {\widetilde{\mathbf{v}}}_{SINS}^{n} - {\widetilde{\mathbf{v}}}_{GPS}^{n} & = (\mathbf{v}_{SINS}^{n} + \boldsymbol{\delta}\mathbf{v}_{}^{n}) - [\mathbf{v}_{SINS}^{n} + \mathbf{C}_{b}^{n}(\boldsymbol{\omega}_{eb}^{b} \times )\mathbf{l}^{b} + \mathbf{a}_{SINS}^{n}\tau] \\
- & = \boldsymbol{\delta}\mathbf{v}_{}^{n} - \mathbf{C}_{b}^{n}(\boldsymbol{\omega}_{eb}^{b} \times )\mathbf{l}^{b} - \mathbf{a}_{SINS}^{n}\tau
-\end{aligned} \qquad(10.5-5)
-```
+<p align="center"><img src="docs/readme-equations/formula-064.svg" alt="Equation 10.5-5"></p>
 
-```math
-\begin{aligned}
-
-\mathbf{z}_{p} = {\widetilde{\mathbf{p}}}_{SINS} - {\widetilde{\mathbf{p}}}_{GPS} & = (\mathbf{p}_{SINS} + \delta\mathbf{p}_{GPS}) - (\mathbf{p}_{SINS} + \mathbf{M}_{pv}\mathbf{C}_{b}^{n}\mathbf{l}^{b} + \mathbf{M}_{pv}\mathbf{v}_{SINS}^{n}\tau) \\
-
- & = \delta\mathbf{p} - \mathbf{M}_{pv}\mathbf{C}_{b}^{n}\mathbf{l}^{b} - \mathbf{M}_{pv}\mathbf{v}_{SINS}^{n}\tau
-
-\end{aligned} \qquad(10.5-6)
-```
+<p align="center"><img src="docs/readme-equations/formula-065.svg" alt="Equation 10.5-6"></p>
 
 Base on the above analysis, we obtain the 34-state SINS/GPS integrated models
 
-```math
-\left\{ \begin{aligned}
- & \dot{\mathbf{x}} = \mathbf{F}_{SINS/GPS}\mathbf{x} \\
- & \mathbf{z} = \mathbf{H}_{SINS/GPS}\mathbf{x}
-\end{aligned} \qquad(10.5-7)\right.
-```
+<p align="center"><img src="docs/readme-equations/formula-066.svg" alt="Equation 10.5-7"></p>
 
 where
 
-```math
-\begin{aligned}
-& \mathbf{x} = \begin{bmatrix}
-(\boldsymbol{\varphi})^{T} & (\boldsymbol{\delta}\mathbf{v}^{n})^{T} & (\boldsymbol{\delta} \mathbf{p})^{T} & (\boldsymbol{\varepsilon}^{b})^{T} & (\nabla^{b})^{T} & (\mathbf{l}^{b})^{T} & \tau & (\boldsymbol{\delta}{\bar{\mathbf{K}}}_{g})^{T} & (\boldsymbol{\delta}{\bar{\mathbf{K}}}_{a})^{T}
-\end{bmatrix}^{T}
-\\
-& \mathbf{z} = \begin{bmatrix}
-(\mathbf{z}_{v})^{T} & (\mathbf{z}_{p})^{T}
-\end{bmatrix}^{T}
-\\
-& \mathbf{F}_{SINS/GPS} = \begin{bmatrix}
-\mathbf{M}_{aa} & \mathbf{M}_{av} & \mathbf{M}_{ap} & - \mathbf{C}_{b}^{n} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 4} & \mathbf{M}_{ag} & \mathbf{0}_{3 \times 6} \\
-\mathbf{M}_{va} & \mathbf{M}_{vv} & \mathbf{M}_{vp} & \mathbf{0}_{3 \times 3} & \mathbf{C}_{b}^{n} & \mathbf{0}_{3 \times 4} & \mathbf{0}_{3 \times 9} & \mathbf{M}_{vf} \\
-\mathbf{0}_{3 \times 3} & \mathbf{M}_{pv} & \mathbf{M}_{pp} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 4} & \mathbf{0}_{3 \times 9} & \mathbf{0}_{3 \times 6} \\
- & & & \mathbf{0}_{25 \times 34} & & & &
-\end{bmatrix}
-\\
-& \mathbf{H}_{SINS/GPS} = \begin{bmatrix}
-\mathbf{0}_{3 \times 3} & \mathbf{I}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 6} & - \mathbf{C}_{b}^{n}(\boldsymbol{\omega}_{eb}^{b} \times ) & - \mathbf{a}_{SINS}^{n} & \mathbf{0}_{3 \times 15} \\
-\mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{I}_{3 \times 3} & \mathbf{0}_{3 \times 6} & - \mathbf{M}_{pv}\mathbf{C}_{b}^{n} & - \mathbf{M}_{pv}\mathbf{v}_{SINS}^{n} & \mathbf{0}_{3 \times 15}
-\end{bmatrix}
-\end{aligned}
-```
+<p align="center"><img src="docs/readme-equations/formula-067.svg" alt="PSINS formula 67"></p>
 
 The state components <var>l<sup>b</sup>,τ</var> are also assumed to be constant. Note that the processing noise and measurement noise are both neglected in model Eq. (10.5-7).
 
@@ -1461,135 +1404,47 @@ The state components <var>l<sup>b</sup>,τ</var> are also assumed to be constant
 
 The output of odometer is the distance increment <var>ΔS<sub>m</sub></var> at time interval <var>[t<sub>m - 1</sub>, t<sub>m</sub>]</var> along the car/vehicle forward direction. We define the average velocity as <var>v<sub>OD</sub> = ΔS<sub>m</sub>/T<sub>m</sub></var>, which can be seen as a continuous variable without loss of generality. Assume that <var>α<sub>θ</sub>,α<sub>ψ</sub></var> are, respectively, pitch and yaw misalignment angles from odometer/vehicle frame (o-frame) to SIMU b-frame. The odometer measured velocity expressed in b-frame is then written as
 
-```math
-\mathbf{v}_{OD}^{b} = \mathbf{C}_{o}^{b}\begin{bmatrix}
-0 \\
-v_{OD} \\
-0
-\end{bmatrix} = \begin{bmatrix}
-\sin\alpha_{\psi}\cos\alpha_{\theta} \\
-\cos\alpha_{\psi}\cos\alpha_{\theta} \\
-\sin\alpha_{\theta}
-\end{bmatrix}v_{OD}\qquad(10.6-1)
-```
+<p align="center"><img src="docs/readme-equations/formula-068.svg" alt="Equation 10.6-1"></p>
 
 Using the SINS Attitude DCM <var>C<sub>b</sub><sup>n</sup></var> to decompose velocity <var>v<sub>OD</sub><sup>b</sup></var>, we will get the following DR position update algorithm
 
-```math
-{\dot{\mathbf{p}}}_{DR} = \begin{bmatrix}
-{\dot{L}}_{DR} \\
-{\dot{\lambda}}_{DR} \\
-{\dot{h}}_{DR}
-\end{bmatrix} = \begin{bmatrix}
-0 & 1/R_{MhDR} & 0 \\
-\sec L_{DR}/R_{NhDR} & 0 & 0 \\
-0 & 0 & 1
-\end{bmatrix}\begin{bmatrix}
-v_{EOD}^{n} \\
-v_{NOD}^{n} \\
-v_{UOD}^{n}
-\end{bmatrix} = \mathbf{M}_{Dpv}\mathbf{v}_{OD}^{n}\qquad(10.6-2)
-```
+<p align="center"><img src="docs/readme-equations/formula-069.svg" alt="Equation 10.6-2"></p>
 
 The corresponding discrete DR algorithm of Eq. (10.6-2) is
 
-```math
-\begin{aligned}
-& L_{DR,m} = L_{DR,m - 1} + \frac{v_{NOD,m}^{n}T_{m}}{R_{Mh,m - 1}} = L_{DR,m - 1} + \frac{\Delta S_{N,m}^{n}}{R_{Mh,m - 1}}\qquad(10.6-3)
-\\
-& \lambda_{DR,m} = \lambda_{DR,m - 1} + \frac{v_{EOD,m}^{n}T_{m}\sec L_{DR,m - 1}}{R_{Nh,m - 1}} = \lambda_{DR,m - 1} + \frac{\Delta S_{E,m}^{n}\sec L_{DR,m - 1}}{R_{Nh,m - 1}}\qquad(10.6-4)
-\\
-& h_{DR,m} = h_{DR,m - 1} + v_{UOD,m}^{n}T_{m} = h_{DR,m - 1} + \Delta S_{U,m}^{n}\qquad(10.6-5)
-\end{aligned}
-```
+<p align="center"><img src="docs/readme-equations/formula-070.svg" alt="Equation 10.6-3, 10.6-4, 10.6-5"></p>
 
 where:
 
-```math
-\mathbf{v}_{OD}^{n} =
-\begin{bmatrix}
-v_{EOD}^{n} & v_{NOD}^{n} & v_{UOD}^{n}
-\end{bmatrix}^{T}
-= \mathbf{C}_{b}^{n}\mathbf{v}_{OD}^{b}
-```
+<p align="center"><img src="docs/readme-equations/formula-071.svg" alt="PSINS formula 71"></p>
 
 ,
 
-```math
-\boldsymbol{\Delta}\mathbf{S}_{m}^{n} =
-\begin{bmatrix}
-\Delta S_{E,m}^{n} \\
-\Delta S_{N,m}^{n} \\
-\Delta S_{U,m}^{n}
-\end{bmatrix}
-=
-\mathbf{C}_{b}^{n}
-\begin{bmatrix}
-\sin\alpha_{\psi}\cos\alpha_{\theta} \\
-\cos\alpha_{\psi}\cos\alpha_{\theta} \\
-\sin\alpha_{\theta}
-\end{bmatrix}
-\Delta S_{m}
-```
+<p align="center"><img src="docs/readme-equations/formula-072.svg" alt="PSINS formula 72"></p>
 .
 
 #### B) DR Error Models
 
 The error contained odometer velocity  <var>v<sub>OD</sub><sup>n</sup></var> in actual DR system is expanded as
 
-```math
-\begin{aligned}
-{\widetilde{\mathbf{v}}}_{OD}^{n} &= {\widetilde{\mathbf{C}}}_{b}^{n}\begin{bmatrix}
-{\widetilde{\sin\alpha}}_{\psi}{\widetilde{\cos\alpha}}_{\theta} \\
-{\widetilde{\cos\alpha}}_{\psi}{\widetilde{\cos\alpha}}_{\theta} \\
-{\widetilde{\sin\alpha}}_{\theta}
-\end{bmatrix}{\widetilde{v}}_{OD} \\
- &= [\mathbf{I} - (\boldsymbol{\varphi} \times )]\mathbf{C}_{b}^{n}\begin{bmatrix}
-\sin(\alpha_{\psi} + \delta\alpha_{\psi})\cos(\alpha_{\theta} + \delta\alpha_{\theta}) \\
-\cos(\alpha_{\psi} + \delta\alpha_{\psi})\cos(\alpha_{\theta} + \delta\alpha_{\theta}) \\
-\sin(\alpha_{\theta} + \delta\alpha_{\theta})
-\end{bmatrix} \cdot (1 + \delta K_{OD})v_{OD} \\
- &\approx \mathbf{v}_{OD}^{n} + \mathbf{v}_{OD}^{n} \times \boldsymbol{\varphi} + v_{OD}\mathbf{C}_{b}^{n}\mathbf{M}_{\alpha}\boldsymbol{\delta\alpha} + \mathbf{v}_{OD}^{n}\delta K_{OD}
-\end{aligned}\qquad(10.6-6)
-```
+<p align="center"><img src="docs/readme-equations/formula-073.svg" alt="Equation 10.6-6"></p>
 
 where
 
-```math
-\mathbf{M}_{\alpha} =
-\begin{bmatrix}
-\sin\alpha_{\psi}\sin\alpha_{\theta} & \cos\alpha_{\psi}\cos\alpha_{\theta} \\
-\cos\alpha_{\psi}\sin\alpha_{\theta} & - \sin\alpha_{\psi}\cos\alpha_{\theta} \\
-\cos\alpha_{\theta} & 0
-\end{bmatrix}
-```
+<p align="center"><img src="docs/readme-equations/formula-074.svg" alt="PSINS formula 74"></p>
 
 and
 
-```math
-\boldsymbol{\delta\alpha} =
-\begin{bmatrix}
-\delta\alpha_{\theta} \\
-\delta\alpha_{\psi}
-\end{bmatrix}
-```
+<p align="center"><img src="docs/readme-equations/formula-075.svg" alt="PSINS formula 75"></p>
 are the residual errors of misalignment angles, and <var>δK<sub>OD</sub></var> is odometer scale factor error.
 
 We rewrite Eq. (10.6-6) as
 
-```math
-\delta\mathbf{v}_{OD}^{n} = {\widetilde{\mathbf{v}}}_{OD}^{n} - \mathbf{v}_{OD}^{n} = \mathbf{v}_{OD}^{n} \times \boldsymbol{\varphi} + v_{OD}\mathbf{C}_{b}^{n}\mathbf{M}_{\alpha}\boldsymbol{\delta\alpha} + \mathbf{v}_{OD}^{n}\delta K_{OD}\qquad(10.6-7)
-```
+<p align="center"><img src="docs/readme-equations/formula-076.svg" alt="Equation 10.6-7"></p>
 
 Now, by comparing with Eqs. (10.1-3b) and (10.3-8) and then considering Eqs. (10.6-2) and (10.6-7), lead to the DR position error model
 
-```math
-\begin{aligned}
-\delta{\dot{\mathbf{p}}}_{DR} & =  \mathbf{M}_{Dpv}\delta\mathbf{v}_{OD}^{n} + \mathbf{M}_{Dpp}\boldsymbol{\delta}\mathbf{p}_{DR} \\
- & =  \mathbf{M}_{Dpv}(\mathbf{v}_{OD}^{n} \times )\boldsymbol{\varphi} + \mathbf{M}_{Dpp}\boldsymbol{\delta}\mathbf{p}_{DR} + v_{OD}\mathbf{M}_{Dpv}\mathbf{C}_{b}^{n}\mathbf{M}_{\alpha}\boldsymbol{\delta\alpha} + \mathbf{M}_{Dpv}\mathbf{v}_{OD}^{n}\delta K_{OD} \\
- & =  \mathbf{M}_{Dpa}\boldsymbol{\varphi} + \mathbf{M}_{Dpp}\boldsymbol{\delta}\mathbf{p}_{DR} + \mathbf{M}_{Dpi}\boldsymbol{\delta\alpha} + \mathbf{M}_{Dpk}\delta K_{OD}
-\end{aligned}\qquad(10.6-8)
-```
+<p align="center"><img src="docs/readme-equations/formula-077.svg" alt="Equation 10.6-8"></p>
 
 where <var>M<sub>Dpa</sub> = M<sub>Dpv</sub>(v<sub>OD</sub><sup>n</sup> ×)</var>, <var>M<sub>Dpi</sub> = v<sub>OD</sub>M<sub>Dpv</sub>C<sub>b</sub><sup>n</sup>M<sub>α</sub></var>, and <var>M<sub>Dpk</sub> = M<sub>Dpv</sub>v<sub>OD</sub><sup>n</sup></var>.
 
@@ -1597,43 +1452,15 @@ where <var>M<sub>Dpa</sub> = M<sub>Dpv</sub>(v<sub>OD</sub><sup>n</sup> ×)</var
 
 The 22-state SINS/DR integrated system are modelled as
 
-```math
-\left\{ \begin{aligned}
- & \dot{\mathbf{x}} = \mathbf{F}_{SINS/DR}\mathbf{x} \\
- & \mathbf{z} = \mathbf{H}_{SINS/DR}\mathbf{x}
-\end{aligned} \qquad(10.6-9)\right.
-```
+<p align="center"><img src="docs/readme-equations/formula-078.svg" alt="Equation 10.6-9"></p>
 
 where:
 
-```math
-\mathbf{x} = \begin{bmatrix}
-(\boldsymbol{\varphi})^{T} & (\boldsymbol{\delta}\mathbf{v}^{n})^{T} & (\boldsymbol{\delta} \mathbf{p})^{T} & (\boldsymbol{\delta}\mathbf{p}_{DR})^{T} & (\boldsymbol{\varepsilon}^{b})^{T} & (\nabla^{b})^{T} & (\boldsymbol{\delta\alpha})^{T} & \delta K_{OD} & \tau_{OD}
-\end{bmatrix}^{T}
-```
+<p align="center"><img src="docs/readme-equations/formula-079.svg" alt="PSINS formula 79"></p>
 
-```math
-\begin{aligned}
-\mathbf{z} = {\widetilde{\mathbf{p}}}_{SINS} - {\widetilde{\mathbf{p}}}_{DR} & =  (\mathbf{p}_{SINS} + \delta\mathbf{p}_{SINS}) - (\mathbf{p}_{DR} + \delta\mathbf{p}_{DR} + \mathbf{M}_{Dpv}\mathbf{v}_{OD}^{n}\tau_{OD}) \\
- & =  \delta\mathbf{p}_{SINS} - \delta\mathbf{p}_{DR} - \mathbf{M}_{Dpk}\tau_{OD}
-\end{aligned}
-```
+<p align="center"><img src="docs/readme-equations/formula-080.svg" alt="PSINS formula 80"></p>
 
-```math
-\begin{aligned}
-& \mathbf{F}_{SINS/DR} = \begin{bmatrix}
-\mathbf{M}_{aa} & \mathbf{M}_{av} & \mathbf{M}_{ap} & \mathbf{0}_{3 \times 3} & - \mathbf{C}_{b}^{n} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 2} & \mathbf{0}_{3 \times 1} & \mathbf{0}_{3 \times 1} \\
-\mathbf{M}_{va} & \mathbf{M}_{vv} & \mathbf{M}_{vp} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{C}_{b}^{n} & \mathbf{0}_{3 \times 2} & \mathbf{0}_{3 \times 1} & \mathbf{0}_{3 \times 1} \\
-\mathbf{0}_{3 \times 3} & \mathbf{M}_{pv} & \mathbf{M}_{pp} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 2} & \mathbf{0}_{3 \times 1} & \mathbf{0}_{3 \times 1} \\
-\mathbf{M}_{Dpa} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{M}_{Dpp} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{M}_{Dpi} & \mathbf{M}_{Dpk} & \mathbf{0}_{3 \times 1} \\
- & & & & \mathbf{0}_{10 \times 22} & & & &
-\end{bmatrix}
-\\
-& \mathbf{H}_{SINS/DR} = \begin{bmatrix}
-\mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{I}_{3 \times 3} & - \mathbf{I}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 3} & \mathbf{0}_{3 \times 2} & \mathbf{0}_{3 \times 1} & - \mathbf{M}_{Dpk}
-\end{bmatrix}
-\end{aligned}
-```
+<p align="center"><img src="docs/readme-equations/formula-081.svg" alt="PSINS formula 81"></p>
 
 The state components <var>δα,δK<sub>OD</sub>,τ<sub>OD</sub></var> are also assumed to be constant, where <var>τ<sub>OD</sub></var> denotes the time asynchrony delay from odometer measured output to SIMU outputs.
 
@@ -1643,39 +1470,17 @@ The state components <var>δα,δK<sub>OD</sub>,τ<sub>OD</sub></var> are also a
 
 Coning motion of b-frame with respect to some reference frame (i-frame) around x-axis can be described using quaternion/angular velocity as
 
-```math
-\begin{aligned}
-& \mathbf{q}_{i}^{b}(t) = \begin{bmatrix}
-\cos\frac{\alpha}{2} & 0 & \sin\frac{\alpha}{2}\cos\Omega t & \sin\frac{\alpha}{2}\sin\Omega t
-\end{bmatrix}^{T}\qquad(10.7-1)
-\\
-& \boldsymbol{\omega}_{ib}^{b}(t) = \begin{bmatrix}
-
-- 2\Omega\sin^{2}\frac{\alpha}{2} & - \Omega\sin\alpha\sin\Omega t & \Omega\sin\alpha\cos\Omega t
-  \end{bmatrix}^{T}\qquad(10.7-2)
-\end{aligned}
-```
+<p align="center"><img src="docs/readme-equations/formula-082.svg" alt="Equation 10.7-1, 10.7-2"></p>
 
 where <var>α</var> is the half-apex angle and <var>Ω</var> is the coning frequency.
 
 Integrating Eq. (10.7-2) over the sampling interval <var>[t<sub>m - 1</sub> + (i - 1)h, t<sub>m - 1</sub> + ih]</var>, gives angular increment vector as
 
-```math
-\Delta\boldsymbol{\theta}_{m}(i) = \int_{ t_{m - 1} + (i - 1)h}^{ t_{m - 1} + ih}{\boldsymbol{\omega}_{ib}^{b}(t)dt} = \begin{bmatrix}
-
-- 2\Omega h\sin^{2}\frac{\alpha}{2} \\
-- 2\sin\alpha\sin\Omega\frac{h}{2}\sin\Omega(t_{m - 1} + (i - \frac{1}{2})h) \\
-  2\sin\alpha\sin\Omega\frac{h}{2}\cos\Omega(t_{m - 1} + (i - \frac{1}{2})h)
-  \end{bmatrix}\qquad(10.7-3)
-```
+<p align="center"><img src="docs/readme-equations/formula-083.svg" alt="Equation 10.7-3"></p>
 
 Using <var>N</var>-subsample algorithm over the period <var>T<sub>m</sub> = t<sub>m</sub> - t<sub>m - 1</sub> = Nh</var>, a general rotation vector updating formula for coning compensation is:
 
-```math
-{\widehat{\boldsymbol{\Phi}}}_{m}
-= \sum_{i = 1}^{N}\Delta\boldsymbol{\theta}_{m}(i)
-+ \left[\sum_{i = 1}^{N - 1} k_{i}\Delta\boldsymbol{\theta}_{m}(i)\right] \times \Delta\boldsymbol{\theta}_{m}(N)\qquad(10.7-4)
-```
+<p align="center"><img src="docs/readme-equations/formula-084.svg" alt="Equation 10.7-4"></p>
 
 where <var>k<sub>i</sub></var> are coning error compensation coefficients and are listed in Tab. 10-1 for <var>N = 2∼6</var>.
 
@@ -1691,105 +1496,43 @@ where <var>k<sub>i</sub></var> are coning error compensation coefficients and ar
 
 In <var>N</var>-subsample coning compensation algorithm, the un-compensated residual coning drift angle within the period <var>T<sub>m</sub></var> is
 
-```math
-\varepsilon_{N} = \frac{N \times N!}{2^{N + 1}\prod_{i = 1}^{N + 1}(2i - 1)}\alpha^{2}(\Omega h)^{2N + 1}(rad)\qquad(10.7-5)
-```
+<p align="center"><img src="docs/readme-equations/formula-085.svg" alt="Equation 10.7-5"></p>
 
 #### B) Sculling Algorithm
 
 In sculling motion environment, the angular velocity <var>ω<sub>ib</sub><sup>b</sup>(t)</var> and acceleration <var>a<sub>ib</sub><sup>b</sup>(t)</var> of b-frame with respect to reference i-frame are respectively described as
 
-```math
-\boldsymbol{\omega}_{ib}^{b}(t) = \begin{bmatrix}
-- A_{\theta}\Omega\sin\Omega t \\
-  0 \\
-  0
-  \end{bmatrix}, \quad \mathbf{a}_{ib}^{b}(t) = \begin{bmatrix}
-  0 \\
-- A_{p}\Omega^{2}\cos\Omega t \\
-  A_{\theta}A_{p}\Omega^{2}\sin^{2}\Omega t
-  \end{bmatrix} \qquad(10.7-6)
-```
+<p align="center"><img src="docs/readme-equations/formula-086.svg" alt="Equation 10.7-6"></p>
 
 where <var>A<sub>θ</sub>,A<sub>p</sub></var> are angular/linear displacement amplitudes.
 
 The corresponding velocity/position references expressed in i-frame are
 
-```math
-\mathbf{v}_{}^{i}(t) = - A_{p}\Omega\sin\Omega t\begin{bmatrix}
-0 \\
-\cos(A_{\theta}\cos\Omega t) \\
-\sin(A_{\theta}\cos\Omega t)
-\end{bmatrix}, \quad
-\mathbf{p}_{}^{i}(t) = \frac{A_{p}}{A_{\theta}}\begin{bmatrix}
-0 \\
-\sin(A_{\theta}\cos\Omega t) \\
-(1 - \cos(A_{\theta}\cos\Omega t))
-\end{bmatrix} \qquad(10.7-7)
-```
+<p align="center"><img src="docs/readme-equations/formula-087.svg" alt="Equation 10.7-7"></p>
 
 While in b-frame, Eq. (10.7-7) comes to
 
-```math
-\mathbf{v}_{ib}^{b}(t) = \begin{bmatrix}
-0 \\
-- A_{p}\Omega\sin\Omega t \\
-  0
-  \end{bmatrix}, \quad
-\mathbf{p}_{ib}^{b}(t) = \begin{bmatrix}
-  0 \\
-  A_{p}\cos\Omega t \\
-  0
-  \end{bmatrix} \quad \text{(obscure?)} \qquad(10.7-8)
-```
+<p align="center"><img src="docs/readme-equations/formula-088.svg" alt="Equation 10.7-8"></p>
 
 Integrating Eq. (10.7-6), it leads to incremental information within sampling interval <var>[t<sub>m - 1</sub> + (i - 1)h, t<sub>m - 1</sub> + ih]</var>, as
 
-```math
-\begin{aligned}
-& \Delta\boldsymbol{\theta}_{m}(i) = \int_{ t_{m - 1} + (i - 1)h}^{ t_{m - 1} + ih}{\boldsymbol{\omega}_{ib}^{b}(t)dt} = \begin{bmatrix}
- - 2A_{\theta}\sin\Omega\frac{h}{2}\sin\Omega(t_{m - 1} + (i - \frac{1}{2})h) \\
-0 \\
-0
-\end{bmatrix}
-\\
-& \Delta\mathbf{v}_{m}(i) = \int_{ t_{m - 1} + (i - 1)h}^{ t_{m - 1} + ih}{\mathbf{a}_{ib}^{b}(t)dt} = \begin{bmatrix}
-0 \\
-- 2A_{p}\Omega\sin\Omega\frac{h}{2}\cos\Omega(t_{m - 1} + (i - \frac{1}{2})h) \\
-  \frac{A_{\theta}A_{p}\Omega}{2}[\Omega h - \sin\Omega h\cos 2\Omega(t_{m - 1} + (i - \frac{1}{2})h)]
-\end{bmatrix} \qquad(10.7-9)
-\end{aligned}
-```
+<p align="center"><img src="docs/readme-equations/formula-089.svg" alt="Equation 10.7-9"></p>
 
 Over the velocity updating period <var>T<sub>m</sub> = t<sub>m</sub> - t<sub>m - 1</sub> = Nh</var>, the <var>N</var>-subsample velocity increment is constructed as
 
-```math
-\Delta{\mathbf{v}_{ib}^{b_{m - 1}}}_{scull,m} = \Delta\mathbf{v}_{m} + \Delta\mathbf{v}_{rot,m} + \Delta\mathbf{v}_{scull,m}\qquad(10.7-10)
-```
+<p align="center"><img src="docs/readme-equations/formula-090.svg" alt="Equation 10.7-10"></p>
 
 where
 
 <var>Δθ<sub>m</sub> = ∑<sub>i = 1</sub><sup>N</sup>k<sub>i</sub>Δθ<sub>m</sub>(i)</var>, <var>Δv<sub>m</sub> = ∑<sub>i = 1</sub><sup>N</sup>k<sub>i</sub>Δv<sub>m</sub>(i)</var>
 
-```math
-\begin{aligned}
-& \Delta\mathbf{v}_{rot,m} = \frac{1}{2}\Delta\boldsymbol{\theta}_{m} \times \Delta\mathbf{v}_{m}
-\\
-& \Delta\mathbf{v}_{scull,m}
-= \frac{2}{3}\left\{
-\left[\sum_{i = 1}^{N - 1} k_{i}\Delta\boldsymbol{\theta}_{m}(i)\right] \times \Delta\mathbf{v}_{m}(N)
-+ \left[\sum_{i = 1}^{N - 1} k_{i}\Delta\mathbf{v}_{m}(i)\right] \times \Delta\boldsymbol{\theta}_{m}(N)
-\right\}\qquad(10.7-11)
-\end{aligned}
-```
+<p align="center"><img src="docs/readme-equations/formula-091.svg" alt="Equation 10.7-11"></p>
 
 In Eq. (10.7-11) the sculling compensation coefficients <var>k<sub>i</sub></var> are exactly the same as those listed in Tab. 10-1.
 
 Similarly, in <var>N</var>-subsample sculling compensation algorithm, the un-compensated residual sculling drift velocity within the period <var>T<sub>m</sub></var> is
 
-```math
-\nabla_{N} = \frac{N \times N!}{2^{N + 1}\prod_{i = 1}^{N + 1}(2i - 1)}(A_{\theta}A_{p}\Omega)(\Omega h)^{2N + 1}(m/s)\qquad(10.7-12)
-```
+<p align="center"><img src="docs/readme-equations/formula-092.svg" alt="Equation 10.7-12"></p>
 
 ### 10.8 Trajectory Profile & SIMU Sensor Simulation
 
@@ -1799,23 +1542,11 @@ The SIMU sensor simulation can be seen as an inverse data processing problem of 
 
 For description convenience, a new frame (t-frame) is defined, whose y-axis is along the trajectory forward direction, while x-axis is in the local level plane and points to the trajectory right direction, together with z-axis being a right-hand coordinate system. By contrast with <var>C<sub>b</sub><sup>n</sup></var>, it easy to obtain the transformation matrix from n-frame to t-frame, as
 
-```math
-\mathbf{C}_{t}^{n} = \begin{bmatrix}
-\cos\psi & - \cos\theta\sin\psi & \sin\theta\sin\psi \\
-\sin\psi & \cos\theta\cos\psi & - \sin\theta\cos\psi \\
-0 & \sin\theta & \cos\theta
-\end{bmatrix}
-```
+<p align="center"><img src="docs/readme-equations/formula-093.svg" alt="PSINS formula 93"></p>
 
 In our trajectory simulation scenario, the Euler angular rate <var>w = [θ&#775;, γ&#775;, ψ&#775;]<sup>T</sup> = [ω<sub>θ</sub>, ω<sub>γ</sub>, ω<sub>ψ</sub>]<sup>T</sup></var> and trajectory acceleration <var>a<sup>t</sup> = [a<sub>x</sub><sup>t</sup>, a<sub>x</sub><sup>t</sup>, a<sub>x</sub><sup>t</sup>]<sup>T</sup></var> are taken as original inputs to generate the profile [<var>A</var>, <var>p</var>], with the whole set of differential equations listed as follows.
 
-```math
-\left\{ \begin{aligned}
- & \dot{\mathbf{A}} = \mathbf{w} \\
- & {\dot{\mathbf{v}}}^{n} = \mathbf{C}_{t}^{n}\mathbf{a}^{t} \\
- & \dot{\mathbf{p}} = \mathbf{M}_{pv}\mathbf{v}^{n}
-\end{aligned} \right. \qquad(10.8-1)
-```
+<p align="center"><img src="docs/readme-equations/formula-094.svg" alt="Equation 10.8-1"></p>
 
 Note that sideslip angle and attack angle are both not considered, or always equal 0, in the above trajectory integral models.
 
@@ -1837,50 +1568,24 @@ Beside the previous simulated method to generate the trajectory profile data [<v
 
 Based on section A), the formulae to generate SIMU sensor output are
 
-```math
-\left\{ \begin{aligned}
- & \boldsymbol{\omega}_{ib}^{b} = \boldsymbol{\omega}_{nb}^{b} + \mathbf{C}_{n}^{b}\boldsymbol{\omega}_{in}^{n}, \quad \boldsymbol{\omega}_{nb}^{b} = \mathbf{C}_{A}^{\omega}\mathbf{w} \\
- & \mathbf{f}_{sf}^{b} = \mathbf{C}_{n}^{b}\left[ {\dot{\mathbf{v}}}^{n} + \left( 2\boldsymbol{\omega}_{ie}^{n} + \boldsymbol{\omega}_{en}^{n} \right) \times \mathbf{v}^{n} - \mathbf{g}^{n} \right], \quad \mathbf{v}^{n} = \mathbf{M}_{pv}^{-1}\dot{\mathbf{p}}
-\end{aligned} \right.\qquad(10.8-2)
-```
+<p align="center"><img src="docs/readme-equations/formula-095.svg" alt="Equation 10.8-2"></p>
 
 where
-```math
-\mathbf{C}_{A}^{\omega} = \begin{bmatrix}
-\cos\gamma & 0 & - \sin\gamma\cos\theta \\
-0 & 1 & \sin\theta \\
-\sin\gamma & 0 & \cos\gamma\cos\theta
-\end{bmatrix}
-```
+<p align="center"><img src="docs/readme-equations/formula-096.svg" alt="PSINS formula 96"></p>
 <var>ω<sub>ib</sub><sup>b</sup>,f<sub>sf</sub><sup>b</sup></var> are gyro angular rate and accelerometer specific force outputs respectively.
 
 Using the inverse concept of SINS algorithm, the discrete solution to obtain rotation vector and velocity increment for Eq. (10.8-2) is
 
-```math
-\left\{ \begin{aligned}
- & \boldsymbol{\Phi}_{m} = \boldsymbol{\Phi}_{nb,m}^{b} - \mathbf{C}_{n,m - 1/2}^{b}\boldsymbol{\varsigma}_{m} \\
- & \boldsymbol{\Delta}\mathbf{v}_{sf,m}^{b_{m - 1}} = \mathbf{C}_{n,m - 1}^{b}(\mathbf{I} + 1/2 \cdot \boldsymbol{\varsigma}_{m} \times )\{\mathbf{v}_{m}^{n} - \mathbf{v}_{m - 1}^{n} + [(2\boldsymbol{\omega}_{ie,m - 1/2}^{n} + \boldsymbol{\omega}_{en,m - 1/2}^{n}) \times \mathbf{v}_{m - 1/2}^{n} - \mathbf{g}_{m - 1/2}^{n}] T_{m}\}
-\end{aligned} \right.\qquad(10.8-3)
-```
+<p align="center"><img src="docs/readme-equations/formula-097.svg" alt="Equation 10.8-3"></p>
 
 where <var>ς<sub>m</sub> = ω<sub>in,m - 1/2</sub><sup>n</sup>T<sub>m</sub></var>, <var>Φ<sub>nb,m</sub><sup>b</sup> = [(C<sub>b,m - 1</sub><sup>n</sup>)<sup>T</sup>C<sub>b,m</sub><sup>n</sup>]<sub>M →RV</sub></var>, <var>v<sub>m</sub><sup>n</sup> = M<sub>pv,m - 1/2</sub><sup>-1</sup>(p<sub>m</sub> - p<sub>m - 1</sub>)</var>, and <var>[•]<sub>M →RV</sub></var> denotes the transformation from DCM to rotation vector, <var>T<sub>m</sub> = t<sub>m</sub> - t<sub>m - 1</sub></var> is the discrete time interval.
 
 Considering the following attitude coning and velocity rotation effects
 
-```math
-\left\{ \begin{aligned}
- & \boldsymbol{\Phi}_{m} = \boldsymbol{\Delta}\boldsymbol{\theta}_{m} + 1/12(\boldsymbol{\Delta}\boldsymbol{\theta}_{m - 1} \times \boldsymbol{\Delta}\boldsymbol{\theta}_{m}) \\
- & \boldsymbol{\Delta}\mathbf{v}_{sf,m}^{b_{m - 1}} = \boldsymbol{\Delta}\mathbf{v}_{m} + 1/2(\boldsymbol{\Delta}\boldsymbol{\theta}_{m} \times \boldsymbol{\Delta}\mathbf{v}_{m})
-\end{aligned} \right.
-```
+<p align="center"><img src="docs/readme-equations/formula-098.svg" alt="PSINS formula 98"></p>
 
 It comes to
 
-```math
-\left\{ \begin{aligned}
- & \boldsymbol{\Delta}\boldsymbol{\theta}_{m} = [\mathbf{I} + 1/12(\boldsymbol{\Delta}\boldsymbol{\theta}_{m - 1} \times )]^{- 1}\boldsymbol{\Phi}_{m} \\
- & \boldsymbol{\Delta}\mathbf{v}_{m} = [\mathbf{I} + 1/2(\boldsymbol{\Delta}\boldsymbol{\theta}_{m} \times )]^{- 1}\boldsymbol{\Delta}\mathbf{v}_{sf,m}^{b_{m - 1}}
-\end{aligned} \right.\qquad(10.8-4)
-```
+<p align="center"><img src="docs/readme-equations/formula-099.svg" alt="Equation 10.8-4"></p>
 
 ## THE END OF THIS MANUAL
